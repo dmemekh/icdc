@@ -13,7 +13,7 @@
             "annotations": null,
             "from": {
                "kind": "ImageStreamTag",
-               "name": "2.0"
+               "name": "1.2"
             },
             "importPolicy": {},
             "name": "latest",
@@ -25,31 +25,7 @@
             "annotations": null,
             "from": {
                "kind": "ImageStreamTag",
-               "name": "2.0.0"
-            },
-            "importPolicy": {},
-            "name": "2.0",
-            "referencePolicy": {
-               "type": "Local"
-            }
-         },
-         {
-            "annotations": null,
-            "from": {
-               "kind": "DockerImage",
-               "name": "default-route-openshift-image-registry.apps.sbx.lab.iby.icdc.io/icdc2/httpd:2.0"
-            },
-            "importPolicy": {},
-            "name": "2.0.0",
-            "referencePolicy": {
-               "type": "Local"
-            }
-         },
-         {
-            "annotations": null,
-            "from": {
-               "kind": "ImageStreamTag",
-               "name": "1.2.1"
+               "name": "1.2.3"
             },
             "importPolicy": {},
             "name": "1.2",
@@ -61,10 +37,10 @@
             "annotations": null,
             "from": {
                "kind": "DockerImage",
-               "name": "default-route-openshift-image-registry.apps.sbx.lab.iby.icdc.io/icdc2/httpd:1.2"
+               "name": "default-route-openshift-image-registry.apps.sbx.lab.iby.icdc.io/icdc2/httpd:1.2.3"
             },
             "importPolicy": {},
-            "name": "1.2.1",
+            "name": "1.2.3",
             "referencePolicy": {
                "type": "Local"
             }
