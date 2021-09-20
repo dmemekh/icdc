@@ -1,0 +1,74 @@
+{
+   "apiVersion": "image.openshift.io/v1",
+   "kind": "ImageStream",
+   "metadata": {
+      "name": "httpd2"
+   },
+   "spec": {
+      "lookupPolicy": {
+         "local": false
+      },
+      "tags": [
+         {
+            "annotations": null,
+            "from": {
+               "kind": "ImageStreamTag",
+               "name": "2.0"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         },
+         {
+            "annotations": null,
+            "from": {
+               "kind": "ImageStreamTag",
+               "name": "2.0.0"
+            },
+            "importPolicy": {},
+            "name": "2.0",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         },
+         {
+            "annotations": null,
+            "from": {
+               "kind": "DockerImage",
+               "name": "default-route-openshift-image-registry.apps.sbx.lab.iby.icdc.io/icdc2/httpd:2.0"
+            },
+            "importPolicy": {},
+            "name": "2.0.0",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         },
+         {
+            "annotations": null,
+            "from": {
+               "kind": "ImageStreamTag",
+               "name": "1.2.1"
+            },
+            "importPolicy": {},
+            "name": "1.2",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         },
+         {
+            "annotations": null,
+            "from": {
+               "kind": "DockerImage",
+               "name": "default-route-openshift-image-registry.apps.sbx.lab.iby.icdc.io/icdc2/httpd:1.2"
+            },
+            "importPolicy": {},
+            "name": "1.2.1",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         }
+      ]
+   }
+}
