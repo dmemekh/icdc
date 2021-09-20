@@ -10,25 +10,40 @@
       },
       "tags": [
          {
+            "annotations": null,
             "from": {
                "kind": "ImageStreamTag",
                "name": "1.2"
             },
-            "name": "latest"
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+               "type": "Source"
+            }
          },
          {
+            "annotations": null,
             "from": {
                "kind": "ImageStreamTag",
                "name": "1.2.3"
             },
-            "name": "1.2"
+            "importPolicy": {},
+            "name": "1.2",
+            "referencePolicy": {
+               "type": "Source"
+            }
          },
          {
+            "annotations": null,
             "from": {
                "kind": "DockerImage",
                "name": "default-route-openshift-image-registry.apps.sbx.lab.iby.icdc.io/icdc2/httpd:1.2.3"
             },
-            "name": "1.2.3"
+            "importPolicy": {},
+            "name": "1.2.3",
+            "referencePolicy": {
+               "type": "Source"
+            }
          }
       ]
    }
