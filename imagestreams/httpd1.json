@@ -37,7 +37,7 @@
             "annotations": null,
             "from": {
                "kind": "DockerImage",
-               "name": "repository.xby.icdc.io/demo-team/httpd:2.0"
+               "name": "default-route-openshift-image-registry.apps.sbx.lab.iby.icdc.io/icdc2/httpd:2.0"
             },
             "importPolicy": {},
             "name": "2.0.0",
@@ -61,7 +61,7 @@
             "annotations": null,
             "from": {
                "kind": "DockerImage",
-               "name": "repository.xby.icdc.io/demo-team/httpd:1.2.1"
+               "name": "default-route-openshift-image-registry.apps.sbx.lab.iby.icdc.io/icdc2/httpd:1.2"
             },
             "importPolicy": {},
             "name": "1.2.1",
