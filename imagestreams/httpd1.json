@@ -1,0 +1,35 @@
+{
+   "apiVersion": "image.openshift.io/v1",
+   "kind": "ImageStream",
+   "metadata": {
+      "name": "httpd1"
+   },
+   "spec": {
+      "lookupPolicy": {
+         "local": false
+      },
+      "tags": [
+         {
+            "from": {
+               "kind": "ImageStreamTag",
+               "name": "1.2"
+            },
+            "name": "latest"
+         },
+         {
+            "from": {
+               "kind": "ImageStreamTag",
+               "name": "1.2.3"
+            },
+            "name": "1.2"
+         },
+         {
+            "from": {
+               "kind": "DockerImage",
+               "name": "default-route-openshift-image-registry.apps.sbx.lab.iby.icdc.io/icdc2/httpd:1.2.3"
+            },
+            "name": "1.2.3"
+         }
+      ]
+   }
+}
