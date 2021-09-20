@@ -1,0 +1,74 @@
+{
+   "apiVersion": "image.openshift.io/v1",
+   "kind": "ImageStream",
+   "metadata": {
+      "name": "httpd1"
+   },
+   "spec": {
+      "lookupPolicy": {
+         "local": false
+      },
+      "tags": [
+         {
+            "annotations": null,
+            "from": {
+               "kind": "ImageStreamTag",
+               "name": "2.0"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         },
+         {
+            "annotations": null,
+            "from": {
+               "kind": "ImageStreamTag",
+               "name": "2.0.0"
+            },
+            "importPolicy": {},
+            "name": "2.0",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         },
+         {
+            "annotations": null,
+            "from": {
+               "kind": "DockerImage",
+               "name": "repository.xby.icdc.io/demo-team/httpd:2.0"
+            },
+            "importPolicy": {},
+            "name": "2.0.0",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         },
+         {
+            "annotations": null,
+            "from": {
+               "kind": "ImageStreamTag",
+               "name": "1.2.1"
+            },
+            "importPolicy": {},
+            "name": "1.2",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         },
+         {
+            "annotations": null,
+            "from": {
+               "kind": "DockerImage",
+               "name": "repository.xby.icdc.io/demo-team/httpd:1.2.1"
+            },
+            "importPolicy": {},
+            "name": "1.2.1",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         }
+      ]
+   }
+}
