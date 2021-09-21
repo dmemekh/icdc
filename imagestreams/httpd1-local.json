@@ -2,7 +2,8 @@
    "apiVersion": "image.openshift.io/v1",
    "kind": "ImageStream",
    "metadata": {
-      "name": "httpd1-local"
+      "name": "httpd1-local",
+      "namespace": "icdc3"
    },
    "spec": {
       "lookupPolicy": {
