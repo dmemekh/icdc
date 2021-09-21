@@ -3,7 +3,7 @@
    "kind": "ImageStream",
    "metadata": {
       "name": "httpd1-local",
-      "namespace": "icdc3"
+      "resourceVersion": null
    },
    "spec": {
       "lookupPolicy": {
