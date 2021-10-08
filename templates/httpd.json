@@ -22,7 +22,7 @@
       "labels": {
          "samples.operator.openshift.io/managed": "true"
       },
-      "name": "httpd"
+      "name": "httpd1"
    },
    "objects": [
       {
