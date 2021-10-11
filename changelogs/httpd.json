@@ -1,5 +1,5 @@
 {
-  "service": "httpd1",
+  "name": "httpd1",
   "versions": [
     {
       "name": "1.0.1",
