@@ -22,7 +22,8 @@
       "labels": {
          "samples.operator.openshift.io/managed": "true"
       },
-      "name": "httpd1"
+      "name": "httpd1",
+      "namespace": "${NAMESPACE}"
    },
    "objects": [
       {
@@ -153,6 +154,13 @@
       },
       {
          "description": "The name assigned to all of the frontend objects defined in this template.",
+         "displayName": "Namespace",
+         "name": "NAMESPACE",
+         "required": true,
+         "value": "icdc-test"
+      },
+      {
+         "description": "The OpenShift Namespace where the ImageStream resides.",
          "displayName": "Name",
          "name": "NAME",
          "required": true,
