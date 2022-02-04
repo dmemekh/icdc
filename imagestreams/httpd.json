@@ -2,7 +2,7 @@
    "apiVersion": "image.openshift.io/v1",
    "kind": "ImageStream",
    "metadata": {
-      "name": "httpd1-local",
+      "name": "httpd",
       "resourceVersion": null
    },
    "spec": {
@@ -14,7 +14,7 @@
             "annotations": null,
             "from": {
                "kind": "ImageStreamTag",
-               "name": "1.2"
+               "name": "1.0"
             },
             "importPolicy": {},
             "name": "latest",
@@ -26,10 +26,10 @@
             "annotations": null,
             "from": {
                "kind": "ImageStreamTag",
-               "name": "1.2.3"
+               "name": "1.0.0"
             },
             "importPolicy": {},
-            "name": "1.2",
+            "name": "1.0",
             "referencePolicy": {
                "type": "Local"
             }
@@ -38,10 +38,10 @@
             "annotations": null,
             "from": {
                "kind": "DockerImage",
-               "name": "default-route-openshift-image-registry.apps.sbx.lab.iby.icdc.io/icdc2/httpd:1.2.3"
+               "name": "dockersd.local.icdc.p3.zby.icdc.io/test/httpd:1.0.0"
             },
             "importPolicy": {},
-            "name": "1.2.3",
+            "name": "1.0.0",
             "referencePolicy": {
                "type": "Local"
             }
