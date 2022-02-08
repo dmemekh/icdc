@@ -41,7 +41,7 @@
             "annotations": null,
             "from": {
                "kind": "DockerImage",
-               "name": "nexusdocker.local.icdc.d3.zby.icdc.io/cloud/httpd:1.0.0"
+               "name": "docker.apps.dev.ocp.zby.icdc.io/cloud/httpd:1.0.0"
             },
             "importPolicy": {},
             "name": "1.0.0",
