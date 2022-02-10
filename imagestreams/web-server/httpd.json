@@ -1,0 +1,54 @@
+{
+   "apiVersion": "image.openshift.io/v1",
+   "kind": "ImageStream",
+   "metadata": {
+      "annotations": {
+          "openshift.io/image.insecureRepository": "true"
+      },
+      "name": "httpd",
+      "resourceVersion": null
+   },
+   "spec": {
+      "lookupPolicy": {
+         "local": false
+      },
+      "tags": [
+         {
+            "annotations": null,
+            "from": {
+               "kind": "ImageStreamTag",
+               "name": "1.0"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         },
+         {
+            "annotations": null,
+            "from": {
+               "kind": "ImageStreamTag",
+               "name": "1.0.0"
+            },
+            "importPolicy": {},
+            "name": "1.0",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         },
+         {
+            "annotations": null,
+            "from": {
+               "kind": "DockerImage",
+               "name": "docker.apps.dev.ocp.zby.icdc.io/cloud/httpd:1.0.0"
+            },
+            "importPolicy": {},
+            "name": "1.0.0",
+            "referencePolicy": {
+               "type": "Local"
+            }
+         }
+      ]
+   }
+}
