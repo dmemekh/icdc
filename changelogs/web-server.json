@@ -5,7 +5,9 @@
       "tag": "1.0.1",
       "release": "1.0",
       "date": "2021-09-09",
-      "depend_on": "api-gateway, compute",
+      "depend_on": {
+         "api-gateway": "1.0.1"
+      },
       "description": [
         {
           "subservice": "httpd",
