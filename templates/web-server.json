@@ -171,7 +171,7 @@
                   "imageChangeParams": {
                      "automatic": true,
                      "containerNames": [
-                        "httpd"
+                        "${NAME_HTTPD}"
                      ],
                      "from": {
                         "kind": "ImageStreamTag",
@@ -330,7 +330,7 @@
                   "imageChangeParams": {
                      "automatic": true,
                      "containerNames": [
-                        "httpd"
+                        "${NAME_NGINX}"
                      ],
                      "from": {
                         "kind": "ImageStreamTag",
