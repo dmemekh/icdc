@@ -9,15 +9,15 @@
    "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.",
    "metadata": {
       "annotations": {
-         "description": "An example Apache HTTP Server (httpd) application that serves static content. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.",
+         "description": "An example Web Server (httpd and nginx) application that serves static content. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.",
          "iconClass": "icon-apache",
-         "openshift.io/display-name": "Apache HTTP Server",
+         "openshift.io/display-name": "Web Server",
          "openshift.io/documentation-url": "https://github.com/sclorg/httpd-ex",
-         "openshift.io/long-description": "This template defines resources needed to develop a static application served by Apache HTTP Server (httpd), including a build configuration and application deployment configuration.",
+         "openshift.io/long-description": "This template defines resources needed to develop a static application served by Web Server (httpd and nginx), including a build configuration and application deployment configuration.",
          "openshift.io/provider-display-name": "Red Hat, Inc.",
          "openshift.io/support-url": "https://access.redhat.com",
          "samples.operator.openshift.io/version": "4.7.0-0.okd-2021-03-28-152009",
-         "tags": "quickstart,httpd",
+         "tags": "quickstart,httpd,nginx",
          "template.openshift.io/bindable": "false"
       },
       "labels": {
@@ -28,13 +28,55 @@
    },
    "objects": [
       {
+         "apiVersion": "image.openshift.io/v1",
+         "kind": "ImageStream",
+         "metadata": {
+            "annotations": {
+                "openshift.io/image.insecureRepository": "true"
+            },
+            "name": "${NAME_HTTPD}",
+            "resourceVersion": null
+         },
+         "spec": {
+            "lookupPolicy": {
+               "local": false
+            },
+            "tags": [
+               {
+                  "annotations": null,
+                  "from": {
+                     "kind": "ImageStreamTag",
+                     "name": "${VERSION}"
+                  },
+                  "importPolicy": {},
+                  "name": "latest",
+                  "referencePolicy": {
+                     "type": "Local"
+                  }
+               },
+               {
+                  "annotations": null,
+                  "from": {
+                     "kind": "DockerImage",
+                     "name": "docker.apps.dev.ocp.zby.icdc.io/cloud/httpd:${VERSION}"
+                  },
+                  "importPolicy": {},
+                  "name": "${VERSION}",
+                  "referencePolicy": {
+                     "type": "Local"
+                  }
+               }
+            ]
+         }
+      },
+      {
          "apiVersion": "v1",
          "kind": "Service",
          "metadata": {
             "annotations": {
                "description": "Exposes and load balances the application pods"
             },
-            "name": "${NAME}"
+            "name": "${NAME_HTTPD}"
          },
          "spec": {
             "ports": [
@@ -45,7 +87,7 @@
                }
             ],
             "selector": {
-               "name": "${NAME}"
+               "name": "${NAME_HTTPD}"
             }
          }
       },
@@ -53,13 +95,13 @@
          "apiVersion": "v1",
          "kind": "Route",
          "metadata": {
-            "name": "${NAME}"
+            "name": "${NAME_HTTPD}"
          },
          "spec": {
-            "host": "${NAME}.${APPLICATION_DOMAIN}",
+            "host": "${NAME_HTTPD}.${APPLICATION_DOMAIN}",
             "to": {
                "kind": "Service",
-               "name": "${NAME}"
+               "name": "${NAME_HTTPD}"
             }
          }
       },
@@ -71,12 +113,12 @@
                "description": "Defines how to deploy the application server",
                "template.alpha.openshift.io/wait-for-ready": "true"
             },
-            "name": "${NAME}"
+            "name": "${NAME_HTTPD}"
          },
          "spec": {
             "replicas": 1,
             "selector": {
-               "name": "${NAME}"
+               "name": "${NAME_HTTPD}"
             },
             "strategy": {
                "type": "Rolling"
@@ -84,9 +126,9 @@
             "template": {
                "metadata": {
                   "labels": {
-                     "name": "${NAME}"
+                     "name": "${NAME_HTTPD}"
                   },
-                  "name": "${NAME}"
+                  "name": "${NAME_HTTPD}"
                },
                "spec": {
                   "containers": [
@@ -101,7 +143,7 @@
                            "initialDelaySeconds": 30,
                            "timeoutSeconds": 3
                         },
-                        "name": "httpd",
+                        "name": "${NAME_HTTPD}",
                         "ports": [
                            {
                               "containerPort": 8080
@@ -133,7 +175,166 @@
                      ],
                      "from": {
                         "kind": "ImageStreamTag",
-                        "name": "${NAME}:${VERSION}"
+                        "name": "${NAME_HTTPD}:latest"
+                     }
+                  },
+                  "type": "ImageChange"
+               },
+               {
+                  "type": "ConfigChange"
+               }
+            ]
+         }
+      },
+      {
+         "apiVersion": "image.openshift.io/v1",
+         "kind": "ImageStream",
+         "metadata": {
+            "annotations": {
+                "openshift.io/image.insecureRepository": "true"
+            },
+            "name": "${NAME_NGINX}",
+            "resourceVersion": null
+         },
+         "spec": {
+            "lookupPolicy": {
+               "local": false
+            },
+            "tags": [
+               {
+                  "annotations": null,
+                  "from": {
+                     "kind": "ImageStreamTag",
+                     "name": "${VERSION}"
+                  },
+                  "importPolicy": {},
+                  "name": "latest",
+                  "referencePolicy": {
+                     "type": "Local"
+                  }
+               },
+               {
+                  "annotations": null,
+                  "from": {
+                     "kind": "DockerImage",
+                     "name": "docker.apps.dev.ocp.zby.icdc.io/cloud/nginx:${VERSION}"
+                  },
+                  "importPolicy": {},
+                  "name": "${VERSION}",
+                  "referencePolicy": {
+                     "type": "Local"
+                  }
+               }
+            ]
+         }
+      },
+      {
+         "apiVersion": "v1",
+         "kind": "Service",
+         "metadata": {
+            "annotations": {
+               "description": "Exposes and load balances the application pods"
+            },
+            "name": "${NAME_NGINX}"
+         },
+         "spec": {
+            "ports": [
+               {
+                  "name": "web",
+                  "port": 8080,
+                  "targetPort": 8080
+               }
+            ],
+            "selector": {
+               "name": "${NAME_NGINX}"
+            }
+         }
+      },
+      {
+         "apiVersion": "v1",
+         "kind": "Route",
+         "metadata": {
+            "name": "${NAME_NGINX}"
+         },
+         "spec": {
+            "host": "${NAME_NGINX}.${APPLICATION_DOMAIN}",
+            "to": {
+               "kind": "Service",
+               "name": "${NAME_NGINX}"
+            }
+         }
+      },
+      {
+         "apiVersion": "v1",
+         "kind": "DeploymentConfig",
+         "metadata": {
+            "annotations": {
+               "description": "Defines how to deploy the application server",
+               "template.alpha.openshift.io/wait-for-ready": "true"
+            },
+            "name": "${NAME_NGINX}"
+         },
+         "spec": {
+            "replicas": 1,
+            "selector": {
+               "name": "${NAME_NGINX}"
+            },
+            "strategy": {
+               "type": "Rolling"
+            },
+            "template": {
+               "metadata": {
+                  "labels": {
+                     "name": "${NAME_NGINX}"
+                  },
+                  "name": "${NAME_NGINX}"
+               },
+               "spec": {
+                  "containers": [
+                     {
+                        "env": [],
+                        "image": " ",
+                        "livenessProbe": {
+                           "httpGet": {
+                              "path": "/",
+                              "port": 8080
+                           },
+                           "initialDelaySeconds": 30,
+                           "timeoutSeconds": 3
+                        },
+                        "name": "${NAME_NGINX}",
+                        "ports": [
+                           {
+                              "containerPort": 8080
+                           }
+                        ],
+                        "readinessProbe": {
+                           "httpGet": {
+                              "path": "/",
+                              "port": 8080
+                           },
+                           "initialDelaySeconds": 3,
+                           "timeoutSeconds": 3
+                        },
+                        "resources": {
+                           "limits": {
+                              "memory": "${MEMORY_LIMIT}"
+                           }
+                        }
+                     }
+                  ]
+               }
+            },
+            "triggers": [
+               {
+                  "imageChangeParams": {
+                     "automatic": true,
+                     "containerNames": [
+                        "httpd"
+                     ],
+                     "from": {
+                        "kind": "ImageStreamTag",
+                        "name": "${NAME_NGINX}:latest"
                      }
                   },
                   "type": "ImageChange"
@@ -150,8 +351,7 @@
          "description": "The version assigned to all of the frontend objects defined in this template.",
          "displayName": "Version",
          "name": "VERSION",
-         "required": true,
-         "value": "latest"
+         "required": true
       },
       {
          "description": "The name assigned to all of the frontend objects defined in this template.",
@@ -163,9 +363,16 @@
       {
          "description": "The OpenShift Namespace where the ImageStream resides.",
          "displayName": "Name",
-         "name": "NAME",
+         "name": "NAME_HTTPD",
          "required": true,
          "value": "httpd"
+      },
+      {
+         "description": "The OpenShift Namespace where the ImageStream resides.",
+         "displayName": "Name",
+         "name": "NAME_NGINX",
+         "required": true,
+         "value": "nginx"
       },
       {
          "description": "Maximum amount of memory the container can use.",
