@@ -1,0 +1,48 @@
+{
+  "name": "web-server",
+  "versions": [
+    {
+      "tag": "2.0.1",
+      "date": "2021-09-09",
+      "depend_on": {
+         "api-gateway": "1.2.1"
+      },
+      "description": [
+        {
+          "subservice": "httpd",
+          "warnings": "* warning1\r\n* warning2",
+          "features": "* feature1\r\n* feature2",
+          "security_fixes": "* security1\r\n* security2",
+          "bug_fixes": "* bug1\r\n* bug2",
+          "depricated": "* depricated1\r\n* depricated2",
+          "known_issues": ""
+        },
+        {
+          "subservice": "nginx",
+          "warnings": "* warning1\r\n* warning2",
+          "features": "* feature1\r\n* feature2",
+          "security_fixes": "* security1\r\n* security2",
+          "bug_fixes": "* bug1\r\n* bug2",
+          "depricated": "* depricated1\r\n* depricated2",
+          "known_issues": ""
+        }
+      ]
+    },
+    {
+      "tag": "2.0.0",
+      "date": "2021-09-08",
+      "depend_on": "",
+      "description": [
+        {
+          "subservice": "httpd",
+          "warnings": "* warning1\r\n* warning2",
+          "features": "* feature1\r\n* feature2",
+          "security_fixes": "* security1\r\n* security2",
+          "bug_fixes": "* bug1\r\n* bug2",
+          "depricated": "* depricated1\r\n* depricated2",
+          "known_issues": ""
+        }
+      ]
+    }
+  ]
+}
