@@ -34,6 +34,9 @@
             "annotations": {
                 "openshift.io/image.insecureRepository": "true"
             },
+            "labels": {
+                "service": "${NAME_HTTPD}"
+            },            
             "name": "${NAME_HTTPD}",
             "resourceVersion": null
          },
@@ -193,6 +196,9 @@
             "annotations": {
                 "openshift.io/image.insecureRepository": "true"
             },
+            "labels": {
+                "service": "${NAME_NGINX}"
+            },  
             "name": "${NAME_NGINX}",
             "resourceVersion": null
          },
