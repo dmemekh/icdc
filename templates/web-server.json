@@ -357,7 +357,8 @@
          "description": "The version assigned to all of the frontend objects defined in this template.",
          "displayName": "Version",
          "name": "VERSION",
-         "required": true
+         "required": true,
+         "value": ""
       },
       {
          "description": "The name assigned to all of the frontend objects defined in this template.",
