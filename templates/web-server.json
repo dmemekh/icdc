@@ -61,7 +61,7 @@
                   "annotations": null,
                   "from": {
                      "kind": "DockerImage",
-                     "name": "docker.apps.dev.ocp.zby.icdc.io/cloud/httpd:${VERSION}"
+                     "name": "${SERVICE_REPOSITORY}/${NAME_HTTPD}:${VERSION}"
                   },
                   "importPolicy": {},
                   "name": "${VERSION}",
@@ -223,7 +223,7 @@
                   "annotations": null,
                   "from": {
                      "kind": "DockerImage",
-                     "name": "docker.apps.dev.ocp.zby.icdc.io/cloud/nginx:${VERSION}"
+                     "name": "${SERVICE_REPOSITORY}/${NAME_NGINX}:${VERSION}"
                   },
                   "importPolicy": {},
                   "name": "${VERSION}",
@@ -386,6 +386,13 @@
          "name": "NAME_NGINX",
          "required": true,
          "value": "nginx"
+      },
+      {
+         "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+         "displayName": "Service Repository",
+         "name": "SERVICE_REPOSITORY",
+         "required": true,
+         "value": "docker.apps.dev.ocp.zby.icdc.io/cloud"
       },
       {
          "description": "Maximum amount of memory the container can use.",
