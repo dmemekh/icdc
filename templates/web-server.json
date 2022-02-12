@@ -35,7 +35,7 @@
                 "openshift.io/image.insecureRepository": "true"
             },
             "labels": {
-                "service": "${NAME_HTTPD}"
+                "service": "${SERVICE_NAME}"
             },            
             "name": "${NAME_HTTPD}",
             "resourceVersion": null
@@ -197,7 +197,7 @@
                 "openshift.io/image.insecureRepository": "true"
             },
             "labels": {
-                "service": "${NAME_NGINX}"
+                "service": "${SERVICE_NAME}"
             },  
             "name": "${NAME_NGINX}",
             "resourceVersion": null
