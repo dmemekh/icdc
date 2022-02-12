@@ -2,9 +2,9 @@
    "apiVersion": "template.openshift.io/v1",
    "kind": "Template",
    "labels": {
-      "app": "web-server",
-      "app.kubernetes.io/part-of": "icdc-web-server",
-      "template": "web-server"
+      "app": "${SERVICE_NAME}",
+      "app.kubernetes.io/part-of": "${SERVICE_NAME}",
+      "template": "${SERVICE_NAME}"
    },
    "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.",
    "metadata": {
@@ -23,7 +23,7 @@
       "labels": {
          "samples.operator.openshift.io/managed": "true"
       },
-      "name": "web-server",
+      "name": "${SERVICE_NAME}",
       "namespace": "${NAMESPACE}"
    },
    "objects": [
@@ -365,6 +365,13 @@
          "name": "NAMESPACE",
          "required": true,
          "value": "icdc-test"
+      },
+      {
+         "description": "The OpenShift Namespace where the ImageStream resides.",
+         "displayName": "Service Name",
+         "name": "SERVICE_NAME",
+         "required": true,
+         "value": "web-server"
       },
       {
          "description": "The OpenShift Namespace where the ImageStream resides.",
