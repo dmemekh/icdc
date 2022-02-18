@@ -196,7 +196,7 @@
                         "livenessProbe": {
                            "httpGet": {
                               "path": "/",
-                              "port": 8080
+                              "port": 8082
                            },
                            "initialDelaySeconds": 30,
                            "timeoutSeconds": 3
@@ -204,13 +204,13 @@
                         "name": "${NAME_NGINX}",
                         "ports": [
                            {
-                              "containerPort": 8080
+                              "containerPort": 8082
                            }
                         ],
                         "readinessProbe": {
                            "httpGet": {
                               "path": "/",
-                              "port": 8080
+                              "port": 8082
                            },
                            "initialDelaySeconds": 3,
                            "timeoutSeconds": 3
