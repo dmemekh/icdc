@@ -54,7 +54,7 @@
                   "importPolicy": {},
                   "name": "latest",
                   "referencePolicy": {
-                     "type": "Local"
+                     "type": "Source"
                   }
                },
                {
@@ -62,7 +62,7 @@
                   "importPolicy": {},
                   "name": "${VERSION}",
                   "referencePolicy": {
-                     "type": "Local"
+                     "type": "Source"
                   }
                }
             ]
