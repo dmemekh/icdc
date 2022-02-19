@@ -9,24 +9,32 @@
       "required": {
          "api-gateway": "1.0.1"
       },
-      "description": [
+      "subservices": [
         {
-          "subservice": "httpd",
-          "warnings": "* warning1\r\n* warning2",
-          "features": "* feature1\r\n* feature2",
-          "security_fixes": "* security1\r\n* security2",
-          "bug_fixes": "* bug1\r\n* bug2",
-          "depricated": "* depricated1\r\n* depricated2",
-          "known_issues": ""
+          "name": "httpd",
+          "tag": "1.1.1",
+          "description":
+          {
+            "warnings": "* warning1\r\n* warning2",
+            "features": "* feature1\r\n* feature2",
+            "security_fixes": "* security1\r\n* security2",
+            "bug_fixes": "* bug1\r\n* bug2",
+            "depricated": "* depricated1\r\n* depricated2",
+            "known_issues": ""
+          }
         },
         {
-          "subservice": "nginx",
-          "warnings": "* warning1\r\n* warning2",
-          "features": "* feature1\r\n* feature2",
-          "security_fixes": "* security1\r\n* security2",
-          "bug_fixes": "* bug1\r\n* bug2",
-          "depricated": "* depricated1\r\n* depricated2",
-          "known_issues": ""
+          "name": "nginx",
+          "tag": "1.1.1",
+          "description":
+          {
+            "warnings": "* warning1\r\n* warning2",
+            "features": "* feature1\r\n* feature2",
+            "security_fixes": "* security1\r\n* security2",
+            "bug_fixes": "* bug1\r\n* bug2",
+            "depricated": "* depricated1\r\n* depricated2",
+            "known_issues": ""
+          }
         }
       ]
     },
@@ -38,24 +46,32 @@
       "required": {
          "api-gateway": "1.0.1"
       },
-      "description": [
+      "subservices": [
         {
-          "subservice": "httpd",
-          "warnings": "* warning1\r\n* warning2",
-          "features": "* feature1\r\n* feature2",
-          "security_fixes": "* security1\r\n* security2",
-          "bug_fixes": "* bug1\r\n* bug2",
-          "depricated": "* depricated1\r\n* depricated2",
-          "known_issues": ""
+          "name": "httpd",
+          "tag": "1.1.1",
+          "description":
+          {
+            "warnings": "* warning1\r\n* warning2",
+            "features": "* feature1\r\n* feature2",
+            "security_fixes": "* security1\r\n* security2",
+            "bug_fixes": "* bug1\r\n* bug2",
+            "depricated": "* depricated1\r\n* depricated2",
+            "known_issues": ""
+          }
         },
         {
-          "subservice": "nginx",
-          "warnings": "* warning1\r\n* warning2",
-          "features": "* feature1\r\n* feature2",
-          "security_fixes": "* security1\r\n* security2",
-          "bug_fixes": "* bug1\r\n* bug2",
-          "depricated": "* depricated1\r\n* depricated2",
-          "known_issues": ""
+          "name": "nginx",
+          "tag": "1.1.1",
+          "description":
+          {
+            "warnings": "* warning1\r\n* warning2",
+            "features": "* feature1\r\n* feature2",
+            "security_fixes": "* security1\r\n* security2",
+            "bug_fixes": "* bug1\r\n* bug2",
+            "depricated": "* depricated1\r\n* depricated2",
+            "known_issues": ""
+          }
         }
       ]
     },
@@ -67,15 +83,24 @@
       "required": {
          "api-gateway": "1.0.1"
       },
-      "description": [
+      "subservices": [
         {
-          "subservice": "httpd",
-          "warnings": "* warning1\r\n* warning2",
-          "features": "* feature1\r\n* feature2",
-          "security_fixes": "* security1\r\n* security2",
-          "bug_fixes": "* bug1\r\n* bug2",
-          "depricated": "* depricated1\r\n* depricated2",
-          "known_issues": ""
+          "name": "httpd",
+          "tag": "1.1.1",
+          "description":
+          {
+            "warnings": "* warning1\r\n* warning2",
+            "features": "* feature1\r\n* feature2",
+            "security_fixes": "* security1\r\n* security2",
+            "bug_fixes": "* bug1\r\n* bug2",
+            "depricated": "* depricated1\r\n* depricated2",
+            "known_issues": ""
+          }
+        },
+        {
+          "name": "nginx",
+          "tag": "1.1.1",
+          "description": {}
         }
       ]
     },
@@ -87,24 +112,32 @@
       "required": {
          "api-gateway": "1.0.1"
       },
-      "description": [
+      "subservices": [
         {
-          "subservice": "httpd",
-          "warnings": "* warning1\r\n* warning2",
-          "features": "* feature1\r\n* feature2",
-          "security_fixes": "* security1\r\n* security2",
-          "bug_fixes": "* bug1\r\n* bug2",
-          "depricated": "* depricated1\r\n* depricated2",
-          "known_issues": ""
+          "name": "httpd",
+          "tag": "1.1.1",
+          "description":
+          {
+            "warnings": "* warning1\r\n* warning2",
+            "features": "* feature1\r\n* feature2",
+            "security_fixes": "* security1\r\n* security2",
+            "bug_fixes": "* bug1\r\n* bug2",
+            "depricated": "* depricated1\r\n* depricated2",
+            "known_issues": ""
+          }
         },
         {
-          "subservice": "nginx",
-          "warnings": "* warning1\r\n* warning2",
-          "features": "* feature1\r\n* feature2",
-          "security_fixes": "* security1\r\n* security2",
-          "bug_fixes": "* bug1\r\n* bug2",
-          "depricated": "* depricated1\r\n* depricated2",
-          "known_issues": ""
+          "name": "nginx",
+          "tag": "1.1.1",
+          "description":
+          {
+            "warnings": "* warning1\r\n* warning2",
+            "features": "* feature1\r\n* feature2",
+            "security_fixes": "* security1\r\n* security2",
+            "bug_fixes": "* bug1\r\n* bug2",
+            "depricated": "* depricated1\r\n* depricated2",
+            "known_issues": ""
+          }
         }
       ]
     },
@@ -116,15 +149,24 @@
       "required": {
          "api-gateway": "1.0.1"
       },
-      "description": [
+      "subservices": [
         {
-          "subservice": "httpd",
-          "warnings": "* warning1\r\n* warning2",
-          "features": "* feature1\r\n* feature2",
-          "security_fixes": "* security1\r\n* security2",
-          "bug_fixes": "* bug1\r\n* bug2",
-          "depricated": "* depricated1\r\n* depricated2",
-          "known_issues": ""
+          "name": "httpd",
+          "tag": "1.1.1",
+          "description":
+          {
+            "warnings": "* warning1\r\n* warning2",
+            "features": "* feature1\r\n* feature2",
+            "security_fixes": "* security1\r\n* security2",
+            "bug_fixes": "* bug1\r\n* bug2",
+            "depricated": "* depricated1\r\n* depricated2",
+            "known_issues": ""
+          }
+        },
+        {
+          "name": "nginx",
+          "tag": "1.1.1",
+          "description": {}
         }
       ]
     },
@@ -136,24 +178,32 @@
       "required": {
          "api-gateway": "1.0.1"
       },
-      "description": [
+      "subservices": [
         {
-          "subservice": "httpd",
-          "warnings": "* warning1\r\n* warning2",
-          "features": "* feature1\r\n* feature2",
-          "security_fixes": "* security1\r\n* security2",
-          "bug_fixes": "* bug1\r\n* bug2",
-          "depricated": "* depricated1\r\n* depricated2",
-          "known_issues": ""
+          "name": "httpd",
+          "tag": "1.1.1",
+          "description":
+          {
+            "warnings": "* warning1\r\n* warning2",
+            "features": "* feature1\r\n* feature2",
+            "security_fixes": "* security1\r\n* security2",
+            "bug_fixes": "* bug1\r\n* bug2",
+            "depricated": "* depricated1\r\n* depricated2",
+            "known_issues": ""
+          }
         },
         {
-          "subservice": "nginx",
-          "warnings": "* warning1\r\n* warning2",
-          "features": "* feature1\r\n* feature2",
-          "security_fixes": "* security1\r\n* security2",
-          "bug_fixes": "* bug1\r\n* bug2",
-          "depricated": "* depricated1\r\n* depricated2",
-          "known_issues": ""
+          "name": "nginx",
+          "tag": "1.1.1",
+          "description":
+          {
+            "warnings": "* warning1\r\n* warning2",
+            "features": "* feature1\r\n* feature2",
+            "security_fixes": "* security1\r\n* security2",
+            "bug_fixes": "* bug1\r\n* bug2",
+            "depricated": "* depricated1\r\n* depricated2",
+            "known_issues": ""
+          }
         }
       ]
     },
@@ -165,15 +215,24 @@
       "required": {
          "api-gateway": "1.0.1"
       },
-      "description": [
+      "subservices": [
         {
-          "subservice": "httpd",
-          "warnings": "* warning1\r\n* warning2",
-          "features": "* feature1\r\n* feature2",
-          "security_fixes": "* security1\r\n* security2",
-          "bug_fixes": "* bug1\r\n* bug2",
-          "depricated": "* depricated1\r\n* depricated2",
-          "known_issues": ""
+          "name": "httpd",
+          "tag": "1.1.1",
+          "description":
+          {
+            "warnings": "* warning1\r\n* warning2",
+            "features": "* feature1\r\n* feature2",
+            "security_fixes": "* security1\r\n* security2",
+            "bug_fixes": "* bug1\r\n* bug2",
+            "depricated": "* depricated1\r\n* depricated2",
+            "known_issues": ""
+          }
+        },
+        {
+          "name": "nginx",
+          "tag": "1.1.1",
+          "description": {}
         }
       ]
     }
