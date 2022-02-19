@@ -37,7 +37,7 @@
             "labels": {
                 "backend": "${SERVICE_NAME}"
             },            
-            "name": "${SERVICE_NAME}-${NAME_APIGW}",
+            "name": "${SERVICE_NAME}",
             "resourceVersion": null
          },
          "spec": {
@@ -59,12 +59,53 @@
                },
                {
                   "annotations": null,
-                  "from": {
-                     "kind": "DockerImage",
-                     "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_APIGW}:${VERSION}"
-                  },
                   "importPolicy": {},
                   "name": "${VERSION}",
+                  "referencePolicy": {
+                     "type": "Local"
+                  }
+               }
+            ]
+         }
+      },
+      {
+         "apiVersion": "image.openshift.io/v1",
+         "kind": "ImageStream",
+         "metadata": {
+            "annotations": {
+                "openshift.io/image.insecureRepository": "true"
+            },
+            "labels": {
+                "backend": "${SERVICE_NAME}"
+            },            
+            "name": "${SERVICE_NAME}-${NAME_APIGW}",
+            "resourceVersion": null
+         },
+         "spec": {
+            "lookupPolicy": {
+               "local": false
+            },
+            "tags": [
+               {
+                  "annotations": null,
+                  "from": {
+                     "kind": "ImageStreamTag",
+                     "name": "${TAG_APIGW}"
+                  },
+                  "importPolicy": {},
+                  "name": "latest",
+                  "referencePolicy": {
+                     "type": "Local"
+                  }
+               },
+               {
+                  "annotations": null,
+                  "from": {
+                     "kind": "DockerImage",
+                     "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_APIGW}:${TAG_APIGW}"
+                  },
+                  "importPolicy": {},
+                  "name": "${TAG_APIGW}",
                   "referencePolicy": {
                      "type": "Local"
                   }
@@ -94,7 +135,7 @@
                   "annotations": null,
                   "from": {
                      "kind": "ImageStreamTag",
-                     "name": "${VERSION}"
+                     "name": "${TAG_HTTPD}"
                   },
                   "importPolicy": {},
                   "name": "latest",
@@ -106,10 +147,10 @@
                   "annotations": null,
                   "from": {
                      "kind": "DockerImage",
-                     "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_HTTPD}:${VERSION}"
+                     "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_HTTPD}:${TAG_HTTPD}"
                   },
                   "importPolicy": {},
-                  "name": "${VERSION}",
+                  "name": "${TAG_HTTPD}",
                   "referencePolicy": {
                      "type": "Local"
                   }
@@ -139,7 +180,7 @@
                   "annotations": null,
                   "from": {
                      "kind": "ImageStreamTag",
-                     "name": "${VERSION}"
+                     "name": "${TAG_NGINX}"
                   },
                   "importPolicy": {},
                   "name": "latest",
@@ -151,10 +192,10 @@
                   "annotations": null,
                   "from": {
                      "kind": "DockerImage",
-                     "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_NGINX}:${VERSION}"
+                     "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_NGINX}:${TAG_NGINX}"
                   },
                   "importPolicy": {},
-                  "name": "${VERSION}",
+                  "name": "${TAG_NGINX}",
                   "referencePolicy": {
                      "type": "Local"
                   }
@@ -382,6 +423,13 @@
          "value": "apigw"
       },
       {
+         "description": "The version assigned to all of the frontend objects defined in this template.",
+         "displayName": "Tag",
+         "name": "TAG_APIGW",
+         "required": true,
+         "value": ""
+      },
+      {
          "description": "The OpenShift Namespace where the ImageStream resides.",
          "displayName": "Name",
          "name": "NAME_HTTPD",
@@ -389,11 +437,25 @@
          "value": "httpd"
       },
       {
+         "description": "The version assigned to all of the frontend objects defined in this template.",
+         "displayName": "Tag",
+         "name": "TAG_HTTPD",
+         "required": true,
+         "value": ""
+      },
+      {
          "description": "The OpenShift Namespace where the ImageStream resides.",
          "displayName": "Name",
          "name": "NAME_NGINX",
          "required": true,
          "value": "nginx"
+      },
+      {
+         "description": "The version assigned to all of the frontend objects defined in this template.",
+         "displayName": "Tag",
+         "name": "TAG_NGINX",
+         "required": true,
+         "value": ""
       },
       {
          "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
