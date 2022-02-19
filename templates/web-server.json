@@ -37,7 +37,7 @@
             "labels": {
                 "backend": "${SERVICE_NAME}"
             },            
-            "name": "${SERVICE_NAME}",
+            "name": "${SERVICE_NAME}-${NAME_APIGW}",
             "resourceVersion": null
          },
          "spec": {
@@ -49,10 +49,10 @@
                   "annotations": null,
                   "from": {
                      "kind": "ImageStreamTag",
-                     "name": "${NAME_APIGW}-${VERSION}"
+                     "name": "${VERSION}"
                   },
                   "importPolicy": {},
-                  "name": "${NAME_APIGW}-latest",
+                  "name": "latest",
                   "referencePolicy": {
                      "type": "Local"
                   }
@@ -64,19 +64,40 @@
                      "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_APIGW}:${VERSION}"
                   },
                   "importPolicy": {},
-                  "name": "${NAME_APIGW}-${VERSION}",
+                  "name": "${VERSION}",
                   "referencePolicy": {
                      "type": "Local"
                   }
-               },
+               }
+            ]
+         }
+      },
+      {
+         "apiVersion": "image.openshift.io/v1",
+         "kind": "ImageStream",
+         "metadata": {
+            "annotations": {
+                "openshift.io/image.insecureRepository": "true"
+            },
+            "labels": {
+                "backend": "${SERVICE_NAME}"
+            },            
+            "name": "${SERVICE_NAME}-${NAME_HTTPD}",
+            "resourceVersion": null
+         },
+         "spec": {
+            "lookupPolicy": {
+               "local": false
+            },
+            "tags": [
                {
                   "annotations": null,
                   "from": {
                      "kind": "ImageStreamTag",
-                     "name": "${NAME_HTTPD}-${VERSION}"
+                     "name": "${VERSION}"
                   },
                   "importPolicy": {},
-                  "name": "${NAME_HTTPD}-latest",
+                  "name": "latest",
                   "referencePolicy": {
                      "type": "Local"
                   }
@@ -88,19 +109,40 @@
                      "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_HTTPD}:${VERSION}"
                   },
                   "importPolicy": {},
-                  "name": "${NAME_HTTPD}-${VERSION}",
+                  "name": "${VERSION}",
                   "referencePolicy": {
                      "type": "Local"
                   }
-               },
+               }
+            ]
+         }
+      },
+      {
+         "apiVersion": "image.openshift.io/v1",
+         "kind": "ImageStream",
+         "metadata": {
+            "annotations": {
+                "openshift.io/image.insecureRepository": "true"
+            },
+            "labels": {
+                "backend": "${SERVICE_NAME}"
+            },            
+            "name": "${SERVICE_NAME}-${NAME_NGINX}",
+            "resourceVersion": null
+         },
+         "spec": {
+            "lookupPolicy": {
+               "local": false
+            },
+            "tags": [
                {
                   "annotations": null,
                   "from": {
                      "kind": "ImageStreamTag",
-                     "name": "${NAME_NGINX}-${VERSION}"
+                     "name": "${VERSION}"
                   },
                   "importPolicy": {},
-                  "name": "${NAME_NGINX}-latest",
+                  "name": "latest",
                   "referencePolicy": {
                      "type": "Local"
                   }
@@ -112,7 +154,7 @@
                      "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_NGINX}:${VERSION}"
                   },
                   "importPolicy": {},
-                  "name": "${NAME_NGINX}-${VERSION}",
+                  "name": "${VERSION}",
                   "referencePolicy": {
                      "type": "Local"
                   }
@@ -272,7 +314,7 @@
                      ],
                      "from": {
                         "kind": "ImageStreamTag",
-                        "name": "${SERVICE_NAME}:${NAME_APIGW}-latest"
+                        "name": "${SERVICE_NAME}-${NAME_APIGW}:latest"
                      }
                   },
                   "type": "ImageChange"
@@ -285,7 +327,7 @@
                      ],
                      "from": {
                         "kind": "ImageStreamTag",
-                        "name": "${SERVICE_NAME}:${NAME_HTTPD}-latest"
+                        "name": "${SERVICE_NAME}-${NAME_HTTPD}:latest"
                      }
                   },
                   "type": "ImageChange"
@@ -298,7 +340,7 @@
                      ],
                      "from": {
                         "kind": "ImageStreamTag",
-                        "name": "${SERVICE_NAME}:${NAME_NGINX}-latest"
+                        "name": "${SERVICE_NAME}-${NAME_NGINX}:latest"
                      }
                   },
                   "type": "ImageChange"
