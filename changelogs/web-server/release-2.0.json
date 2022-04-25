@@ -1,6 +1,6 @@
 {
   "name": "web-server",
-  "versions": [
+  "items": [
     {
       "version": "2.0.2",
       "tag": "latest",
@@ -9,7 +9,7 @@
       "required": {
          "api-gateway": "1.0.1"
       },
-      "subservices": [
+      "applications": [
         {
           "name": "httpd",
           "tag": "1.1.1",
@@ -46,7 +46,7 @@
       "required": {
          "api-gateway": "1.0.1"
       },
-      "subservices": [
+      "applications": [
         {
           "name": "httpd",
           "tag": "1.1.1",
@@ -83,7 +83,7 @@
       "required": {
          "api-gateway": "1.0.1"
       },
-      "subservices": [
+      "applications": [
         {
           "name": "httpd",
           "tag": "1.1.1",
