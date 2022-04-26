@@ -2,9 +2,7 @@
    "apiVersion": "template.openshift.io/v1",
    "kind": "Template",
    "labels": {
-      "app": "${SERVICE_NAME}",
-      "app.kubernetes.io/part-of": "${SERVICE_NAME}",
-      "template": "${SERVICE_NAME}"
+      "service": "${SERVICE_NAME}"
    },
    "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.",
    "metadata": {
@@ -33,10 +31,7 @@
          "metadata": {
             "annotations": {
                 "openshift.io/image.insecureRepository": "true"
-            },
-            "labels": {
-                "backend": "${SERVICE_NAME}"
-            },            
+            },       
             "name": "${SERVICE_NAME}",
             "resourceVersion": null
          },
@@ -74,10 +69,7 @@
          "metadata": {
             "annotations": {
                 "openshift.io/image.insecureRepository": "true"
-            },
-            "labels": {
-                "backend": "${SERVICE_NAME}"
-            },            
+            },          
             "name": "${SERVICE_NAME}-${NAME_APIGW}",
             "resourceVersion": null
          },
@@ -119,10 +111,7 @@
          "metadata": {
             "annotations": {
                 "openshift.io/image.insecureRepository": "true"
-            },
-            "labels": {
-                "backend": "${SERVICE_NAME}"
-            },            
+            },         
             "name": "${SERVICE_NAME}-${NAME_HTTPD}",
             "resourceVersion": null
          },
@@ -164,10 +153,7 @@
          "metadata": {
             "annotations": {
                 "openshift.io/image.insecureRepository": "true"
-            },
-            "labels": {
-                "backend": "${SERVICE_NAME}"
-            },            
+            },         
             "name": "${SERVICE_NAME}-${NAME_NGINX}",
             "resourceVersion": null
          },
@@ -246,6 +232,9 @@
             "annotations": {
                "description": "Defines how to deploy the application server",
                "template.alpha.openshift.io/wait-for-ready": "true"
+            },
+            "labels": {
+               "app.kubernetes.io/part-of": "${SERVICE_NAME}"
             },
             "name": "${SERVICE_NAME}"
          },
