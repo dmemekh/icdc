@@ -236,7 +236,7 @@
             "labels": {
                "app.kubernetes.io/part-of": "${SERVICE_NAME}"
             },
-            "name": "${SERVICE_NAME}"
+            "name": "${SERVICE_NAME}-api"
          },
          "spec": {
             "replicas": 1,
@@ -867,7 +867,7 @@
          "displayName": "Database Service Name",
          "name": "DATABASE_SERVICE_NAME",
          "required": true,
-         "value": "postgresql"
+         "value": "db"
       },
       {
          "description": "Username for PostgreSQL user that will be used for accessing the database.",
