@@ -9,6 +9,19 @@
     },
     "applications": [
       {
+        "name": "apigw",
+        "tag": "1.1.1",
+        "description":
+        {
+          "warnings": "* warning1\r\n* warning2",
+          "features": "* feature1\r\n* feature2",
+          "security_fixes": "* security1\r\n* security2",
+          "bug_fixes": "* bug1\r\n* bug2",
+          "depricated": "* depricated1\r\n* depricated2",
+          "known_issues": ""
+        }
+      },
+      {
         "name": "httpd",
         "tag": "1.1.1",
         "description":
@@ -46,6 +59,19 @@
     },
     "applications": [
       {
+        "name": "apigw",
+        "tag": "1.1.1",
+        "description":
+        {
+          "warnings": "* warning1\r\n* warning2",
+          "features": "* feature1\r\n* feature2",
+          "security_fixes": "* security1\r\n* security2",
+          "bug_fixes": "* bug1\r\n* bug2",
+          "depricated": "* depricated1\r\n* depricated2",
+          "known_issues": ""
+        }
+      },
+      {
         "name": "httpd",
         "tag": "1.1.1",
         "description":
@@ -82,6 +108,19 @@
        "api-gateway": "1.0.1"
     },
     "applications": [
+      {
+        "name": "apigw",
+        "tag": "1.1.1",
+        "description":
+        {
+          "warnings": "* warning1\r\n* warning2",
+          "features": "* feature1\r\n* feature2",
+          "security_fixes": "* security1\r\n* security2",
+          "bug_fixes": "* bug1\r\n* bug2",
+          "depricated": "* depricated1\r\n* depricated2",
+          "known_issues": ""
+        }
+      },
       {
         "name": "httpd",
         "tag": "1.1.1",
