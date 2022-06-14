@@ -769,7 +769,7 @@
          "displayName": "Service Name",
          "name": "SERVICE_NAME",
          "required": true,
-         "value": "web-server-dev"
+         "value": "web-server"
       },
       {
          "description": "The OpenShift Namespace where the ImageStream resides.",
