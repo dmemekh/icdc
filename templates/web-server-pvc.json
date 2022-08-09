@@ -234,8 +234,7 @@
                "template.alpha.openshift.io/wait-for-ready": "true"
             },
             "labels": {
-               "app.kubernetes.io/part-of": "${SERVICE_NAME}",
-               "service": "${SERVICE_NAME}"
+               "app.kubernetes.io/part-of": "${SERVICE_NAME}"
             },
             "name": "${SERVICE_NAME}-api"
          },
