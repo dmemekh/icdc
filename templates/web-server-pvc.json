@@ -240,9 +240,6 @@
          },
          "spec": {
             "replicas": 1,
-            "labels": {
-               "service": "${SERVICE_NAME}"
-            }
             "selector": {
                "name": "${SERVICE_NAME}"
             },
