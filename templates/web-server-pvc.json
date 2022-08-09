@@ -240,6 +240,9 @@
          },
          "spec": {
             "replicas": 1,
+            "labels": {
+               "service": "${SERVICE_NAME}"
+            }
             "selector": {
                "name": "${SERVICE_NAME}"
             },
@@ -249,8 +252,7 @@
             "template": {
                "metadata": {
                   "labels": {
-                     "name": "${SERVICE_NAME}",
-                     "service": "${SERVICE_NAME}"
+                     "name": "${SERVICE_NAME}"
                   },
                   "name": "${SERVICE_NAME}"
                },
