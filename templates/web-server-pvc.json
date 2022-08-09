@@ -249,7 +249,8 @@
             "template": {
                "metadata": {
                   "labels": {
-                     "name": "${SERVICE_NAME}"
+                     "name": "${SERVICE_NAME}",
+                     "service": "${SERVICE_NAME}"
                   },
                   "name": "${SERVICE_NAME}"
                },
@@ -632,7 +633,8 @@
              "template": {
                  "metadata": {
                      "labels": {
-                         "name": "${SERVICE_NAME}-${DATABASE_SERVICE_NAME}"
+                        "name": "${SERVICE_NAME}-${DATABASE_SERVICE_NAME}",
+                        "service": "${SERVICE_NAME}"
                      }
                  },
                  "spec": {
