@@ -240,6 +240,7 @@
          },
          "spec": {
             "replicas": 1,
+            "revisionHistoryLimit": 0,
             "selector": {
                "name": "${SERVICE_NAME}"
             },
@@ -623,6 +624,7 @@
          },
          "spec": {
              "replicas": 1,
+             "revisionHistoryLimit": 0,
              "selector": {
                  "name": "${SERVICE_NAME}-${DATABASE_SERVICE_NAME}"
              },
