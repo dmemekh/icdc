@@ -241,8 +241,7 @@
          "spec": {
             "replicas": 1,
             "selector": {
-               "name": "${SERVICE_NAME}",
-               "service": "${SERVICE_NAME}"
+               "name": "${SERVICE_NAME}"
             },
             "strategy": {
                "type": "Rolling"
@@ -250,8 +249,7 @@
             "template": {
                "metadata": {
                   "labels": {
-                     "name": "${SERVICE_NAME}",
-                     "service": "${SERVICE_NAME}"
+                     "name": "${SERVICE_NAME}"
                   },
                   "name": "${SERVICE_NAME}"
                },
