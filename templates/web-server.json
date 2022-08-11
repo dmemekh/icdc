@@ -207,7 +207,7 @@
                }
             ],
             "selector": {
-               "name": "${SERVICE_NAME}"
+               "service": "${SERVICE_NAME}"
             }
          }
       },
