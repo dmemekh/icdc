@@ -236,7 +236,7 @@
             "labels": {
                "app.kubernetes.io/part-of": "${SERVICE_NAME}"
             },
-            "name": "${SERVICE_NAME}-api"
+            "name": "${SERVICE_NAME}"
          },
          "spec": {
             "replicas": 1,
@@ -346,8 +346,7 @@
                         "kind": "ImageStreamTag",
                         "name": "${SERVICE_NAME}-${NAME_APIGW}:latest"
                      }
-                  },
-                  "type": "ImageChange"
+                  }
                },               
                {
                   "imageChangeParams": {
@@ -359,8 +358,7 @@
                         "kind": "ImageStreamTag",
                         "name": "${SERVICE_NAME}-${NAME_HTTPD}:latest"
                      }
-                  },
-                  "type": "ImageChange"
+                  }
                },
                {
                   "imageChangeParams": {
@@ -372,8 +370,7 @@
                         "kind": "ImageStreamTag",
                         "name": "${SERVICE_NAME}-${NAME_NGINX}:latest"
                      }
-                  },
-                  "type": "ImageChange"
+                  }
                },
                {
                   "type": "ConfigChange"
