@@ -338,7 +338,7 @@
             "triggers": [
                {
                   "imageChangeParams": {
-                     "automatic": true,
+                     "automatic": false,
                      "containerNames": [
                         "${NAME_APIGW}"
                      ],
@@ -346,11 +346,12 @@
                         "kind": "ImageStreamTag",
                         "name": "${SERVICE_NAME}-${NAME_APIGW}:latest"
                      }
-                  }
+                  },
+                  "type": "ImageChange"
                },               
                {
                   "imageChangeParams": {
-                     "automatic": true,
+                     "automatic": false,
                      "containerNames": [
                         "${NAME_HTTPD}"
                      ],
@@ -358,11 +359,12 @@
                         "kind": "ImageStreamTag",
                         "name": "${SERVICE_NAME}-${NAME_HTTPD}:latest"
                      }
-                  }
+                  },
+                  "type": "ImageChange"
                },
                {
                   "imageChangeParams": {
-                     "automatic": true,
+                     "automatic": false,
                      "containerNames": [
                         "${NAME_NGINX}"
                      ],
@@ -370,7 +372,8 @@
                         "kind": "ImageStreamTag",
                         "name": "${SERVICE_NAME}-${NAME_NGINX}:latest"
                      }
-                  }
+                  },
+                  "type": "ImageChange"
                },
                {
                   "type": "ConfigChange"
