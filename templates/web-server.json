@@ -249,7 +249,8 @@
             "template": {
                "metadata": {
                   "labels": {
-                     "name": "${SERVICE_NAME}"
+                     "name": "${SERVICE_NAME}",
+                     "service": "${SERVICE_NAME}"
                   },
                   "name": "${SERVICE_NAME}"
                },
