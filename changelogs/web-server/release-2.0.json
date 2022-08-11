@@ -5,7 +5,8 @@
     "release": "2.0",
     "date": "2021-09-09",
     "required": {
-       "api-gateway": "1.0.1"
+       "api-gateway": "1.0.1",
+       "compute": "1.1.1"
     },
     "applications": [
       {
