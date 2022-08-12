@@ -764,7 +764,7 @@
          "displayName": "Namespace",
          "name": "NAMESPACE",
          "required": true,
-         "value": "icdc-test"
+         "value": ""
       },
       {
          "description": "The OpenShift Namespace where the ImageStream resides.",
