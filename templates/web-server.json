@@ -240,7 +240,7 @@
          },
          "spec": {
             "replicas": 1,
-            "revisionHistoryLimit": 0,
+            "revisionHistoryLimit": 10,
             "selector": {
                "name": "${SERVICE_NAME}"
             },
