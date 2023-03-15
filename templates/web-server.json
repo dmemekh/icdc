@@ -21,8 +21,7 @@
       "labels": {
          "samples.operator.openshift.io/managed": "true"
       },
-      "name": "${SERVICE_NAME}",
-      "namespace": "${NAMESPACE}"
+      "name": "${SERVICE_NAME}"
    },
    "objects": [
       {
