@@ -93,7 +93,7 @@
                   "annotations": null,
                   "from": {
                      "kind": "DockerImage",
-                     "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_APIGW}:${TAG_APIGW}"
+                     "name": "${SERVICE_REPOSITORY}/${NAME_APIGW}:${TAG_APIGW}"
                   },
                   "importPolicy": {},
                   "name": "${TAG_APIGW}",
@@ -135,7 +135,7 @@
                   "annotations": null,
                   "from": {
                      "kind": "DockerImage",
-                     "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_HTTPD}:${TAG_HTTPD}"
+                     "name": "${SERVICE_REPOSITORY}/${NAME_HTTPD}:${TAG_HTTPD}"
                   },
                   "importPolicy": {},
                   "name": "${TAG_HTTPD}",
@@ -177,7 +177,7 @@
                   "annotations": null,
                   "from": {
                      "kind": "DockerImage",
-                     "name": "${SERVICE_REPOSITORY}/${SERVICE_NAME}-${NAME_NGINX}:${TAG_NGINX}"
+                     "name": "${SERVICE_REPOSITORY}/${NAME_NGINX}:${TAG_NGINX}"
                   },
                   "importPolicy": {},
                   "name": "${TAG_NGINX}",
