@@ -819,7 +819,7 @@
          "displayName": "Service Repository",
          "name": "SERVICE_REPOSITORY",
          "required": true,
-         "value": "cr.icdc.io/web-server"
+         "value": "crw-loc.icdc.io/web-server"
       },
       {
          "description": "Maximum amount of memory the container can use.",
