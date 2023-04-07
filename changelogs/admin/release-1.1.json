@@ -1,0 +1,105 @@
+[
+  {
+    "version": "1.1.2",
+    "tag": "latest",
+    "release": "1.1",
+    "date": "2021-09-09",
+    "required": {
+       "api-gateway": "1.0.1"
+    },
+    "applications": [
+      {
+        "name": "apigw",
+        "tag": "0.1.2",
+        "description":
+        {
+          "warnings": "* warning1\r\n* warning2",
+          "features": "* feature1\r\n* feature2",
+          "security_fixes": "* security1\r\n* security2",
+          "bug_fixes": "* bug1\r\n* bug2",
+          "depricated": "* depricated1\r\n* depricated2",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "delivery",
+        "tag": "0.2.1",
+        "description":
+        {
+          "warnings": "* warning1\r\n* warning2",
+          "features": "* feature1\r\n* feature2",
+          "security_fixes": "* security1\r\n* security2",
+          "bug_fixes": "* bug1\r\n* bug2",
+          "depricated": "* depricated1\r\n* depricated2",
+          "known_issues": ""
+        }
+      }
+    ]
+  },
+  {
+    "version": "1.1.1",
+    "tag": "latest",
+    "release": "1.1",
+    "date": "2021-09-09",
+    "required": {
+       "api-gateway": "1.0.1"
+    },
+    "applications": [
+      {
+        "name": "apigw",
+        "tag": "0.1.1",
+        "description":
+        {
+          "warnings": "* warning1\r\n* warning2",
+          "features": "* feature1\r\n* feature2",
+          "security_fixes": "* security1\r\n* security2",
+          "bug_fixes": "* bug1\r\n* bug2",
+          "depricated": "* depricated1\r\n* depricated2",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "delivery",
+        "tag": "0.1.1",
+        "description":
+        {
+          "warnings": "* warning1\r\n* warning2",
+          "features": "* feature1\r\n* feature2",
+          "security_fixes": "* security1\r\n* security2",
+          "bug_fixes": "* bug1\r\n* bug2",
+          "depricated": "* depricated1\r\n* depricated2",
+          "known_issues": ""
+        }
+      }
+    ]
+  },
+  {
+    "version": "1.1.0",
+    "tag": "",
+    "release": "1.1",
+    "date": "2021-09-08",
+    "required": {
+       "api-gateway": "1.0.1"
+    },
+    "applications": [
+      {
+        "name": "apigw",
+        "tag": "0.1.0",
+        "description":
+        {
+          "warnings": "* warning1\r\n* warning2",
+          "features": "* feature1\r\n* feature2",
+          "security_fixes": "* security1\r\n* security2",
+          "bug_fixes": "* bug1\r\n* bug2",
+          "depricated": "* depricated1\r\n* depricated2",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "delivery",
+        "tag": "0.0.1",
+        "description": {}
+      }
+    ]
+  }
+]
