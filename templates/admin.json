@@ -241,7 +241,7 @@
             "triggers": [
                {
                   "imageChangeParams": {
-                     "automatic": false,
+                     "automatic": true,
                      "containerNames": [
                         "${NAME_APIGW}"
                      ],
@@ -254,7 +254,7 @@
                },               
                {
                   "imageChangeParams": {
-                     "automatic": false,
+                     "automatic": true,
                      "containerNames": [
                         "${NAME_DELIVERY}"
                      ],
