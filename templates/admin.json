@@ -266,37 +266,22 @@
                             },
                             {
                                 "name": "GITHUB_ACCOUNT",
-                                "valueFrom": {
-                                    "configMapKeyRef": {
-                                        "key": "GITHUB_ACCOUNT",
-                                        "name": "${SERVICE_ENV_NAME}"
-                                    }
-                                }
+                                "value": "${GITHUB_ACCOUNT}"
                             },
                             {
                                 "name": "GITHUB_REPO",
-                                "valueFrom": {
-                                    "configMapKeyRef": {
-                                        "key": "GITHUB_REPO",
-                                        "name": "${SERVICE_ENV_NAME}"
-                                    }
-                                }
+                                "value": "${GITHUB_REPO}"
                             },
                             {
                                 "name": "GITHUB_REF",
-                                "valueFrom": {
-                                    "configMapKeyRef": {
-                                        "key": "GITHUB_REF",
-                                        "name": "${SERVICE_ENV_NAME}"
-                                    }
-                                }
+                                "value": "${GITHUB_REF}"
                             },
                             {
                                 "name": "DNS_SERVER",
                                 "valueFrom": {
                                     "configMapKeyRef": {
                                         "key": "DNS_SERVER",
-                                        "name": "${SERVICE_ENV_NAME}"
+                                        "name": "${CLOUD_ENV_NAME}"
                                     }
                                 }
                             },
@@ -305,7 +290,7 @@
                                 "valueFrom": {
                                     "configMapKeyRef": {
                                         "key": "NAMESPACE_PREFIX",
-                                        "name": "${SERVICE_ENV_NAME}"
+                                        "name": "${CLOUD_ENV_NAME}"
                                     }
                                 }
                             },
@@ -925,6 +910,27 @@
          "name": "POSTGRESQL_VERSION",
          "required": true,
          "value": "10-el8"
+      },
+      {
+         "description": "GitHub Account.",
+         "displayName": "GitHub Account",
+         "name": "GITHUB_ACCOUNT",
+         "required": true,
+         "value": "dmemekh"
+      },
+      {
+         "description": "GitHub Repository.",
+         "displayName": "GitHub Repository",
+         "name": "GITHUB_REPO",
+         "required": true,
+         "value": "icdc"
+      },
+      {
+         "description": "GitHub Ref.",
+         "displayName": "GitHub Ref",
+         "name": "GITHUB_REF",
+         "required": true,
+         "value": "master2"
       }
    ]
 }
