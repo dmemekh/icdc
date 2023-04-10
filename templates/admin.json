@@ -218,7 +218,116 @@
                         }
                      },                     
                      {
-                        "env": [],
+                        "env": [                            
+                           {
+                                "name": "LOCATION_ADMIN_GROUP",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "LOCATION_ADMIN_GROUP",
+                                        "name": "${CLOUD_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "LOCATION_DOMAIN",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "LOCATION_DOMAIN",
+                                        "name": "${CLOUD_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "SSO_URL",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "SSO_URL",
+                                        "name": "${CLOUD_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "SSO_REALM",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "SSO_REALM",
+                                        "name": "${CLOUD_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "SSO_CLIENT_ID",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "SSO_CLIENT_ID",
+                                        "name": "${CLOUD_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "GITHUB_ACCOUNT",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "GITHUB_ACCOUNT",
+                                        "name": "${SERVICE_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "GITHUB_REPO",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "GITHUB_REPO",
+                                        "name": "${SERVICE_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "GITHUB_REF",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "GITHUB_REF",
+                                        "name": "${SERVICE_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "DNS_SERVER",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "DNS_SERVER",
+                                        "name": "${SERVICE_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "NAMESPACE_PREFIX",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "NAMESPACE_PREFIX",
+                                        "name": "${SERVICE_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "OPENSHIFT_SERVER",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "OPENSHIFT_SERVER",
+                                        "name": "${SERVICE_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "OPENSHIFT_TOKEN",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "OPENSHIFT_TOKEN",
+                                        "name": "${SERVICE_ENV_NAME}"
+                                    }
+                                }
+                            }
+                        ],
                         "image": " ",
                         "name": "${NAME_DELIVERY}",
                         "ports": [
@@ -718,6 +827,20 @@
          "value": "crw.icdc.io/demo-admin"
       },
       {
+         "description": "Cloud Env Name.",
+         "displayName": "Cloud Env Name",
+         "name": "CLOUD_ENV_NAME",
+         "required": true,
+         "value": "env-cloud"
+      },      
+      {
+         "description": "Service Env Name.",
+         "displayName": "Service Env Name",
+         "name": "SERVICE_ENV_NAME",
+         "required": true,
+         "value": "env-admin"
+      },
+      {
          "description": "Minimum amount of memory the container can use.",
          "displayName": "Memory Request",
          "name": "MEMORY_REQUEST_APIGW",
@@ -744,7 +867,7 @@
          "name": "MEMORY_LIMIT_DELIVERY",
          "required": true,
          "value": "512Mi"
-      },
+      },      
       {
          "description": "Maximum amount of memory the container can use.",
          "displayName": "Memory Limit",
