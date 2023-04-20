@@ -819,7 +819,7 @@
          "displayName": "Service Repository",
          "name": "SERVICE_REPOSITORY",
          "required": true,
-         "value": "crw-loc.icdc.io/web-server"
+         "value": "crw.icdc.io/web-server"
       },
       {
          "description": "Maximum amount of memory the container can use.",
@@ -861,7 +861,7 @@
          "displayName": "Database Repository",
          "name": "DATABASE_REPOSITORY",
          "required": true,
-         "value": "dcr.icdc.io/centos"
+         "value": "opr.icdc.io/centos"
       },
       {
          "description": "The name of the OpenShift Service exposed for the database.",
