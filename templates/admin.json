@@ -287,12 +287,7 @@
                             },
                             {
                                 "name": "NAMESPACE_PREFIX",
-                                "valueFrom": {
-                                    "configMapKeyRef": {
-                                        "key": "NAMESPACE_PREFIX",
-                                        "name": "${CLOUD_ENV_NAME}"
-                                    }
-                                }
+                                "value": "${NAMESPACE_PREFIX}"
                             },
                             {
                                 "name": "OPENSHIFT_SERVER",
@@ -747,6 +742,13 @@
          "name": "NAMESPACE",
          "required": true,
          "value": ""
+      },
+      {
+         "description": "The name assigned to all of the frontend objects defined in this template.",
+         "displayName": "Namespace",
+         "name": "NAMESPACE_PREFIX",
+         "required": true,
+         "value": "test"
       },
       {
          "description": "The OpenShift Namespace where the ImageStream resides.",
