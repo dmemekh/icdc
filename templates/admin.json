@@ -816,7 +816,7 @@
          "displayName": "Cloud Env Name",
          "name": "CLOUD_ENV_NAME",
          "required": true,
-         "value": "env-cloud"
+         "value": "env-loc"
       },      
       {
          "description": "Service Env Name.",
