@@ -825,7 +825,7 @@
          "displayName": "Service Env Name",
          "name": "SERVICE_ENV_NAME",
          "required": true,
-         "value": "env-admin"
+         "value": "env-loc-admin"
       },
       {
          "description": "Minimum amount of memory the container can use.",
