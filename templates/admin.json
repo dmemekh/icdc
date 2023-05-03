@@ -330,7 +330,7 @@
             "triggers": [
                {
                   "imageChangeParams": {
-                     "automatic": true,
+                     "automatic": false,
                      "containerNames": [
                         "${NAME_APIGW}"
                      ],
@@ -343,7 +343,7 @@
                },               
                {
                   "imageChangeParams": {
-                     "automatic": true,
+                     "automatic": false,
                      "containerNames": [
                         "${NAME_DELIVERY}"
                      ],
