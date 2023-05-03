@@ -256,7 +256,12 @@
                "spec": {
                   "containers": [
                      {
-                        "env": [],
+                        "env": [
+                           {
+                              "name": "SERVICE_NAME",
+                              "value": "${SERVICE_NAME}"
+                           }
+                        ],
                         "image": " ",
                         "name": "${NAME_APIGW}",
                         "ports": [
