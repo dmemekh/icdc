@@ -851,7 +851,7 @@
          "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
          "displayName": "Application Hostname",
          "name": "APPLICATION_DOMAIN",
-         "required": true,
+         "required": false,
          "value": "loc.icdc.io"
       },
       {
