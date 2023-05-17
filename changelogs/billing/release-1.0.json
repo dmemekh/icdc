@@ -1,0 +1,113 @@
+[
+  {
+    "version": "1.0.2",
+    "tag": "latest",
+    "date": "2022-08-12",
+    "required": {
+       "api-gateway": "1.0.1",
+       "compute": "1.1.1"
+    },
+    "applications": [
+      {
+        "name": "apigw",
+        "tag": "1.0.2",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "",
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "engine",
+        "tag": "1.0.2",
+        "description":
+        {
+          "warnings": "",
+          "features": "feature1; feature2",
+          "security_fixes": "security1; security2",
+          "bug_fixes": "bug1; bug2",
+          "depricated": "",
+          "known_issues": ""
+        }
+      }
+    ]
+  },
+  {
+    "version": "1.0.1",
+    "tag": "",
+    "date": "2022-08-12",
+    "required": {
+       "api-gateway": "1.0.1",
+       "compute": "1.1.1"
+    },
+    "applications": [
+      {
+        "name": "apigw",
+        "tag": "1.0.1",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "",
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "engine",
+        "tag": "1.0.1",
+        "description":
+        {
+          "warnings": "",
+          "features": "feature1; feature2",
+          "security_fixes": "security1; security2",
+          "bug_fixes": "bug1; bug2",
+          "depricated": "",
+          "known_issues": ""
+        }
+      }
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "tag": "",
+    "date": "2022-08-12",
+    "required": {
+       "api-gateway": "1.0.1",
+       "compute": "1.1.1"
+    },
+    "applications": [
+      {
+        "name": "apigw",
+        "tag": "1.0.0",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "",
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "engine",
+        "tag": "1.0.0",
+        "description":
+        {
+          "warnings": "",
+          "features": "feature1; feature2",
+          "security_fixes": "security1; security2",
+          "bug_fixes": "bug1; bug2",
+          "depricated": "",
+          "known_issues": ""
+        }
+      }
+    ]
+  }
+]
