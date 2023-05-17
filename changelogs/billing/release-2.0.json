@@ -38,7 +38,7 @@
   },
   {
     "version": "2.0.1",
-    "tag": "",
+    "tag": "latest",
     "date": "2022-08-12",
     "required": {
        "api-gateway": "1.0.1",
