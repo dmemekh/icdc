@@ -1,676 +1,938 @@
 {
-  "apiVersion": "template.openshift.io/v1",
-  "kind": "Template",
-  "labels": {
-    "service": "${SERVICE_NAME}"
-  },
-  "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/httpd-ex/blob/master/README.md.",
-  "metadata": {
-    "annotations": {
-      "description": "An example Apache HTTP Server (httpd) application that serves static content. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/httpd-ex/blob/master/README.md.",
-      "iconClass": "icon-apache",
-      "openshift.io/display-name": "Apache HTTP Server",
-      "openshift.io/documentation-url": "https://github.com/openshift/httpd-ex",
-      "openshift.io/long-description": "This template defines resources needed to develop a static application served by Apache HTTP Server (httpd), including a build configuration and application deployment configuration.",
-      "openshift.io/provider-display-name": "Red Hat, Inc.",
-      "openshift.io/support-url": "https://access.redhat.com",
-      "tags": "quickstart,httpd",
-      "template.openshift.io/bindable": "false"
-    },
-    "name": "cloud-template"
-  },
-  "objects": [
-    {
-      "apiVersion": "v1",
-      "kind": "ImageStream",
-      "metadata": {
-        "annotations": {
-          "description": "Keeps track of changes in the application image"
-        },
-        "name": "${SERVICE_NAME}",
-        "namespace": "${NAMESPACE}"
+   "apiVersion": "template.openshift.io/v1",
+   "kind": "Template",
+   "labels": {
+      "service": "${SERVICE_NAME}"
+   },
+   "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.",
+   "metadata": {
+      "annotations": {
+         "description": "An example Web Server (httpd and nginx) application that serves static content. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.",
+         "iconClass": "icon-apache",
+         "openshift.io/display-name": "Web Server",
+         "openshift.io/documentation-url": "https://github.com/sclorg/httpd-ex",
+         "openshift.io/long-description": "This template defines resources needed to develop a static application served by Web Server (httpd and nginx), including a build configuration and application deployment configuration.",
+         "openshift.io/provider-display-name": "Red Hat, Inc.",
+         "openshift.io/support-url": "https://access.redhat.com",
+         "samples.operator.openshift.io/version": "4.7.0-0.okd-2021-03-28-152009",
+         "tags": "quickstart,httpd,nginx",
+         "template.openshift.io/bindable": "false"
       },
-      "spec": {
-        "lookupPolicy": {
-          "local": false
-        },
-        "tags": [
-          {
-            "annotations": null,
-            "from": {
-                "kind": "ImageStreamTag",
-                "name": "${VERSION}"
-            },
-            "importPolicy": {},
-            "name": "latest",
-            "referencePolicy": {
-                "type": "Source"
-            }
-          },
-          {
-            "annotations": null,
-            "importPolicy": {},
-            "name": "${VERSION}",
-            "referencePolicy": {
-                "type": "Source"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "v1",
-      "kind": "ImageStream",
-      "metadata": {
-        "annotations": {
-          "description": "Keeps track of changes in the application image"
-        },
-        "labels": {
-          "app": "${APIGW_NAME}"
-        },
-        "name": "${SERVICE_NAME}-${APIGW_NAME}",
-        "namespace": "${NAMESPACE}"
+      "labels": {
+         "samples.operator.openshift.io/managed": "true"
       },
-      "spec": {
-        "lookupPolicy": {
-          "local": false
-        },
-        "tags": [
-          {
-            "annotations": null,
-            "from": {
-                "kind": "ImageStreamTag",
-                "name": "${TAG_APIGW}"
+      "name": "${SERVICE_NAME}"
+   },
+   "objects": [
+      {
+         "apiVersion": "image.openshift.io/v1",
+         "kind": "ImageStream",
+         "metadata": {
+            "annotations": {
+                "openshift.io/image.insecureRepository": "true"
+            },       
+            "name": "${SERVICE_NAME}",
+            "resourceVersion": null
+         },
+         "spec": {
+            "lookupPolicy": {
+               "local": false
             },
-            "importPolicy": {},
-            "name": "latest",
-            "referencePolicy": {
-                "type": "Local"
-            }
-          },
-          {
-            "annotations": null,
-            "from": {
-                "kind": "DockerImage",
-                "name": "${SERVICE_REPOSITORY}/${APIGW_NAME}:${TAG_APIGW}"
-            },
-            "importPolicy": {},
-            "name": "${TAG_APIGW}",
-            "referencePolicy": {
-                "type": "Local"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "v1",
-      "kind": "ImageStream",
-      "metadata": {
-        "annotations": {
-          "description": "Keeps track of changes in the application image"
-        },
-        "labels": {
-          "app": "${APP_DELIVERY_NAME}"
-        },
-        "name": "${SERVICE_NAME}-${APP_DELIVERY_NAME}",
-        "namespace": "${NAMESPACE}"
+            "tags": [
+               {
+                  "annotations": null,
+                  "from": {
+                     "kind": "ImageStreamTag",
+                     "name": "${VERSION}"
+                  },
+                  "importPolicy": {},
+                  "name": "latest",
+                  "referencePolicy": {
+                     "type": "Source"
+                  }
+               },
+               {
+                  "annotations": null,
+                  "importPolicy": {},
+                  "name": "${VERSION}",
+                  "referencePolicy": {
+                     "type": "Source"
+                  }
+               }
+            ]
+         }
       },
-      "spec": {
-        "lookupPolicy": {
-          "local": false
-        },
-        "tags": [
-          {
-            "annotations": null,
-            "from": {
-                "kind": "ImageStreamTag",
-                "name": "${TAG_DELIVERY}"
+      {
+         "apiVersion": "image.openshift.io/v1",
+         "kind": "ImageStream",
+         "metadata": {
+            "annotations": {
+                "openshift.io/image.insecureRepository": "true"
+            },          
+            "name": "${SERVICE_NAME}-${NAME_APIGW}",
+            "resourceVersion": null
+         },
+         "spec": {
+            "lookupPolicy": {
+               "local": false
             },
-            "importPolicy": {},
-            "name": "latest",
-            "referencePolicy": {
-                "type": "Local"
-            }
-          },
-          {
-            "annotations": null,
-            "from": {
-                "kind": "DockerImage",
-                "name": "${SERVICE_REPOSITORY}/${APP_DELIVERY_NAME}:${TAG_DELIVERY}"
-            },
-            "importPolicy": {},
-            "name": "${TAG_DELIVERY}",
-            "referencePolicy": {
-                "type": "Local"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "v1",
-      "kind": "ImageStream",
-      "metadata": {
-        "annotations": {
-          "description": "Keeps track of changes in the application image"
-        },
-        "labels": {
-          "app": "${APP_SETUP_NAME}"
-        },
-        "name": "${SERVICE_NAME}-${APP_SETUP_NAME}",
-        "namespace": "${NAMESPACE}"
+            "tags": [
+               {
+                  "annotations": null,
+                  "from": {
+                     "kind": "ImageStreamTag",
+                     "name": "${TAG_APIGW}"
+                  },
+                  "importPolicy": {},
+                  "name": "latest",
+                  "referencePolicy": {
+                     "type": "Local"
+                  }
+               },
+               {
+                  "annotations": null,
+                  "from": {
+                     "kind": "DockerImage",
+                     "name": "${SERVICE_REPOSITORY}/${NAME_APIGW}:${TAG_APIGW}"
+                  },
+                  "importPolicy": {},
+                  "name": "${TAG_APIGW}",
+                  "referencePolicy": {
+                     "type": "Local"
+                  }
+               }
+            ]
+         }
       },
-      "spec": {
-        "lookupPolicy": {
-          "local": false
-        },
-        "tags": [
-          {
-            "annotations": null,
-            "from": {
-                "kind": "ImageStreamTag",
-                "name": "${TAG_SETUP}"
+      {
+         "apiVersion": "image.openshift.io/v1",
+         "kind": "ImageStream",
+         "metadata": {
+            "annotations": {
+                "openshift.io/image.insecureRepository": "true"
+            },         
+            "name": "${SERVICE_NAME}-${NAME_DELIVERY}",
+            "resourceVersion": null
+         },
+         "spec": {
+            "lookupPolicy": {
+               "local": false
             },
-            "importPolicy": {},
-            "name": "latest",
-            "referencePolicy": {
-                "type": "Local"
-            }
-          },
-          {
-            "annotations": null,
-            "from": {
-                "kind": "DockerImage",
-                "name": "${SERVICE_REPOSITORY}/${APP_SETUP_NAME}:${TAG_SETUP}"
+            "tags": [
+               {
+                  "annotations": null,
+                  "from": {
+                     "kind": "ImageStreamTag",
+                     "name": "${TAG_DELIVERY}"
+                  },
+                  "importPolicy": {},
+                  "name": "latest",
+                  "referencePolicy": {
+                     "type": "Local"
+                  }
+               },
+               {
+                  "annotations": null,
+                  "from": {
+                     "kind": "DockerImage",
+                     "name": "${SERVICE_REPOSITORY}/${NAME_DELIVERY}:${TAG_DELIVERY}"
+                  },
+                  "importPolicy": {},
+                  "name": "${TAG_DELIVERY}",
+                  "referencePolicy": {
+                     "type": "Local"
+                  }
+               }
+            ]
+         }
+      },
+      {
+         "apiVersion": "v1",
+         "kind": "Service",
+         "metadata": {
+            "annotations": {
+               "description": "Exposes and load balances the application pods"
             },
-            "importPolicy": {},
-            "name": "${TAG_SETUP}",
-            "referencePolicy": {
-                "type": "Local"
+            "name": "${SERVICE_NAME}"
+         },
+         "spec": {
+            "ports": [
+               {
+                  "name": "${PORT_APIGW}-tcp",
+                  "port": "${{PORT_APIGW}}",
+                  "targetPort": "${{PORT_APIGW}}"
+               }
+            ],
+            "selector": {
+               "name": "${SERVICE_NAME}"
             }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "v1",
-      "kind": "Service",
-      "metadata": {
-        "annotations": {
-          "description": "Exposes and load balances the application pods"
-        },
-        "name": "${SERVICE_NAME}",
-        "namespace": "${NAMESPACE}"
+         }
       },
-      "spec": {
-        "ports": [
-          {
-            "name": "${APIGW_PORT}-tcp",
-            "port": "${{APIGW_PORT}}",
-            "targetPort": "${{APIGW_PORT}}"
-          }
-        ],
-        "selector": {
-          "name": "${SERVICE_NAME}"
-        }
-      }
-    },
-    {
-      "apiVersion": "v1",
-      "kind": "DeploymentConfig",
-      "metadata": {
-        "annotations": {
-          "description": "Defines how to deploy the application server",
-          "template.alpha.openshift.io/wait-for-ready": "true"
-        },
-        "labels": {
-          "app.kubernetes.io/part-of": "${SERVICE_GROUP}"
-        },
-        "name": "${SERVICE_NAME}",
-        "namespace": "${NAMESPACE}"
-      },
-      "spec": {
-        "replicas": 1,
-        "revisionHistoryLimit": 2,
-        "selector": {
-          "name": "${SERVICE_NAME}"
-        },
-        "strategy": {
-          "type": "Rolling"
-        },
-        "template": {
-          "metadata": {
+      {
+         "apiVersion": "v1",
+         "kind": "DeploymentConfig",
+         "metadata": {
+            "annotations": {
+               "description": "Defines how to deploy the application server",
+               "template.alpha.openshift.io/wait-for-ready": "true"
+            },
             "labels": {
-              "name": "${SERVICE_NAME}"
-            }
+               "app.kubernetes.io/part-of": "${SERVICE_GROUP}"
+            },
+            "name": "${SERVICE_NAME}"
+         },
+         "spec": {
+            "replicas": 1,
+            "revisionHistoryLimit": 1,
+            "selector": {
+               "name": "${SERVICE_NAME}"
+            },
+            "strategy": {
+               "type": "Rolling"
+            },
+            "template": {
+               "metadata": {
+                  "labels": {
+                     "name": "${SERVICE_NAME}"
+                  },
+                  "name": "${SERVICE_NAME}"
+               },
+               "spec": {
+                  "containers": [
+                     {
+                        "env": [],
+                        "image": " ",
+                        "name": "${NAME_APIGW}",
+                        "ports": [
+                           {
+                              "containerPort": "${{PORT_APIGW}}"
+                           }
+                        ],
+                        "resources": {
+                           "limits": {
+                              "memory": "${MEMORY_LIMIT_APIGW}"
+                           },
+                           "requests": {
+                              "memory": "${MEMORY_REQUEST_APIGW}"
+                           }
+                        }
+                     },                     
+                     {
+                        "env": [                            
+                           {
+                                "name": "LOCATION_ADMIN_GROUP",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "LOCATION_ADMIN_GROUP",
+                                        "name": "${CLOUD_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "LOCATION_DOMAIN",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "LOCATION_DOMAIN",
+                                        "name": "${CLOUD_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "SSO_URL",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "SSO_URL",
+                                        "name": "${CLOUD_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "SSO_REALM",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "SSO_REALM",
+                                        "name": "${CLOUD_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "SSO_CLIENT_ID",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "SSO_CLIENT_ID",
+                                        "name": "${CLOUD_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "GITHUB_ACCOUNT",
+                                "value": "${GITHUB_ACCOUNT}"
+                            },
+                            {
+                                "name": "GITHUB_REPO",
+                                "value": "${GITHUB_REPO}"
+                            },
+                            {
+                                "name": "GITHUB_REF",
+                                "value": "${GITHUB_REF}"
+                            },
+                            {
+                                "name": "DNS_SERVER",
+                                "valueFrom": {
+                                    "configMapKeyRef": {
+                                        "key": "DNS_SERVER",
+                                        "name": "${CLOUD_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "NAMESPACE_PREFIX",
+                                "value": "${NAMESPACE_PREFIX}"
+                            },
+                            {
+                                "name": "OPENSHIFT_SERVER",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "OPENSHIFT_SERVER",
+                                        "name": "${SERVICE_ENV_NAME}"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "OPENSHIFT_TOKEN",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "OPENSHIFT_TOKEN",
+                                        "name": "${SERVICE_ENV_NAME}"
+                                    }
+                                }
+                            }
+                        ],
+                        "image": " ",
+                        "name": "${NAME_DELIVERY}",
+                        "ports": [
+                           {
+                              "containerPort": "${{PORT_DELIVERY}}"
+                           }
+                        ],
+                        "resources": {
+                           "limits": {
+                              "memory": "${MEMORY_LIMIT_DELIVERY}"
+                           },
+                           "requests": {
+                              "memory": "${MEMORY_REQUEST_DELIVERY}"
+                           }
+                        }
+                     }
+                  ]
+               }
+            },
+            "triggers": [
+               {
+                  "imageChangeParams": {
+                     "automatic": false,
+                     "containerNames": [
+                        "${NAME_APIGW}"
+                     ],
+                     "from": {
+                        "kind": "ImageStreamTag",
+                        "name": "${SERVICE_NAME}-${NAME_APIGW}:latest"
+                     }
+                  },
+                  "type": "ImageChange"
+               },               
+               {
+                  "imageChangeParams": {
+                     "automatic": false,
+                     "containerNames": [
+                        "${NAME_DELIVERY}"
+                     ],
+                     "from": {
+                        "kind": "ImageStreamTag",
+                        "name": "${SERVICE_NAME}-${NAME_DELIVERY}:latest"
+                     }
+                  },
+                  "type": "ImageChange"
+               },
+               {
+                  "type": "ConfigChange"
+               }
+            ]
+         }
+      },
+      {
+          "apiVersion": "image.openshift.io/v1",
+          "kind": "ImageStream",
+          "metadata": {
+              "annotations": {
+                  "openshift.io/display-name": "PostgreSQL"
+              },
+              "name": "postgresql"
           },
           "spec": {
-            "containers": [
-              {
-                "env": [],
-                "image": " ",
-                "name": "${APIGW_NAME}",
-                "ports": [
-                  {
-                    "containerPort": "${{APIGW_PORT}}"
-                  }
-                ],
-                "resources": {
-                  "limits": {
-                    "cpu": "200m",
-                    "memory": "64Mi"
-                  },
-                  "requests": {
-                    "cpu": "100m",
-                    "memory": "32Mi"
-                  }
-                }
+              "lookupPolicy": {
+                  "local": false
               },
-              {
-                "env": [
+              "tags": [
                   {
-                    "name": "LOCATION_DOMAIN",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "LOCATION_DOMAIN"
+                      "annotations": {
+                          "description": "Provides a PostgreSQL 10 database on CentOS 7. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/master/README.md.",
+                          "iconClass": "icon-postgresql",
+                          "openshift.io/display-name": "PostgreSQL 10",
+                          "openshift.io/provider-display-name": "Red Hat, Inc.",
+                          "tags": "database,postgresql,hidden",
+                          "version": "10"
+                      },
+                      "from": {
+                          "kind": "DockerImage",
+                          "name": "${DATABASE_REPOSITORY}/postgresql-10-centos7:latest"
+                      },
+                      "importPolicy": {},
+                      "name": "10",
+                      "referencePolicy": {
+                          "type": "Local"
                       }
-                    }
                   },
                   {
-                    "name": "LOCATION_ADMIN_GROUP",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "LOCATION_ADMIN_GROUP"
+                      "annotations": {
+                          "description": "Provides a PostgreSQL 10 database on CentOS 7. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/master/README.md.",
+                          "iconClass": "icon-postgresql",
+                          "openshift.io/display-name": "PostgreSQL 10 (CentOS 7)",
+                          "openshift.io/provider-display-name": "Red Hat, Inc.",
+                          "tags": "database,postgresql",
+                          "version": "10"
+                      },
+                      "from": {
+                          "kind": "DockerImage",
+                          "name": "${DATABASE_REPOSITORY}/postgresql-10-centos7:latest"
+                      },
+                      "importPolicy": {},
+                      "name": "10-el7",
+                      "referencePolicy": {
+                          "type": "Local"
                       }
-                    }
                   },
                   {
-                    "name": "SSO_URL",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "SSO_URL"
+                      "annotations": {
+                          "description": "Provides a PostgreSQL 10 database on CentOS 8. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/master/README.md.",
+                          "iconClass": "icon-postgresql",
+                          "openshift.io/display-name": "PostgreSQL 10 (CentOS 8)",
+                          "openshift.io/provider-display-name": "Red Hat, Inc.",
+                          "tags": "database,postgresql",
+                          "version": "10"
+                      },
+                      "from": {
+                          "kind": "DockerImage",
+                          "name": "${DATABASE_REPOSITORY}/postgresql-10-centos8:latest"
+                      },
+                      "importPolicy": {},
+                      "name": "10-el8",
+                      "referencePolicy": {
+                          "type": "Local"
                       }
-                    }
                   },
                   {
-                    "name": "SSO_REALM",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "SSO_REALM"
+                      "annotations": {
+                          "description": "Provides a PostgreSQL 12 database on CentOS 7. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/master/README.md.",
+                          "iconClass": "icon-postgresql",
+                          "openshift.io/display-name": "PostgreSQL 12",
+                          "openshift.io/provider-display-name": "Red Hat, Inc.",
+                          "tags": "database,postgresql,hidden",
+                          "version": "12"
+                      },
+                      "from": {
+                          "kind": "DockerImage",
+                          "name": "${DATABASE_REPOSITORY}/postgresql-12-centos7:latest"
+                      },
+                      "importPolicy": {},
+                      "name": "12",
+                      "referencePolicy": {
+                          "type": "Local"
                       }
-                    }
                   },
                   {
-                    "name": "SSO_CLIENT_ID",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "SSO_CLIENT_ID"
+                      "annotations": {
+                          "description": "Provides a PostgreSQL 12 database on CentOS 7. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/master/README.md.",
+                          "iconClass": "icon-postgresql",
+                          "openshift.io/display-name": "PostgreSQL 12 (CentOS 7)",
+                          "openshift.io/provider-display-name": "Red Hat, Inc.",
+                          "tags": "database,postgresql",
+                          "version": "12"
+                      },
+                      "from": {
+                          "kind": "DockerImage",
+                          "name": "${DATABASE_REPOSITORY}/postgresql-12-centos7:latest"
+                      },
+                      "importPolicy": {},
+                      "name": "12-el7",
+                      "referencePolicy": {
+                          "type": "Local"
                       }
-                    }
                   },
                   {
-                    "name": "DNS_SERVER",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "DNS_SERVER"
+                      "annotations": {
+                          "description": "Provides a PostgreSQL 12 database on CentOS 8. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/master/README.md.",
+                          "iconClass": "icon-postgresql",
+                          "openshift.io/display-name": "PostgreSQL 12 (CentOS 8)",
+                          "openshift.io/provider-display-name": "Red Hat, Inc.",
+                          "tags": "database,postgresql",
+                          "version": "12"
+                      },
+                      "from": {
+                          "kind": "DockerImage",
+                          "name": "${DATABASE_REPOSITORY}/postgresql-12-centos8:latest"
+                      },
+                      "importPolicy": {},
+                      "name": "12-el8",
+                      "referencePolicy": {
+                          "type": "Local"
                       }
-                    }
                   },
                   {
-                    "name": "OPENSHIFT_SERVER",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "${ENV_SEC_NAME}",
-                        "key": "OPENSHIFT_SERVER"
+                      "annotations": {
+                          "description": "Provides a PostgreSQL 9.6 database on CentOS 8. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/master/README.md.",
+                          "iconClass": "icon-postgresql",
+                          "openshift.io/display-name": "PostgreSQL 9.6 (CentOS 8)",
+                          "openshift.io/provider-display-name": "Red Hat, Inc.",
+                          "tags": "database,postgresql",
+                          "version": "9.6"
+                      },
+                      "from": {
+                          "kind": "DockerImage",
+                          "name": "${DATABASE_REPOSITORY}/postgresql-96-centos8:latest"
+                      },
+                      "importPolicy": {},
+                      "name": "9.6-el8",
+                      "referencePolicy": {
+                          "type": "Local"
                       }
-                    }
                   },
                   {
-                    "name": "OPENSHIFT_TOKEN",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "${ENV_SEC_NAME}",
-                        "key": "OPENSHIFT_TOKEN"
+                      "annotations": {
+                          "description": "Provides a PostgreSQL database on CentOS. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/master/README.md.\n\nWARNING: By selecting this tag, your application will automatically update to use the latest version of PostgreSQL available on OpenShift, including major version updates.",
+                          "iconClass": "icon-postgresql",
+                          "openshift.io/display-name": "PostgreSQL (Latest)",
+                          "openshift.io/provider-display-name": "Red Hat, Inc.",
+                          "tags": "database,postgresql"
+                      },
+                      "from": {
+                          "kind": "ImageStreamTag",
+                          "name": "12-el8"
+                      },
+                      "importPolicy": {},
+                      "name": "latest",
+                      "referencePolicy": {
+                          "type": "Local"
                       }
-                    }
-                  },
-                  {
-                    "name": "GITHUB_ACCOUNT",
-                    "value": "${GITHUB_ACCOUNT}"
-                  },
-                  {
-                    "name": "GITHUB_REPO",
-                    "value": "${GITHUB_REPO}"
-                  },
-                  {
-                    "name": "GITHUB_REF",
-                    "value": "${GITHUB_REF}"
-                  },
-                  {
-                    "name": "GITHUB_USER_NAME",
-                    "value": "${GITHUB_USER_NAME}"
-                  },
-                  {
-                    "name": "GITHUB_USER_TOKEN",
-                    "value": "${GITHUB_USER_TOKEN}"
-                  },
-                  {
-                    "name": "NAMESPACE_PREFIX",
-                    "value": "${NAMESPACE_PREFIX}"
                   }
-                ],
-                "image": " ",
-                "name": "${APP_DELIVERY_NAME}",
-                "ports": [
-                  {
-                    "containerPort": "${{APP_DELIVERY_PORT}}"
-                  }
-                ],
-                "resources": {
-                  "limits": {
-                    "cpu": "200m",
-                    "memory": "512Mi"
-                  },
-                  "requests": {
-                    "cpu": "100m",
-                    "memory": "256Mi"
-                  }
-                }
-              },
-              {
-                "env": [
-                  {
-                    "name": "LOCATION_NAME",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "LOCATION_NAME"
-                      }
-                    }
-                  },
-                  {
-                    "name": "LOCATION_ADMIN_GROUP",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "LOCATION_ADMIN_GROUP"
-                      }
-                    }
-                  },
-                  {
-                    "name": "SSO_URL",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "SSO_URL"
-                      }
-                    }
-                  },
-                  {
-                    "name": "SSO_REALM",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "SSO_REALM"
-                      }
-                    }
-                  },
-                  {
-                    "name": "ANSIBLE_LOCAL_TEMP",
-                    "value": "/tmp/ansible"
-                  },
-                  {
-                    "name": "ANSIBLE_SSH_CONTROL_PATH_DIR",
-                    "value": "/tmp/ansible/cp"
-                  },
-                  {
-                    "name": "ANSIBLE_HOST_KEY_CHECKING",
-                    "value": "False"
-                  },
-                  {
-                    "name": "GUNICORN_CMD_ARGS",
-                    "value": "${GUNICORN_CMD_ARGS}"
-                  }
-                ],
-                "image": " ",
-                "name": "${APP_SETUP_NAME}",
-                "ports": [
-                  {
-                    "containerPort": "${{APP_SETUP_PORT}}"
-                  }
-                ],
-                "resources": {
-                  "limits": {
-                    "cpu": "200m",
-                    "memory": "512Mi"
-                  },
-                  "requests": {
-                    "cpu": "100m",
-                    "memory": "256Mi"
-                  }
-                },
-                "volumeMounts": [
-                  {
-                    "name": "setup-conf",
-                    "mountPath": "/opt/app/src/config.yaml",
-                    "subPath": "config.yaml"
-                  },
-                  {
-                    "name": "setup-ssh",
-                    "mountPath": "/.ssh"
-                  }
-                ]
-              }
-            ],
-            "volumes": [
-              {
-                "name": "setup-conf",
-                "configMap": {
-                  "name": "setup-conf"
-                }
-              },
-              {
-                "name": "setup-ssh",
-                "secret": {
-                  "secretName": "setup-ssh"
-                }
-              }
-            ]
+              ]
           }
-        },
-        "triggers": [
-          {
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "${APIGW_NAME}"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "${SERVICE_NAME}-${APIGW_NAME}:latest"
-              }
+      },
+      {
+         "apiVersion": "v1",
+         "kind": "Secret",
+         "metadata": {
+             "annotations": {
+                 "template.openshift.io/expose-database_name": "{.data['database-name']}",
+                 "template.openshift.io/expose-password": "{.data['database-password']}",
+                 "template.openshift.io/expose-username": "{.data['database-user']}"
+             },
+             "name": "${DATABASE_SERVICE_NAME}"
+         },
+         "stringData": {
+             "database-name": "${POSTGRESQL_DATABASE}",
+             "database-password": "${POSTGRESQL_PASSWORD}",
+             "database-user": "${POSTGRESQL_USER}"
+         }
+      },
+      {
+         "apiVersion": "v1",
+         "kind": "Service",
+         "metadata": {
+             "annotations": {
+                 "template.openshift.io/expose-uri": "postgres://{.spec.clusterIP}:{.spec.ports[?(.name==\"postgresql\")].port}"
+             },
+             "name": "${DATABASE_SERVICE_NAME}"
+         },
+         "spec": {
+             "ports": [
+                 {
+                     "name": "postgresql",
+                     "nodePort": 0,
+                     "port": 5432,
+                     "protocol": "TCP",
+                     "targetPort": 5432
+                 }
+             ],
+             "selector": {
+                 "name": "${DATABASE_SERVICE_NAME}"
+             },
+             "sessionAffinity": "None",
+             "type": "ClusterIP"
+         }
+      },
+      {
+         "apiVersion": "v1",
+         "kind": "PersistentVolumeClaim",
+         "metadata": {
+             "name": "${DATABASE_SERVICE_NAME}"
+         },
+         "spec": {
+             "accessModes": [
+                 "ReadWriteOnce"
+             ],
+             "resources": {
+                 "requests": {
+                     "storage": "${DATABASE_VOLUME_CAPACITY}"
+                 }
+             }
+         }
+      },
+      {
+         "apiVersion": "v1",
+         "kind": "DeploymentConfig",
+         "metadata": {
+            "annotations": {
+              "template.alpha.openshift.io/wait-for-ready": "true"
             },
-            "type": "ImageChange"
-          },
-          {
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "${APP_DELIVERY_NAME}"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "${SERVICE_NAME}-${APP_DELIVERY_NAME}:latest"
-              }
+            "labels": {
+               "app.kubernetes.io/part-of": "${SERVICE_GROUP}"
             },
-            "type": "ImageChange"
-          },
-          {
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "${APP_SETUP_NAME}"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "${SERVICE_NAME}-${APP_SETUP_NAME}:latest"
-              }
-            },
-            "type": "ImageChange"
-          },
-          {
-            "type": "ConfigChange"
-          }
-        ]
+            "name": "${DATABASE_SERVICE_NAME}"
+         },
+         "spec": {
+             "replicas": 1,
+             "revisionHistoryLimit": 0,
+             "selector": {
+                 "name": "${DATABASE_SERVICE_NAME}"
+             },
+             "strategy": {
+                 "type": "Recreate"
+             },
+             "template": {
+                 "metadata": {
+                     "labels": {
+                         "name": "${DATABASE_SERVICE_NAME}"
+                     }
+                 },
+                 "spec": {
+                     "containers": [
+                         {
+                             "capabilities": {},
+                             "env": [
+                                 {
+                                     "name": "POSTGRESQL_USER",
+                                     "valueFrom": {
+                                         "secretKeyRef": {
+                                             "key": "database-user",
+                                             "name": "${DATABASE_SERVICE_NAME}"
+                                         }
+                                     }
+                                 },
+                                 {
+                                     "name": "POSTGRESQL_PASSWORD",
+                                     "valueFrom": {
+                                         "secretKeyRef": {
+                                             "key": "database-password",
+                                             "name": "${DATABASE_SERVICE_NAME}"
+                                         }
+                                     }
+                                 },
+                                 {
+                                     "name": "POSTGRESQL_DATABASE",
+                                     "valueFrom": {
+                                         "secretKeyRef": {
+                                             "key": "database-name",
+                                             "name": "${DATABASE_SERVICE_NAME}"
+                                         }
+                                     }
+                                 }
+                             ],
+                             "image": " ",
+                             "imagePullPolicy": "IfNotPresent",
+                             "livenessProbe": {
+                                 "exec": {
+                                     "command": [
+                                         "/usr/libexec/check-container",
+                                         "--live"
+                                     ]
+                                 },
+                                 "initialDelaySeconds": 120,
+                                 "timeoutSeconds": 10
+                             },
+                             "name": "postgresql",
+                             "ports": [
+                                 {
+                                     "containerPort": 5432,
+                                     "protocol": "TCP"
+                                 }
+                             ],
+                             "readinessProbe": {
+                                 "exec": {
+                                     "command": [
+                                         "/usr/libexec/check-container"
+                                     ]
+                                 },
+                                 "initialDelaySeconds": 5,
+                                 "timeoutSeconds": 1
+                             },
+                             "resources": {
+                                 "limits": {
+                                     "memory": "${DATABASE_MEMORY_LIMIT}"
+                                 }
+                             },
+                             "securityContext": {
+                                 "capabilities": {},
+                                 "privileged": false
+                             },
+                             "terminationMessagePath": "/dev/termination-log",
+                             "volumeMounts": [
+                                 {
+                                     "mountPath": "/var/lib/pgsql/data",
+                                     "name": "${DATABASE_SERVICE_NAME}-data"
+                                 }
+                             ]
+                         }
+                     ],
+                     "dnsPolicy": "ClusterFirst",
+                     "restartPolicy": "Always",
+                     "volumes": [
+                         {
+                             "name": "${DATABASE_SERVICE_NAME}-data",
+                             "persistentVolumeClaim": {
+                                 "claimName": "${DATABASE_SERVICE_NAME}"
+                             }
+                         }                     ]
+                 }
+             },
+             "triggers": [
+                 {
+                     "imageChangeParams": {
+                         "automatic": true,
+                         "containerNames": [
+                             "postgresql"
+                         ],
+                         "from": {
+                             "kind": "ImageStreamTag",
+                             "name": "postgresql:${POSTGRESQL_VERSION}",
+                             "namespace": "${NAMESPACE}"
+                         },
+                         "lastTriggeredImage": ""
+                     },
+                     "type": "ImageChange"
+                 },
+                 {
+                     "type": "ConfigChange"
+                 }
+             ]
+         }
       }
-    }
-  ],
-  "parameters": [
-    {
-      "description": "The OpenShift Namespace where the ImageStream resides.",
-      "displayName": "Namespace",
-      "name": "NAMESPACE",
-      "required": true,
-      "value": "cloud-admin"
-    },
-    {
-      "description": "Service Group",
-      "displayName": "Service Group",
-      "name": "SERVICE_GROUP",
-      "required": true,
-      "value": "api"
-    },
-    {
-      "description": "The name assigned to all of the frontend objects defined in this template.",
-      "displayName": "Service Name",
-      "name": "SERVICE_NAME",
-      "required": true,
-      "value": "admin"
-    },
-    {
-       "description": "The version assigned to all of the frontend objects defined in this template.",
-       "displayName": "Version",
-       "name": "VERSION",
-       "required": true,
-       "value": ""
-    },
-    {
-       "description": "The version assigned to all of the frontend objects defined in this template.",
-       "displayName": "Tag",
-       "name": "TAG_APIGW",
-       "required": true,
-       "value": ""
-    },
-    {
-       "description": "The version assigned to all of the frontend objects defined in this template.",
-       "displayName": "Tag",
-       "name": "TAG_DELIVERY",
-       "required": true,
-       "value": ""
-    },
-    {
-       "description": "The version assigned to all of the frontend objects defined in this template.",
-       "displayName": "Tag",
-       "name": "TAG_SETUP",
-       "required": true,
-       "value": ""
-    },    
-    {
-       "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
-       "displayName": "Service Repository",
-       "name": "SERVICE_REPOSITORY",
-       "required": true,
-       "value": "crw.icdc.io/demo-admin"
-    },
-    {
-      "name": "ENV_LOC_NAME",
-      "required": true,
-      "value": "env-loc"
-    },
-    {
-      "name": "ENV_SEC_NAME",
-      "required": true,
-      "value": "env-loc-admin"
-    },
-    {
-      "description": "The name assigned to all of the frontend objects defined in this template.",
-      "displayName": "Application Name",
-      "name": "APIGW_NAME",
-      "required": true,
-      "value": "apigw"
-    },
-    {
-      "description": "The name assigned to all of the frontend objects defined in this template.",
-      "displayName": "Application Name",
-      "name": "APP_DELIVERY_NAME",
-      "required": true,
-      "value": "delivery"
-    },
-    {
-      "description": "The name assigned to all of the frontend objects defined in this template.",
-      "displayName": "Application Name",
-      "name": "APP_SETUP_NAME",
-      "required": true,
-      "value": "setup"
-    },
-    {
-      "description": "The name assigned to all of the frontend objects defined in this template.",
-      "displayName": "Application Port",
-      "name": "APIGW_PORT",
-      "required": true,
-      "value": "8080"
-    },
-    {
-      "description": "The name assigned to all of the frontend objects defined in this template.",
-      "displayName": "Application Port",
-      "name": "APP_DELIVERY_PORT",
-      "required": true,
-      "value": "3000"
-    },
-    {
-      "description": "The name assigned to all of the frontend objects defined in this template.",
-      "displayName": "Application Port",
-      "name": "APP_SETUP_PORT",
-      "required": true,
-      "value": "8081"
-    },
-    {
-      "name": "GITHUB_ACCOUNT",
-      "required": true
-    },
-    {
-      "name": "GITHUB_REPO",
-      "required": true
-    },
-    {
-      "name": "GITHUB_REF",
-      "required": true
-    },
-    {
-      "name": "GITHUB_USER_NAME",
-      "required": true
-    },
-    {
-      "name": "GITHUB_USER_TOKEN",
-      "required": true
-    },
-    {
-      "name": "NAMESPACE_PREFIX",
-      "required": true
-    },
-    {
-      "description": "GUNICORN_CMD_ARGS",
-      "displayName": "GUNICORN_CMD_ARGS",
-      "name": "GUNICORN_CMD_ARGS",
-      "required": true,
-      "value": "--bind=0.0.0.0:8081 --timeout=70 --graceful-timeout 60"
-    }
-  ]
+   ],
+   "parameters": [
+      {
+         "description": "The version assigned to all of the frontend objects defined in this template.",
+         "displayName": "Version",
+         "name": "VERSION",
+         "required": true,
+         "value": ""
+      },
+      {
+         "description": "The name assigned to all of the frontend objects defined in this template.",
+         "displayName": "Namespace",
+         "name": "NAMESPACE",
+         "required": true,
+         "value": ""
+      },
+      {
+         "description": "The name assigned to all of the frontend objects defined in this template.",
+         "displayName": "Namespace",
+         "name": "NAMESPACE_PREFIX",
+         "required": true,
+         "value": "test"
+      },
+      {
+         "description": "The OpenShift Namespace where the ImageStream resides.",
+         "displayName": "Service Group",
+         "name": "SERVICE_GROUP",
+         "required": true,
+         "value": "admin"
+      },
+      {
+         "description": "The OpenShift Namespace where the ImageStream resides.",
+         "displayName": "Service Name",
+         "name": "SERVICE_NAME",
+         "required": true,
+         "value": "admin"
+      },
+      {
+         "description": "The OpenShift Namespace where the ImageStream resides.",
+         "displayName": "Name",
+         "name": "NAME_APIGW",
+         "required": true,
+         "value": "apigw"
+      },
+      {
+         "description": "The version assigned to all of the frontend objects defined in this template.",
+         "displayName": "Tag",
+         "name": "TAG_APIGW",
+         "required": true,
+         "value": ""
+      },
+      {
+         "description": "The version assigned to all of the frontend objects defined in this template.",
+         "displayName": "Port",
+         "name": "PORT_APIGW",
+         "required": true,
+         "value": "8080"
+      },
+      {
+         "description": "The OpenShift Namespace where the ImageStream resides.",
+         "displayName": "Name",
+         "name": "NAME_DELIVERY",
+         "required": true,
+         "value": "delivery"
+      },
+      {
+         "description": "The version assigned to all of the frontend objects defined in this template.",
+         "displayName": "Tag",
+         "name": "TAG_DELIVERY",
+         "required": true,
+         "value": ""
+      },
+      {
+         "description": "The version assigned to all of the frontend objects defined in this template.",
+         "displayName": "Port",
+         "name": "PORT_DELIVERY",
+         "required": true,
+         "value": "3000"
+      },
+      {
+         "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+         "displayName": "Service Repository",
+         "name": "SERVICE_REPOSITORY",
+         "required": true,
+         "value": "crw.icdc.io/demo-admin"
+      },
+      {
+         "description": "Cloud Env Name.",
+         "displayName": "Cloud Env Name",
+         "name": "CLOUD_ENV_NAME",
+         "required": true,
+         "value": "env-loc"
+      },      
+      {
+         "description": "Service Env Name.",
+         "displayName": "Service Env Name",
+         "name": "SERVICE_ENV_NAME",
+         "required": true,
+         "value": "env-loc-admin"
+      },
+      {
+         "description": "Minimum amount of memory the container can use.",
+         "displayName": "Memory Request",
+         "name": "MEMORY_REQUEST_APIGW",
+         "required": true,
+         "value": "32Mi"
+      },
+      {
+         "description": "Maximum amount of memory the container can use.",
+         "displayName": "Memory Limit",
+         "name": "MEMORY_LIMIT_APIGW",
+         "required": true,
+         "value": "64Mi"
+      },
+      {
+         "description": "Minimum amount of memory the container can use.",
+         "displayName": "Memory Request",
+         "name": "MEMORY_REQUEST_DELIVERY",
+         "required": true,
+         "value": "256Mi"
+      },      
+      {
+         "description": "Maximum amount of memory the container can use.",
+         "displayName": "Memory Limit",
+         "name": "MEMORY_LIMIT_DELIVERY",
+         "required": true,
+         "value": "512Mi"
+      },      
+      {
+         "description": "Maximum amount of memory the container can use.",
+         "displayName": "Memory Limit",
+         "name": "DATABASE_MEMORY_LIMIT",
+         "required": true,
+         "value": "512Mi"
+      },
+      {
+         "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+         "displayName": "Database Repository",
+         "name": "DATABASE_REPOSITORY",
+         "required": true,
+         "value": "opr.icdc.io/centos"
+      },
+      {
+         "description": "The name of the OpenShift Service exposed for the database.",
+         "displayName": "Database Service Name",
+         "name": "DATABASE_SERVICE_NAME",
+         "required": true,
+         "value": "postgresql"
+      },
+      {
+         "description": "Username for PostgreSQL user that will be used for accessing the database.",
+         "displayName": "PostgreSQL Connection Username",
+         "from": "user[A-Z0-9]{3}",
+         "generate": "expression",
+         "name": "POSTGRESQL_USER",
+         "required": true
+      },
+      {
+         "description": "Password for the PostgreSQL connection user.",
+         "displayName": "PostgreSQL Connection Password",
+         "from": "[a-zA-Z0-9]{16}",
+         "generate": "expression",
+         "name": "POSTGRESQL_PASSWORD",
+         "required": true
+      },
+      {
+         "description": "Name of the PostgreSQL database accessed.",
+         "displayName": "PostgreSQL Database Name",
+         "name": "POSTGRESQL_DATABASE",
+         "required": true,
+         "value": "sampledb"
+      },
+      {
+         "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
+         "displayName": "Volume Capacity",
+         "name": "DATABASE_VOLUME_CAPACITY",
+         "required": true,
+         "value": "1Gi"
+      },
+      {
+         "description": "Version of PostgreSQL image to be used (10-el7, 10-el8, or latest).",
+         "displayName": "Version of PostgreSQL Image",
+         "name": "POSTGRESQL_VERSION",
+         "required": true,
+         "value": "10-el8"
+      },
+      {
+         "description": "GitHub Account.",
+         "displayName": "GitHub Account",
+         "name": "GITHUB_ACCOUNT",
+         "required": true,
+         "value": "dmemekh"
+      },
+      {
+         "description": "GitHub Repository.",
+         "displayName": "GitHub Repository",
+         "name": "GITHUB_REPO",
+         "required": true,
+         "value": "icdc"
+      },
+      {
+         "description": "GitHub Ref.",
+         "displayName": "GitHub Ref",
+         "name": "GITHUB_REF",
+         "required": true,
+         "value": "master2"
+      }
+   ]
 }
