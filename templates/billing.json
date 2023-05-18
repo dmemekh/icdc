@@ -1162,7 +1162,7 @@
        "displayName": "Service Repository",
        "name": "SERVICE_REPOSITORY",
        "required": true,
-       "value": "crw.icdc.io/cloud-billing"
+       "value": "crw.icdc.io/demo-billing"
     },
     {
       "name": "ENV_LOC_NAME",
