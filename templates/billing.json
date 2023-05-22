@@ -278,7 +278,8 @@
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
-          "app.kubernetes.io/part-of": "${SERVICE_GROUP}"
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app.openshift.io/runtime": "rails"
         },
         "name": "${SERVICE_NAME}-${APP_BILLING_NAME}",
         "namespace": "${NAMESPACE}"
@@ -1192,7 +1193,7 @@
       "displayName": "Service Group",
       "name": "SERVICE_GROUP",
       "required": true,
-      "value": "api"
+      "value": "billing"
     },
     {
       "description": "The name assigned to all of the frontend objects defined in this template.",
