@@ -558,7 +558,7 @@
           },
           {
             "imageChangeParams": {
-              "automatic": false,
+              "automatic": true,
               "containerNames": [
                 "${APP_BILLING_SIDEKIQ_NAME}"
               ],
