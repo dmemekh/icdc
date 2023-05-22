@@ -155,7 +155,7 @@
         "annotations": {
           "description": "Exposes and load balances the application pods"
         },
-        "name": "${SERVICE_NAME}",
+        "name": "${SERVICE_NAME}-${APIGW_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
@@ -167,7 +167,7 @@
           }
         ],
         "selector": {
-          "name": "${SERVICE_NAME}"
+          "name": "${SERVICE_NAME}-${APIGW_NAME}"
         }
       }
     },
@@ -205,14 +205,14 @@
         "labels": {
           "app.kubernetes.io/part-of": "${SERVICE_GROUP}"
         },
-        "name": "${SERVICE_NAME}",
+        "name": "${SERVICE_NAME}-${APIGW_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
         "replicas": 1,
         "revisionHistoryLimit": 2,
         "selector": {
-          "name": "${SERVICE_NAME}"
+          "name": "${SERVICE_NAME}-${APIGW_NAME}"
         },
         "strategy": {
           "type": "Rolling",
@@ -221,7 +221,7 @@
         "template": {
           "metadata": {
             "labels": {
-              "name": "${SERVICE_NAME}"
+              "name": "${SERVICE_NAME}-${APIGW_NAME}"
             }
           },
           "spec": {
