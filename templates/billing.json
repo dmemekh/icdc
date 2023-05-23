@@ -155,7 +155,10 @@
         "annotations": {
           "description": "Exposes and load balances the application pods"
         },
-        "name": "${SERVICE_NAME}-${APIGW_NAME}",
+        "labels": {
+          "app": "${APIGW_NAME}"
+        },
+        "name": "${APIGW_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
@@ -167,7 +170,7 @@
           }
         ],
         "selector": {
-          "name": "${SERVICE_NAME}-${APIGW_NAME}"
+          "name": "${APIGW_NAME}"
         }
       }
     },
@@ -178,7 +181,10 @@
         "annotations": {
           "description": "Exposes and load balances the application pods"
         },
-        "name": "${SERVICE_NAME}-${APP_BILLING_NAME}",
+        "labels": {
+          "app": "${APP_BILLING_NAME}"
+        },
+        "name": "${APP_BILLING_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
@@ -190,7 +196,7 @@
           }
         ],
         "selector": {
-          "name": "${SERVICE_NAME}-${APP_BILLING_NAME}"
+          "name": "${APP_BILLING_NAME}"
         }
       }
     },
@@ -203,16 +209,17 @@
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
+          "app": "${APIGW_NAME}",
           "app.kubernetes.io/part-of": "${SERVICE_GROUP}"
         },
-        "name": "${SERVICE_NAME}-${APIGW_NAME}",
+        "name": "${APIGW_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
         "replicas": 1,
         "revisionHistoryLimit": 2,
         "selector": {
-          "name": "${SERVICE_NAME}-${APIGW_NAME}"
+          "name": "${APIGW_NAME}"
         },
         "strategy": {
           "type": "Rolling",
@@ -221,7 +228,7 @@
         "template": {
           "metadata": {
             "labels": {
-              "name": "${SERVICE_NAME}-${APIGW_NAME}"
+              "name": "${APIGW_NAME}"
             }
           },
           "spec": {
@@ -278,17 +285,18 @@
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
+          "app": "${APP_BILLING_NAME}",
           "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
           "app.openshift.io/runtime": "rails"
         },
-        "name": "${SERVICE_NAME}-${APP_BILLING_NAME}",
+        "name": "${APP_BILLING_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
         "replicas": 1,
         "revisionHistoryLimit": 2,
         "selector": {
-          "name": "${SERVICE_NAME}-${APP_BILLING_NAME}"
+          "name": "${APP_BILLING_NAME}"
         },
         "strategy": {
           "type": "Rolling",
@@ -333,7 +341,7 @@
         "template": {
           "metadata": {
             "labels": {
-              "name": "${SERVICE_NAME}-${APP_BILLING_NAME}"
+              "name": "${APP_BILLING_NAME}"
             }
           },
           "spec": {
