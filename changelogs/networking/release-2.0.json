@@ -99,7 +99,7 @@
       },
       {
         "name": "traefik",
-        "tag": "1.2.2",
+        "tag": "1.2.1",
         "description":
         {
           "warnings": "",
@@ -112,7 +112,7 @@
       },
       {
         "name": "wireguard",
-        "tag": "1.2.2",
+        "tag": "1.2.1",
         "description":
         {
           "warnings": "",
