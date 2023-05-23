@@ -200,7 +200,10 @@
         "annotations": {
           "description": "Exposes and load balances the application pods"
         },
-        "name": "${SERVICE_NAME}-${APIGW_NAME}",
+        "labels": {
+          "app": "${APIGW_NAME}"
+        },
+        "name": "${APIGW_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
@@ -212,7 +215,7 @@
           }
         ],
         "selector": {
-          "name": "${SERVICE_NAME}-${APIGW_NAME}"
+          "name": "${APIGW_NAME}"
         }
       }
     },
@@ -223,7 +226,10 @@
         "annotations": {
           "description": "Exposes and load balances the application pods"
         },
-        "name": "${SERVICE_NAME}-${APP_DELIVERY_NAME}",
+        "labels": {
+          "app": "${APP_DELIVERY_NAME}"
+        },
+        "name": "${APP_DELIVERY_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
@@ -235,7 +241,7 @@
           }
         ],
         "selector": {
-          "name": "${SERVICE_NAME}-${APP_DELIVERY_NAME}"
+          "name": "${APP_DELIVERY_NAME}"
         }
       }
     },
@@ -246,7 +252,10 @@
         "annotations": {
           "description": "Exposes and load balances the application pods"
         },
-        "name": "${SERVICE_NAME}-${APP_SETUP_NAME}",
+        "labels": {
+          "app": "${APP_SETUP_NAME}"
+        },
+        "name": "${APP_SETUP_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
@@ -258,7 +267,7 @@
           }
         ],
         "selector": {
-          "name": "${SERVICE_NAME}-${APP_SETUP_NAME}"
+          "name": "${APP_SETUP_NAME}"
         }
       }
     },
@@ -271,16 +280,17 @@
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
+          "app": "${APIGW_NAME}",
           "app.kubernetes.io/part-of": "${SERVICE_GROUP}"
         },
-        "name": "${SERVICE_NAME}-${APIGW_NAME}",
+        "name": "${APIGW_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
         "replicas": 1,
         "revisionHistoryLimit": 2,
         "selector": {
-          "name": "${SERVICE_NAME}-${APIGW_NAME}"
+          "name": "${APIGW_NAME}"
         },
         "strategy": {
           "type": "Rolling"
@@ -288,7 +298,7 @@
         "template": {
           "metadata": {
             "labels": {
-              "name": "${SERVICE_NAME}-${APIGW_NAME}"
+              "name": "${APIGW_NAME}"
             }
           },
           "spec": {
@@ -345,17 +355,18 @@
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
+          "app": "${APP_DELIVERY_NAME}",
           "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
           "app.openshift.io/runtime": "rails"
         },
-        "name": "${SERVICE_NAME}-${APP_DELIVERY_NAME}",
+        "name": "${APP_DELIVERY_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
         "replicas": 1,
         "revisionHistoryLimit": 2,
         "selector": {
-          "name": "${SERVICE_NAME}-${APP_DELIVERY_NAME}"
+          "name": "${APP_DELIVERY_NAME}"
         },
         "strategy": {
           "type": "Rolling"
@@ -363,7 +374,7 @@
         "template": {
           "metadata": {
             "labels": {
-              "name": "${SERVICE_NAME}-${APP_DELIVERY_NAME}"
+              "name": "${APP_DELIVERY_NAME}"
             }
           },
           "spec": {
@@ -428,7 +439,7 @@
                     "name": "OPENSHIFT_SERVER",
                     "valueFrom": {
                       "secretKeyRef": {
-                        "name": "${ENV_SEC_NAME}",
+                        "name": "${APP_DELIVERY_NAME}",
                         "key": "OPENSHIFT_SERVER"
                       }
                     }
@@ -437,7 +448,7 @@
                     "name": "OPENSHIFT_TOKEN",
                     "valueFrom": {
                       "secretKeyRef": {
-                        "name": "${ENV_SEC_NAME}",
+                        "name": "${APP_DELIVERY_NAME}",
                         "key": "OPENSHIFT_TOKEN"
                       }
                     }
@@ -517,17 +528,18 @@
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
+          "app": "${APP_SETUP_NAME}",
           "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
           "app.openshift.io/runtime": "python"
         },
-        "name": "${SERVICE_NAME}-${APP_SETUP_NAME}",
+        "name": "${APP_SETUP_NAME}",
         "namespace": "${NAMESPACE}"
       },
       "spec": {
         "replicas": 1,
         "revisionHistoryLimit": 2,
         "selector": {
-          "name": "${SERVICE_NAME}-${APP_SETUP_NAME}"
+          "name": "${APP_SETUP_NAME}"
         },
         "strategy": {
           "type": "Rolling"
@@ -535,7 +547,7 @@
         "template": {
           "metadata": {
             "labels": {
-              "name": "${SERVICE_NAME}-${APP_SETUP_NAME}"
+              "name": "${APP_SETUP_NAME}"
             }
           },
           "spec": {
@@ -629,7 +641,7 @@
               {
                 "name": "setup-conf",
                 "configMap": {
-                  "name": "setup-conf"
+                  "name": "setup"
                 }
               },
               {
@@ -723,11 +735,6 @@
       "name": "ENV_LOC_NAME",
       "required": true,
       "value": "env-loc"
-    },
-    {
-      "name": "ENV_SEC_NAME",
-      "required": true,
-      "value": "env-loc-admin"
     },
     {
       "description": "The name assigned to all of the frontend objects defined in this template.",
