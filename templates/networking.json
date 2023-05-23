@@ -1821,7 +1821,8 @@
       "description": "LOCATION_DOMAIN",
       "displayName": "LOCATION_DOMAIN",
       "name": "LOCATION_DOMAIN",
-      "required": true
+      "required": true,
+      "value": ""
     },
     {
       "name": "ENV_LOC_NAME",
