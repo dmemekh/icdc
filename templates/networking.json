@@ -1,0 +1,2002 @@
+{
+  "apiVersion": "template.openshift.io/v1",
+  "kind": "Template",
+  "labels": {
+    "service": "${SERVICE_NAME}"
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/httpd-ex/blob/master/README.md.",
+  "metadata": {
+    "annotations": {
+      "description": "An example Apache HTTP Server (httpd) application that serves static content. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/httpd-ex/blob/master/README.md.",
+      "iconClass": "icon-apache",
+      "openshift.io/display-name": "Apache HTTP Server",
+      "openshift.io/documentation-url": "https://github.com/openshift/httpd-ex",
+      "openshift.io/long-description": "This template defines resources needed to develop a static application served by Apache HTTP Server (httpd), including a build configuration and application deployment configuration.",
+      "openshift.io/provider-display-name": "Red Hat, Inc.",
+      "openshift.io/support-url": "https://access.redhat.com",
+      "tags": "quickstart,httpd",
+      "template.openshift.io/bindable": "false"
+    },
+    "name": "infra-template"
+  },
+  "objects": [
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "name": "${SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${VERSION}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Source"
+            }
+          },
+          {
+            "annotations": null,
+            "importPolicy": {},
+            "name": "${VERSION}",
+            "referencePolicy": {
+                "type": "Source"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "labels": {
+          "app": "${APIGW_NAME}"
+        },
+        "name": "${SERVICE_NAME}-${APIGW_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${TAG_APIGW}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          },
+          {
+            "annotations": null,
+            "from": {
+                "kind": "DockerImage",
+                "name": "${SERVICE_REPOSITORY}/${APIGW_NAME}:${TAG_APIGW}"
+            },
+            "importPolicy": {},
+            "name": "${TAG_APIGW}",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "labels": {
+          "app": "${APP_DNS_NAME}"
+        },
+        "name": "${SERVICE_NAME}-${APP_DNS_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${TAG_DNS}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          },
+          {
+            "annotations": null,
+            "from": {
+                "kind": "DockerImage",
+                "name": "${SERVICE_REPOSITORY}/${APP_DNS_NAME}:${TAG_DNS}"
+            },
+            "importPolicy": {},
+            "name": "${TAG_DNS}",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "labels": {
+          "app": "${APP_TRAEFIK_NAME}"
+        },
+        "name": "${SERVICE_NAME}-${APP_TRAEFIK_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${TAG_TRAEFIK}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          },
+          {
+            "annotations": null,
+            "from": {
+                "kind": "DockerImage",
+                "name": "${SERVICE_REPOSITORY}/${APP_TRAEFIK_NAME}:${TAG_TRAEFIK}"
+            },
+            "importPolicy": {},
+            "name": "${TAG_TRAEFIK}",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "labels": {
+          "app": "${APP_WIREGUARD_NAME}"
+        },
+        "name": "${SERVICE_NAME}-${APP_WIREGUARD_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${TAG_WIREGUARD}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          },
+          {
+            "annotations": null,
+            "from": {
+                "kind": "DockerImage",
+                "name": "${SERVICE_REPOSITORY}/${APP_WIREGUARD_NAME}:${TAG_WIREGUARD}"
+            },
+            "importPolicy": {},
+            "name": "${TAG_WIREGUARD}",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "description": "Exposes and load balances the application pods"
+        },
+        "labels": {
+          "app": "${APIGW_NAME}"
+        },
+        "name": "${APIGW_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "${APIGW_PORT}-tcp",
+            "port": "${{APIGW_PORT}}",
+            "targetPort": "${{APIGW_PORT}}"
+          }
+        ],
+        "selector": {
+          "name": "${APIGW_NAME}"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "description": "Exposes and load balances the application pods"
+        },
+        "labels": {
+          "app": "${APP_DNS_NAME}"
+        },
+        "name": "${APP_DNS_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "${APP_DNS_PORT}-tcp",
+            "port": "${{APP_DNS_PORT}}",
+            "targetPort": "${{APP_DNS_PORT}}"
+          }
+        ],
+        "selector": {
+          "name": "${APP_DNS_NAME}"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "description": "Exposes and load balances the application pods"
+        },
+        "labels": {
+          "app": "${APP_TRAEFIK_NAME}"
+        },
+        "name": "${APP_TRAEFIK_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "${APP_TRAEFIK_PORT}-tcp",
+            "port": "${{APP_TRAEFIK_PORT}}",
+            "targetPort": "${{APP_TRAEFIK_PORT}}"
+          }
+        ],
+        "selector": {
+          "name": "${APP_TRAEFIK_NAME}"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "description": "Exposes and load balances the application pods"
+        },
+        "labels": {
+          "app": "${APP_WIREGUARD_NAME}"
+        },
+        "name": "${APP_WIREGUARD_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "${APP_WIREGUARD_PORT}-tcp",
+            "port": "${{APP_WIREGUARD_PORT}}",
+            "targetPort": "${{APP_WIREGUARD_PORT}}"
+          }
+        ],
+        "selector": {
+          "name": "${APP_WIREGUARD_NAME}"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "name": "${APP_TRAEFIK_NAME}-certs",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${TRAEFIK_CERTS_VOLUME_CAPACITY}"
+          }
+        },
+        "storageClassName": "cloud-block-disk"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "description": "Defines how to deploy the application server",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app": "${APIGW_NAME}",
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}"
+        },
+        "name": "${APIGW_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${APIGW_NAME}"
+        },
+        "strategy": {
+          "type": "Rolling"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${APIGW_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "LOCATION_DOMAIN",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "LOCATION_DOMAIN"
+                      }
+                    }
+                  }
+                ],
+                "image": " ",
+                "name": "${APIGW_NAME}",
+                "ports": [
+                  {
+                    "containerPort": "${{APIGW_PORT}}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "200m",
+                    "memory": "64Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "32Mi"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${APIGW_NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${SERVICE_NAME}-${APIGW_NAME}:latest"
+              }
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "description": "Defines how to deploy the application server",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app": "${APP_DNS_NAME}",
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app.openshift.io/runtime": "rails"
+        },
+        "name": "${APP_DNS_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${APP_DNS_NAME}"
+        },
+        "strategy": {
+          "type": "Rolling"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${APP_DNS_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "SSO_URL",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_URL"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_REALM",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_REALM"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_CLIENT_ID",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_CLIENT_ID"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DNS_SERVER",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "DNS_SERVER"
+                      }
+                    }
+                  },
+                  {
+                    "name": "NS_SERVER",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "NS_SERVER"
+                      }
+                    }
+                  },
+                  {
+                    "name": "COREDNS_VERSION",
+                    "value": "v3"
+                  },
+                  {
+                    "name": "ROLE_HEADER",
+                    "value": "x-icdc-role"
+                  },
+                  {
+                    "name": "ACCOUNT_HEADER",
+                    "value": "x-icdc-account"
+                  }
+                ],
+                "image": " ",
+                "name": "${APP_DNS_NAME}",
+                "ports": [
+                  {
+                    "containerPort": "${{APP_DNS_PORT}}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "200m",
+                    "memory": "512Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "256Mi"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${APP_DNS_NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${SERVICE_NAME}-${APP_DNS_NAME}:latest"
+              }
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "description": "Defines how to deploy the application server",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app": "${APP_TRAEFIK_NAME}",
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app.openshift.io/runtime": "rails"
+        },
+        "name": "${APP_TRAEFIK_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${APP_TRAEFIK_NAME}"
+        },
+        "strategy": {
+          "type": "Recreate",
+          "recreateParams": {
+            "pre": {
+              "failurePolicy": "Abort",
+              "execNewPod": {
+                "containerName": "${APP_TRAEFIK_NAME}",
+                "command": [
+                  "bundle",
+                  "exec",
+                  "rake",
+                  "db:migrate"
+                ],
+                "env": [
+                  {
+                    "name": "DATABASE_HOST",
+                    "value": "postgresql"
+                  },
+                  {
+                    "name": "DATABASE_NAME",
+                    "value": "${APP_TRAEFIK_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_USER",
+                    "value": "${APP_TRAEFIK_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "postgresql",
+                        "key": "database-password"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${APP_TRAEFIK_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "LOCATION_ADMIN_GROUP",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "LOCATION_ADMIN_GROUP"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_URL",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_URL"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_REALM",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_REALM"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_CLIENT_ID",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_CLIENT_ID"
+                      }
+                    }
+                  },
+                  {
+                    "name": "ROLE_HEADER",
+                    "value": "x-icdc-role"
+                  },
+                  {
+                    "name": "ACCOUNT_HEADER",
+                    "value": "x-icdc-account"
+                  },
+                  {
+                    "name": "SCOPES_MAP_FILE",
+                    "value": "config/rbac/rbac_scopes.yml"
+                  },
+                  {
+                    "name": "REDIS_URL",
+                    "value": "redis://redis:6379/0"
+                  },
+                  {
+                    "name": "DATABASE_HOST",
+                    "value": "postgresql"
+                  },
+                  {
+                    "name": "DATABASE_NAME",
+                    "value": "${APP_TRAEFIK_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_USER",
+                    "value": "${APP_TRAEFIK_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "postgresql",
+                        "key": "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "TRAEFIK_CERT_PATH",
+                    "value": "/etc/traefik"
+                  },
+                  {
+                    "name": "USERS_CERT_PATH",
+                    "value": "certificates"
+                  },
+                  {
+                    "name": "USERS_CERT_PATH_ARCH",
+                    "value": "certificates/download"
+                  },
+                  {
+                    "name": "PORT",
+                    "value": "${APP_TRAEFIK_PORT}"
+                  }
+                ],
+                "image": " ",
+                "name": "${APP_TRAEFIK_NAME}",
+                "ports": [
+                  {
+                    "containerPort": "${{APP_TRAEFIK_PORT}}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "200m",
+                    "memory": "512Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "256Mi"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "${APP_TRAEFIK_NAME}-certs-vol",
+                    "mountPath": "/usr/src/app/certificates"
+                  }
+                ]
+              },
+              {
+                "env": [
+                  {
+                    "name": "SSO_URL",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_URL"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_REALM",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_REALM"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_CLIENT_ID",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_CLIENT_ID"
+                      }
+                    }
+                  },
+                  {
+                    "name": "REDIS_URL",
+                    "value": "redis://redis:6379/0"
+                  },
+                  {
+                    "name": "DATABASE_HOST",
+                    "value": "postgresql"
+                  },
+                  {
+                    "name": "DATABASE_NAME",
+                    "value": "${APP_TRAEFIK_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_USER",
+                    "value": "${APP_TRAEFIK_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "postgresql",
+                        "key": "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "PORT",
+                    "value": "${APP_TRAEFIK_SIDEKIQ_PORT}"
+                  },
+                  {
+                    "name": "COMPUTE_SERVER"
+                  },
+                  {
+                    "name": "COMPUTE_TOKEN"
+                  }
+                ],
+                "command": [
+                  "bundle",
+                  "exec",
+                  "sidekiq"
+                ],
+                "image": " ",
+                "name": "${APP_TRAEFIK_SIDEKIQ_NAME}",
+                "ports": [
+                  {
+                    "containerPort": "${{APP_TRAEFIK_SIDEKIQ_PORT}}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "200m",
+                    "memory": "512Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "256Mi"
+                  }
+                }
+              }
+            ],
+            "volumes": [
+              {
+                "name": "${APP_TRAEFIK_NAME}-certs-vol",
+                "persistentVolumeClaim": {
+                  "claimName": "${APP_TRAEFIK_NAME}-certs"
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${APP_TRAEFIK_NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${SERVICE_NAME}-${APP_TRAEFIK_NAME}:latest"
+              }
+            },
+            "type": "ImageChange"
+          },
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${APP_TRAEFIK_SIDEKIQ_NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${SERVICE_NAME}-${APP_TRAEFIK_NAME}:latest"
+              }
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "description": "Defines how to deploy the application server",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app": "${APP_WIREGUARD_NAME}",
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app.openshift.io/runtime": "rails"
+        },
+        "name": "${APP_WIREGUARD_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${APP_WIREGUARD_NAME}"
+        },
+        "strategy": {
+          "type": "Rolling",
+          "recreateParams": {
+            "pre": {
+              "failurePolicy": "Abort",
+              "execNewPod": {
+                "containerName": "${APP_WIREGUARD_NAME}",
+                "command": [
+                  "bundle",
+                  "exec",
+                  "rake",
+                  "db:migrate"
+                ],
+                "env": [
+                  {
+                    "name": "DATABASE_HOST",
+                    "value": "postgresql"
+                  },
+                  {
+                    "name": "DATABASE_NAME",
+                    "value": "${APP_WIREGUARD_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_USER",
+                    "value": "${APP_WIREGUARD_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "postgresql",
+                        "key": "database-password"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${APP_WIREGUARD_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "LOCATION_DOMAIN",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "LOCATION_DOMAIN"
+                      }
+                    }
+                  },
+                  {
+                    "name": "LOCATION_ADMIN_GROUP",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "LOCATION_ADMIN_GROUP"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_URL",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_URL"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_REALM",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_REALM"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_CLIENT_ID",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "SSO_CLIENT_ID"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DNS_SERVER",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "DNS_SERVER"
+                      }
+                    }
+                  },
+                  {
+                    "name": "ROLE_HEADER",
+                    "value": "x-icdc-role"
+                  },
+                  {
+                    "name": "ACCOUNT_HEADER",
+                    "value": "x-icdc-account"
+                  },
+                  {
+                    "name": "SCOPES_MAP_FILE",
+                    "value": "config/rbac/rbac_scopes.yml"
+                  },
+                  {
+                    "name": "DATABASE_HOST",
+                    "value": "postgresql"
+                  },
+                  {
+                    "name": "DATABASE_NAME",
+                    "value": "${APP_WIREGUARD_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_USER",
+                    "value": "${APP_WIREGUARD_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "postgresql",
+                        "key": "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "PORT",
+                    "value": "${APP_WIREGUARD_PORT}"
+                  }
+                ],
+                "image": " ",
+                "name": "${APP_WIREGUARD_NAME}",
+                "ports": [
+                  {
+                    "containerPort": "${{APP_WIREGUARD_PORT}}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "200m",
+                    "memory": "512Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "256Mi"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${APP_WIREGUARD_NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${SERVICE_NAME}-${APP_WIREGUARD_NAME}:latest"
+              }
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "route.openshift.io/v1",
+      "kind": "Route",
+      "metadata": {
+        "labels": {
+          "app": "${APP_TRAEFIK_NAME}"
+        },
+        "name": "${APP_TRAEFIK_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "host": "${APP_TRAEFIK_NAME}.${LOCATION_DOMAIN}",
+        "port": {
+          "targetPort": "${APP_TRAEFIK_PORT}-tcp"
+        },
+        "to": {
+          "kind": "Service",
+          "name": "${APP_TRAEFIK_NAME}",
+          "weight": 100
+        },
+        "wildcardPolicy": "None"
+      }
+    },
+    {
+      "apiVersion": "route.openshift.io/v1",
+      "kind": "Route",
+      "metadata": {
+        "labels": {
+          "app": "${APP_WIREGUARD_NAME}"
+        },
+        "name": "${APP_WIREGUARD_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "host": "${APP_WIREGUARD_NAME}.${LOCATION_DOMAIN}",
+        "port": {
+          "targetPort": "${APP_WIREGUARD_PORT}-tcp"
+        },
+        "to": {
+          "kind": "Service",
+          "name": "${APP_WIREGUARD_NAME}",
+          "weight": 100
+        },
+        "wildcardPolicy": "None"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "openshift.io/display-name": "Redis"
+        },
+        "name": "redis",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": {
+              "iconClass": "icon-redis",
+              "openshift.io/display-name": "Redis 6",
+              "openshift.io/provider-display-name": "Red Hat, Inc.",
+              "tags": "database,redis",
+              "version": "6"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "${REDIS_REPOSITORY}/redis:6-alpine"
+            },
+            "importPolicy": {},
+            "name": "6",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "annotations": {
+              "iconClass": "icon-redis",
+              "openshift.io/display-name": "Redis 7",
+              "openshift.io/provider-display-name": "Red Hat, Inc.",
+              "tags": "database,redis",
+              "version": "7"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "${REDIS_REPOSITORY}/redis:7-alpine"
+            },
+            "importPolicy": {},
+            "name": "7",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "annotations": {
+              "iconClass": "icon-redis",
+              "openshift.io/display-name": "Redis (Latest)",
+              "openshift.io/provider-display-name": "Red Hat, Inc.",
+              "tags": "database,redis",
+              "version": "7"
+            },
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "7"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "description": "Exposes and load balances the application pods"
+        },
+        "name": "${REDIS_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "${REDIS_PORT}-tcp",
+            "port": "${{REDIS_PORT}}",
+            "targetPort": "${{REDIS_PORT}}"
+          }
+        ],
+        "selector": {
+          "name": "${REDIS_NAME}"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "description": "Defines how to deploy the application server",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app.openshift.io/runtime": "redis"
+        },
+        "name": "${REDIS_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${REDIS_NAME}"
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${REDIS_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [],
+                "image": "",
+                "name": "${REDIS_NAME}",
+                "ports": [
+                  {
+                    "containerPort": "${{REDIS_PORT}}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "200m",
+                    "memory": "512Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "256Mi"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "mountPath": "/data",
+                    "name": "${REDIS_NAME}-data"
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "name": "${REDIS_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${REDIS_NAME}"
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "redis"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "redis:${REDIS_VERSION}",
+                "namespace": "${NAMESPACE}"
+              }
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "name": "${REDIS_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "1Gi"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "openshift.io/display-name": "PostgreSQL"
+        },
+        "labels": {
+          "cloud": ""
+        },
+        "name": "postgresql",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": {
+              "description": "Provides a PostgreSQL 9.6 database on CentOS 8. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/generated/10/root/usr/share/container-scripts/postgresql/README.md.",
+              "iconClass": "icon-postgresql",
+              "openshift.io/display-name": "PostgreSQL 9.6 (CentOS 8)",
+              "openshift.io/provider-display-name": "Red Hat, Inc.",
+              "tags": "database,postgresql",
+              "version": "9.6"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "${DATABASE_REPOSITORY}/postgresql-10-centos7:latest"
+            },
+            "importPolicy": {},
+            "name": "9.6-el8",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "annotations": {
+              "description": "Provides a PostgreSQL 10 database on CentOS 7. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/generated/10/root/usr/share/container-scripts/postgresql/README.md.",
+              "iconClass": "icon-postgresql",
+              "openshift.io/display-name": "PostgreSQL 10 (CentOS 7)",
+              "openshift.io/provider-display-name": "Red Hat, Inc.",
+              "tags": "database,postgresql",
+              "version": "10"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "${DATABASE_REPOSITORY}/postgresql-10-centos7:latest"
+            },
+            "importPolicy": {},
+            "name": "10",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "annotations": {
+              "description": "Provides a PostgreSQL 10 database on CentOS 7. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/generated/10/root/usr/share/container-scripts/postgresql/README.md.",
+              "iconClass": "icon-postgresql",
+              "openshift.io/display-name": "PostgreSQL 10 (CentOS 7)",
+              "openshift.io/provider-display-name": "Red Hat, Inc.",
+              "tags": "database,postgresql",
+              "version": "10"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "${DATABASE_REPOSITORY}/postgresql-10-centos7:latest"
+            },
+            "importPolicy": {},
+            "name": "10-el7",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "annotations": {
+              "description": "Provides a PostgreSQL 10 database on CentOS 8. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/generated/10/root/usr/share/container-scripts/postgresql/README.md.",
+              "iconClass": "icon-postgresql",
+              "openshift.io/display-name": "PostgreSQL 10 (CentOS 8)",
+              "openshift.io/provider-display-name": "Red Hat, Inc.",
+              "tags": "database,postgresql",
+              "version": "10"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "${DATABASE_REPOSITORY}/postgresql-10-centos8:latest"
+            },
+            "importPolicy": {},
+            "name": "10-el8",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "annotations": {
+              "description": "Provides a PostgreSQL 12 database on CentOS 7. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/generated/10/root/usr/share/container-scripts/postgresql/README.md.",
+              "iconClass": "icon-postgresql",
+              "openshift.io/display-name": "PostgreSQL 12 (CentOS 7)",
+              "openshift.io/provider-display-name": "Red Hat, Inc.",
+              "tags": "database,postgresql",
+              "version": "12"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "${DATABASE_REPOSITORY}/postgresql-12-centos7:latest"
+            },
+            "importPolicy": {},
+            "name": "12",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "annotations": {
+              "description": "Provides a PostgreSQL 12 database on CentOS 7. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/generated/10/root/usr/share/container-scripts/postgresql/README.md.",
+              "iconClass": "icon-postgresql",
+              "openshift.io/display-name": "PostgreSQL 12 (CentOS 7)",
+              "openshift.io/provider-display-name": "Red Hat, Inc.",
+              "tags": "database,postgresql",
+              "version": "12"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "${DATABASE_REPOSITORY}/postgresql-12-centos7:latest"
+            },
+            "importPolicy": {},
+            "name": "12-el7",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "annotations": {
+              "description": "Provides a PostgreSQL 12 database on CentOS 8. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/generated/10/root/usr/share/container-scripts/postgresql/README.md.",
+              "iconClass": "icon-postgresql",
+              "openshift.io/display-name": "PostgreSQL 12 (CentOS 8)",
+              "openshift.io/provider-display-name": "Red Hat, Inc.",
+              "tags": "database,postgresql",
+              "version": "12"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "${DATABASE_REPOSITORY}/postgresql-12-centos8:latest"
+            },
+            "importPolicy": {},
+            "name": "12-el8",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "annotations": {
+              "description": "Provides a PostgreSQL 12 database on CentOS 8. For more information about using this database image, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/generated/10/root/usr/share/container-scripts/postgresql/README.md.",
+              "iconClass": "icon-postgresql",
+              "openshift.io/display-name": "PostgreSQL 12 (Latest)",
+              "openshift.io/provider-display-name": "Red Hat, Inc.",
+              "tags": "database,postgresql",
+              "version": "12"
+            },
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "12-el8"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Secret",
+      "metadata": {
+        "annotations": {
+          "template.openshift.io/expose-database_name": "{.data['database-name']}",
+          "template.openshift.io/expose-password": "{.data['database-password']}",
+          "template.openshift.io/expose-username": "{.data['database-user']}"
+        },
+        "name": "${DATABASE_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "immutable": true,
+      "stringData": {
+        "database-name": "${POSTGRESQL_DATABASE}",
+        "database-password": "${POSTGRESQL_PASSWORD}",
+        "database-user": "${POSTGRESQL_USER}"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "name": "postgresql",
+        "namespace": "${NAMESPACE}"
+      },
+      "data": {
+        "cloud.sh": "#!/bin/bash\n\napps=\"${DATABASE_APPS}\"\n\nfor app in $apps; do\n  [ -z $(psql -t -c '\\du' | cut -d \\| -f 1 | grep -w $app) ] && createuser $app\n  [ ! $(psql -lqt | cut -d \\| -f 1 | grep -w $app) ] && createdb --owner=$app $app\n\n  _psql () { psql --set ON_ERROR_STOP=1 \"$@\" ; }\n\n  if [[ \",$postinitdb_actions,\" = *,simple_db,* ]]; then\n  _psql --set=username=$app \\\n        --set=password=\"$POSTGRESQL_PASSWORD\" \\\n  <<< \"ALTER USER :\\\"username\\\" WITH ENCRYPTED PASSWORD :'password';\"\n  fi\ndone"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "template.openshift.io/expose-uri": "postgres://{.spec.clusterIP}:{.spec.ports[?(.name==\"postgresql\")].port}"
+        },
+        "name": "${DATABASE_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "postgresql",
+            "nodePort": 0,
+            "port": 5432,
+            "protocol": "TCP",
+            "targetPort": 5432
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app.openshift.io/runtime": "postgresql"
+        },
+        "name": "${DATABASE_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 0,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-user",
+                        "name": "${DATABASE_SERVICE_NAME}"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-password",
+                        "name": "${DATABASE_SERVICE_NAME}"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-name",
+                        "name": "${DATABASE_SERVICE_NAME}"
+                      }
+                    }
+                  }
+                ],
+                "image": " ",
+                "imagePullPolicy": "IfNotPresent",
+                "livenessProbe": {
+                  "exec": {
+                    "command": [
+                      "/usr/libexec/check-container",
+                      "--live"
+                    ]
+                  },
+                  "initialDelaySeconds": 120,
+                  "timeoutSeconds": 10
+                },
+                "name": "postgresql",
+                "ports": [
+                  {
+                    "containerPort": 5432,
+                    "protocol": "TCP"
+                  }
+                ],
+                "readinessProbe": {
+                  "exec": {
+                    "command": [
+                      "/usr/libexec/check-container"
+                    ]
+                  },
+                  "initialDelaySeconds": 5,
+                  "timeoutSeconds": 1
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                },
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "volumeMounts": [
+                  {
+                    "name": "${DATABASE_SERVICE_NAME}-data",
+                    "mountPath": "/var/lib/pgsql/data"
+                  },
+                  {
+                    "name": "${DATABASE_SERVICE_NAME}-conf",
+                    "mountPath": "/usr/share/container-scripts/postgresql/start/cloud.sh",
+                    "subPath": "cloud.sh"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "volumes": [
+              {
+                "name": "${DATABASE_SERVICE_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${DATABASE_SERVICE_NAME}"
+                }
+              },
+              {
+                "name": "${DATABASE_SERVICE_NAME}-conf",
+                "configMap": {
+                  "name": "${DATABASE_SERVICE_NAME}"
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "postgresql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "postgresql:${POSTGRESQL_VERSION}",
+                "namespace": "${NAMESPACE}"
+              },
+              "lastTriggeredImage": ""
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "displayName": "Namespace",
+      "name": "NAMESPACE",
+      "required": true,
+      "value": null
+    },
+    {
+      "description": "Service Group",
+      "displayName": "Service Group",
+      "name": "SERVICE_GROUP",
+      "required": true,
+      "value": "networking"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Service Name",
+      "name": "SERVICE_NAME",
+      "required": true,
+      "value": "networking"
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Version",
+      "name": "VERSION",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Tag",
+      "name": "TAG_APIGW",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Tag",
+      "name": "TAG_DNS",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Tag",
+      "name": "TAG_TRAEFIK",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Tag",
+      "name": "TAG_WIREGUARD",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "displayName": "Service Repository",
+      "name": "SERVICE_REPOSITORY",
+      "required": true,
+      "value": "crw.icdc.io/demo-networking"
+    },
+    {
+      "description": "LOCATION_DOMAIN",
+      "displayName": "LOCATION_DOMAIN",
+      "name": "LOCATION_DOMAIN",
+      "required": true
+    },
+    {
+      "name": "ENV_LOC_NAME",
+      "required": true,
+      "value": "env-loc"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Name",
+      "name": "APIGW_NAME",
+      "required": true,
+      "value": "apigw"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Name",
+      "name": "APP_DNS_NAME",
+      "required": true,
+      "value": "dns"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Name",
+      "name": "APP_TRAEFIK_NAME",
+      "required": true,
+      "value": "traefik"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Name",
+      "name": "APP_TRAEFIK_SIDEKIQ_NAME",
+      "required": true,
+      "value": "traefik-sidekiq"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Name",
+      "name": "APP_WIREGUARD_NAME",
+      "required": true,
+      "value": "wireguard"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Port",
+      "name": "APIGW_PORT",
+      "required": true,
+      "value": "8080"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Port",
+      "name": "APP_DNS_PORT",
+      "required": true,
+      "value": "3000"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Port",
+      "name": "APP_TRAEFIK_PORT",
+      "required": true,
+      "value": "3000"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Port",
+      "name": "APP_TRAEFIK_SIDEKIQ_PORT",
+      "required": true,
+      "value": "3010"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Port",
+      "name": "APP_WIREGUARD_PORT",
+      "required": true,
+      "value": "3000"
+    },
+    {
+      "description": "TRAEFIK_CERTS_VOLUME_CAPACITY",
+      "displayName": "TRAEFIK_CERTS_VOLUME_CAPACITY",
+      "name": "TRAEFIK_CERTS_VOLUME_CAPACITY",
+      "required": true,
+      "value": "5Gi"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Name",
+      "name": "REDIS_NAME",
+      "required": true,
+      "value": "redis"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Name",
+      "name": "REDIS_PORT",
+      "required": true,
+      "value": "6379"
+    },
+    {
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "displayName": "Redis Repository",
+      "name": "REDIS_REPOSITORY",
+      "required": true,
+      "value": "opr.icdc.io"
+    },
+    {
+      "description": "Version of Redis image to be used (9.4, 9.5, 9.6 or latest).",
+      "displayName": "Version of Redis Image",
+      "name": "REDIS_VERSION",
+      "required": true,
+      "value": "6"
+    },
+    {
+      "description": "Maximum amount of memory the container can use.",
+      "displayName": "Memory Limit",
+      "name": "MEMORY_LIMIT",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "displayName": "Database Repository",
+      "name": "DATABASE_REPOSITORY",
+      "required": true,
+      "value": "opr.icdc.io/centos"
+    },
+    {
+      "description": "The name of the OpenShift Service exposed for the database.",
+      "displayName": "Database Service Name",
+      "name": "DATABASE_SERVICE_NAME",
+      "required": true,
+      "value": "postgresql"
+    },
+    {
+      "description": "Username for PostgreSQL user that will be used for accessing the database.",
+      "displayName": "PostgreSQL Connection Username",
+      "from": "user[A-Z0-9]{3}",
+      "generate": "expression",
+      "name": "POSTGRESQL_USER",
+      "required": true
+    },
+    {
+      "description": "Password for the PostgreSQL connection user.",
+      "displayName": "PostgreSQL Connection Password",
+      "from": "[a-zA-Z0-9]{16}",
+      "generate": "expression",
+      "name": "POSTGRESQL_PASSWORD",
+      "required": true
+    },
+    {
+      "description": "Name of the PostgreSQL database accessed.",
+      "displayName": "PostgreSQL Database Name",
+      "name": "POSTGRESQL_DATABASE",
+      "required": true,
+      "value": "sampledb"
+    },
+    {
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
+      "displayName": "Volume Capacity",
+      "name": "VOLUME_CAPACITY",
+      "required": true,
+      "value": "20Gi"
+    },
+    {
+      "description": "Version of PostgreSQL image to be used (9.4, 9.5, 9.6 or latest).",
+      "displayName": "Version of PostgreSQL Image",
+      "name": "POSTGRESQL_VERSION",
+      "required": true,
+      "value": "10-el8"
+    },
+    {
+      "description": "Database Applications",
+      "displayName": "Database Applications",
+      "name": "DATABASE_APPS",
+      "required": true,
+      "value": "traefik wireguard"
+    }
+  ]
+}
