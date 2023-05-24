@@ -210,7 +210,8 @@
         },
         "labels": {
           "app": "${APIGW_NAME}",
-          "app.kubernetes.io/part-of": "${SERVICE_GROUP}"
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app.openshift.io/runtime": "load-balancer"
         },
         "name": "${APIGW_NAME}",
         "namespace": "${NAMESPACE}"
