@@ -387,7 +387,7 @@
                     "valueFrom": {
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
-                        "key": "LOCATION_DOMAIN"
+                        "key": "location_domain"
                       }
                     }
                   },
@@ -396,7 +396,7 @@
                     "valueFrom": {
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
-                        "key": "LOCATION_ADMIN_GROUP"
+                        "key": "location_admin_group"
                       }
                     }
                   },
@@ -405,7 +405,7 @@
                     "valueFrom": {
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
-                        "key": "SSO_URL"
+                        "key": "sso_url"
                       }
                     }
                   },
@@ -414,7 +414,7 @@
                     "valueFrom": {
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
-                        "key": "SSO_REALM"
+                        "key": "sso_realm"
                       }
                     }
                   },
@@ -423,7 +423,7 @@
                     "valueFrom": {
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
-                        "key": "SSO_CLIENT_ID"
+                        "key": "sso_client_id"
                       }
                     }
                   },
@@ -432,7 +432,7 @@
                     "valueFrom": {
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
-                        "key": "DNS_SERVER"
+                        "key": "dns_server"
                       }
                     }
                   },
@@ -560,7 +560,7 @@
                     "valueFrom": {
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
-                        "key": "LOCATION_NAME"
+                        "key": "location_name"
                       }
                     }
                   },
@@ -569,7 +569,7 @@
                     "valueFrom": {
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
-                        "key": "LOCATION_ADMIN_GROUP"
+                        "key": "location_admin_group"
                       }
                     }
                   },
@@ -578,7 +578,7 @@
                     "valueFrom": {
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
-                        "key": "SSO_URL"
+                        "key": "sso_url"
                       }
                     }
                   },
@@ -587,7 +587,7 @@
                     "valueFrom": {
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
-                        "key": "SSO_REALM"
+                        "key": "sso_realm"
                       }
                     }
                   },
