@@ -1,0 +1,2569 @@
+{
+  "apiVersion": "template.openshift.io/v1",
+  "kind": "Template",
+  "labels": {
+    "service": "${SERVICE_NAME}"
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/httpd-ex/blob/master/README.md.",
+  "metadata": {
+    "annotations": {
+      "description": "An example Apache HTTP Server (httpd) application that serves static content. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/httpd-ex/blob/master/README.md.",
+      "iconClass": "icon-apache",
+      "openshift.io/display-name": "Apache HTTP Server",
+      "openshift.io/documentation-url": "https://github.com/openshift/httpd-ex",
+      "openshift.io/long-description": "This template defines resources needed to develop a static application served by Apache HTTP Server (httpd), including a build configuration and application deployment configuration.",
+      "openshift.io/provider-display-name": "Red Hat, Inc.",
+      "openshift.io/support-url": "https://access.redhat.com",
+      "tags": "quickstart,httpd",
+      "template.openshift.io/bindable": "false"
+    },
+    "name": "infra-template"
+  },
+  "objects": [
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "name": "${SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${VERSION}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Source"
+            }
+          },
+          {
+            "annotations": null,
+            "importPolicy": {},
+            "name": "${VERSION}",
+            "referencePolicy": {
+                "type": "Source"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "labels": {
+          "app": "${APP_NAME}"
+        },
+        "name": "${SERVICE_NAME}-orchestrator",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${TAG_ORCHESTRATOR}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          },
+          {
+            "annotations": null,
+            "from": {
+                "kind": "DockerImage",
+                "name": "${SERVICE_REPOSITORY}/orchestrator:${TAG_ORCHESTRATOR}"
+            },
+            "importPolicy": {},
+            "name": "${TAG_ORCHESTRATOR}",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "labels": {
+          "app": "${APP_NAME}"
+        },
+        "name": "${SERVICE_NAME}-base-worker",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${TAG_BASEWORKER}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          },
+          {
+            "annotations": null,
+            "from": {
+                "kind": "DockerImage",
+                "name": "${SERVICE_REPOSITORY}/base-worker:${TAG_BASEWORKER}"
+            },
+            "importPolicy": {},
+            "name": "${TAG_BASEWORKER}",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "labels": {
+          "app": "${APP_NAME}"
+        },
+        "name": "${SERVICE_NAME}-webserver-worker",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${TAG_WEBSERVERWORKER}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          },
+          {
+            "annotations": null,
+            "from": {
+                "kind": "DockerImage",
+                "name": "${SERVICE_REPOSITORY}/webserver-worker:${TAG_WEBSERVERWORKER}"
+            },
+            "importPolicy": {},
+            "name": "${TAG_WEBSERVERWORKER}",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "labels": {
+          "app": "${APP_NAME}"
+        },
+        "name": "${SERVICE_NAME}-ui-worker",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${TAG_UIWORKER}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          },
+          {
+            "annotations": null,
+            "from": {
+                "kind": "DockerImage",
+                "name": "${SERVICE_REPOSITORY}/ui-worker:${TAG_UIWORKER}"
+            },
+            "importPolicy": {},
+            "name": "${TAG_UIWORKER}",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "name": "${SERVICE_NAME}-anyuid",
+        "namespace": "${NAMESPACE}"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "name": "${SERVICE_NAME}-httpd",
+        "namespace": "${NAMESPACE}"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "name": "${SERVICE_NAME}-orchestrator",
+        "namespace": "${NAMESPACE}"
+      }
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "Role",
+      "metadata": {
+        "name": "${SERVICE_NAME}-orchestrator",
+        "namespace": "${NAMESPACE}"
+      },
+      "rules": [
+        {
+          "apiGroups": [
+            ""
+          ],
+          "resources": [
+            "pods",
+            "pods/finalizers"
+          ],
+          "verbs": [
+            "*"
+          ]
+        },
+        {
+          "apiGroups": [
+            "apps"
+          ],
+          "resources": [
+            "deployments",
+            "deployments/scale"
+          ],
+          "verbs": [
+            "*"
+          ]
+        },
+        {
+          "apiGroups": [
+            "extensions"
+          ],
+          "resources": [
+            "deployments",
+            "deployments/scale"
+          ],
+          "verbs": [
+            "*"
+          ]
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "RoleBinding",
+      "metadata": {
+        "name": "${SERVICE_NAME}-orchestrator",
+        "namespace": "${NAMESPACE}"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "Role",
+        "name": "${SERVICE_NAME}-orchestrator"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "${SERVICE_NAME}-orchestrator"
+        }
+      ]
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Secret",
+      "metadata": {
+        "labels": {
+          "app": "${DATABASE_SERVICE_NAME}"
+        },
+        "name": "postgresql-secrets",
+        "namespace": "${NAMESPACE}"
+      },
+      "immutable": true,
+      "stringData": {
+        "dbname": "${DATABASE_NAME}",
+        "password": "${DATABASE_PASSWORD}",
+        "username": "${DATABASE_USER}",
+        "hostname": "${DATABASE_HOSTNAME}",
+        "dbport": "${DATABASE_PORT}",
+        "dburl": "postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOSTNAME}:${DATABASE_PORT}/${DATABASE_NAME}?encoding=utf8&pool=5&wait_timeout=5"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Secret",
+      "metadata": {
+        "annotations": {
+          "template.openshift.io/expose-hostname": "{.data['hostname']}",
+          "template.openshift.io/expose-password": "{.data['password']}",
+          "template.openshift.io/expose-username": "{.data['username']}"
+        },
+        "labels": {
+          "app": "${KAFKA_SERVICE_NAME}"
+        },
+        "name": "kafka-secrets",
+        "namespace": "${NAMESPACE}"
+      },
+      "immutable": true,
+      "stringData": {
+        "hostname": "${MESSAGING_HOSTNAME}",
+        "username": "${MESSAGING_USERNAME}",
+        "password": "${MESSAGING_PASSWORD}"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Secret",
+      "metadata": {
+        "annotations": {
+          "template.openshift.io/expose-admin-username": "{.data['admin-username']}",
+          "template.openshift.io/expose-admin-password": "{.data['admin-password']}",
+          "template.openshift.io/expose-encryption-key": "{.data['encryption-key']}"
+        },
+        "labels": {
+          "app": "${APP_NAME}"
+        },
+        "name": "${APP_NAME}-auth",
+        "namespace": "${NAMESPACE}"
+      },
+      "immutable": true,
+      "stringData": {
+        "username": "${APPLICATION_ADMIN_USERNAME}",
+        "password": "${APPLICATION_ADMIN_PASSWORD}"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Secret",
+      "metadata": {
+        "annotations": {
+          "template.openshift.io/expose-admin-password": "{.data['admin-password']}",
+          "template.openshift.io/expose-encryption-key": "{.data['encryption-key']}"
+        },
+        "labels": {
+          "app": "${APP_NAME}"
+        },
+        "name": "app-secrets",
+        "namespace": "${NAMESPACE}"
+      },
+      "immutable": true,
+      "stringData": {
+        "admin-password": "${APPLICATION_ADMIN_PASSWORD}",
+        "encryption-key": "${ENCRYPTION_KEY}",
+        "compute-guid": "${GUID}"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "labels": {
+          "app": "${DATABASE_SERVICE_NAME}"
+        },
+        "name": "${DATABASE_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${DATABASE_VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "labels": {
+          "app": "${KAFKA_SERVICE_NAME}"
+        },
+        "name": "${KAFKA_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${KAFKA_VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "labels": {
+          "app": "${ZOOKEEPER_SERVICE_NAME}"
+        },
+        "name": "${ZOOKEEPER_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${ZOOKEEPER_VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "labels": {
+          "app": "${DATABASE_SERVICE_NAME}"
+        },
+        "name": "${DATABASE_SERVICE_NAME}-configs",
+        "namespace": "${NAMESPACE}"
+      },
+      "data": {
+        "01_miq_overrides.conf": "#------------------------------------------------------------------------------\n# CONNECTIONS AND AUTHENTICATION\n#------------------------------------------------------------------------------\n\ntcp_keepalives_count = 9\ntcp_keepalives_idle = 3\ntcp_keepalives_interval = 75\n\n#------------------------------------------------------------------------------\n# RESOURCE USAGE (except WAL)\n#------------------------------------------------------------------------------\n\nmax_worker_processes = 10\n\n#------------------------------------------------------------------------------\n# WRITE AHEAD LOG\n#------------------------------------------------------------------------------\n\nwal_level = 'logical'\nwal_log_hints = on\nwal_buffers = 16MB\ncheckpoint_completion_target = 0.9\n\n#------------------------------------------------------------------------------\n# REPLICATION\n#------------------------------------------------------------------------------\n\nmax_wal_senders = 10\nwal_sender_timeout = 0\nmax_replication_slots = 10\nhot_standby = on\n\n#------------------------------------------------------------------------------\n# ERROR REPORTING AND LOGGING\n#------------------------------------------------------------------------------\n\nlog_filename = 'postgresql.log'\nlog_rotation_age = 0\nlog_min_duration_statement = 5000\nlog_connections = on\nlog_disconnections = on\nlog_line_prefix = '%t:%r:%c:%u@%d:[%p]:'\nlog_lock_waits = on\n\n#------------------------------------------------------------------------------\n# AUTOVACUUM PARAMETERS\n#------------------------------------------------------------------------------\n\nlog_autovacuum_min_duration = 0\nautovacuum_naptime = 5min\nautovacuum_vacuum_threshold = 500\nautovacuum_analyze_threshold = 500\nautovacuum_vacuum_scale_factor = 0.05\n\n#------------------------------------------------------------------------------\n# LOCK MANAGEMENT\n#------------------------------------------------------------------------------\n\ndeadlock_timeout = 5s\n\n#------------------------------------------------------------------------------\n# VERSION/PLATFORM COMPATIBILITY\n#------------------------------------------------------------------------------\n\nescape_string_warning = off\nstandard_conforming_strings = off\n"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "labels": {
+          "app": "${HTTPD_SERVICE_NAME}"
+        },
+        "name": "${HTTPD_SERVICE_NAME}-configs",
+        "namespace": "${NAMESPACE}"
+      },
+      "data": {
+        "application.conf": "Listen 8080\n# Timeout: The number of seconds before receives and sends time out.\nTimeout 120\nRewriteEngine On\nOptions SymLinksIfOwnerMatch\n<VirtualHost *:8080>\n  KeepAlive on\n  # Without ServerName mod_auth_mellon compares against http:// and not https:// from the IdP\n  ServerName https://%{REQUEST_HOST}\n  ProxyPreserveHost on\n  ## Notification Websocket\n  RewriteCond %{REQUEST_URI}     ^/ws/notifications [NC]\n  RewriteCond %{HTTP:UPGRADE}    ^websocket$ [NC]\n  RewriteCond %{HTTP:CONNECTION} ^Upgrade$   [NC]\n  RewriteRule .* ws://ui:3000%{REQUEST_URI}  [P,QSA,L]\n  ProxyPassReverse /ws/notifications ws://ui:3000/ws/notifications\n  ## RemoteConsole Websocket\n  RewriteCond %{REQUEST_URI}     ^/ws/console [NC]\n  RewriteCond %{HTTP:UPGRADE}    ^websocket$  [NC]\n  RewriteCond %{HTTP:CONNECTION} ^Upgrade$    [NC]\n  RewriteRule .* ws://remote-console:3000%{REQUEST_URI}  [P,QSA,L]\n  ProxyPassReverse /ws/console ws://remote-console:3000/ws/console\n  ## Service UI\n  RewriteCond %{REQUEST_URI} !^/api\n  # For httpd, some ErrorDocuments must by served by the httpd pod\n  RewriteCond %{REQUEST_URI} !^/proxy_pages\n  # For OpenID-Connect /openid-connect is only served by mod_auth_openidc\n  RewriteCond %{REQUEST_URI} !^/openid-connect\n  RewriteRule ^/ http://ui:3000%{REQUEST_URI} [P,QSA,L]\n  ProxyPassReverse / http://ui:3000/\n  ## API\n  ProxyPass /api http://web-service:3000/api\n  ProxyPassReverse /api http://web-service:3000/api\n  # Redirect to main UI if go through main URL\n  #<If \"%{HTTP_HOST} =~ /compute\\.\\w+\\.icdc\\.io/\">\n  <If \"%{HTTP_HOST} =~ /compute.${LOCATION_DOMAIN}/\">\n    RedirectMatch ^/$ /ui/service/\n  </If>\n  # Ensures httpd stdout/stderr are seen by 'docker logs'.\n  ErrorLog  \"| /usr/bin/tee /proc/1/fd/2 /var/log/httpd/error_log\"\n  CustomLog \"| /usr/bin/tee /proc/1/fd/1 /var/log/httpd/access_log\" common\n</VirtualHost>\n",
+        "configuration-saml-auth": "LoadModule auth_mellon_module modules/mod_auth_mellon.so\n\n<Location />\n  MellonEnable               \"info\"\n\n  MellonIdPMetadataFile      \"/etc/httpd/saml2/idp-metadata.xml\"\n\n  MellonSPPrivateKeyFile     \"/etc/httpd/saml2/sp-key.key\"\n  MellonSPCertFile           \"/etc/httpd/saml2/sp-cert.cert\"\n  MellonSPMetadataFile       \"/etc/httpd/saml2/sp-metadata.xml\"\n\n  MellonVariable             \"sp-cookie\"\n  MellonSecureCookie         On\n  MellonCookiePath           \"/\"\n\n  MellonIdP                  \"IDP\"\n\n  MellonEndpointPath         \"/saml2\"\n\n  MellonUser                 username\n  MellonMergeEnvVars         On\n\n  MellonSetEnvNoPrefix       \"REMOTE_USER\"            username\n  MellonSetEnvNoPrefix       \"REMOTE_USER_EMAIL\"      email\n  MellonSetEnvNoPrefix       \"REMOTE_USER_FIRSTNAME\"  firstname\n  MellonSetEnvNoPrefix       \"REMOTE_USER_LASTNAME\"   lastname\n  MellonSetEnvNoPrefix       \"REMOTE_USER_FULLNAME\"   fullname\n  MellonSetEnvNoPrefix       \"REMOTE_USER_GROUPS\"     groups\n</Location>\n\n<Location /saml_login>\n  AuthType                   \"Mellon\"\n  MellonEnable               \"auth\"\n  Require                    valid-user\n</Location>\n\nInclude \"conf.d/external-auth-remote-user-conf\"\n",
+        "external-auth-openid-connect-remote-user-conf": "RequestHeader unset X_REMOTE_USER\n\nRequestHeader set X_REMOTE_USER           %{OIDC_CLAIM_PREFERRED_USERNAME}e env=OIDC_CLAIM_PREFERRED_USERNAME\nRequestHeader set X_EXTERNAL_AUTH_ERROR   %{EXTERNAL_AUTH_ERROR}e           env=EXTERNAL_AUTH_ERROR\nRequestHeader set X_REMOTE_USER_EMAIL     %{OIDC_CLAIM_EMAIL}e              env=OIDC_CLAIM_EMAIL\nRequestHeader set X_REMOTE_USER_FIRSTNAME %{OIDC_CLAIM_GIVEN_NAME}e         env=OIDC_CLAIM_GIVEN_NAME\nRequestHeader set X_REMOTE_USER_LASTNAME  %{OIDC_CLAIM_FAMILY_NAME}e        env=OIDC_CLAIM_FAMILY_NAME\nRequestHeader set X_REMOTE_USER_FULLNAME  %{OIDC_CLAIM_NAME}e               env=OIDC_CLAIM_NAME\nRequestHeader set X_REMOTE_USER_GROUPS    %{OIDC_CLAIM_GROUPS}e             env=OIDC_CLAIM_GROUPS\nRequestHeader set X_REMOTE_USER_DOMAIN    %{OIDC_CLAIM_DOMAIN}e             env=OIDC_CLAIM_DOMAIN\n",
+        "manageiq-external-auth-openidc.conf": "LoadModule auth_openidc_module modules/mod_auth_openidc.so\nLogLevel   warn\n# Fix issue: https://support.icdc.io/issues/13268\nRequestHeader set X-Forwarded-Port \"443\" early\n\nOIDCProviderMetadataURL            ${SSO_URL}/auth/realms/${SSO_REALM}/.well-known/openid-configuration\nOIDCClientID                       ${SSO_CLIENT_ID}\nOIDCClientSecret                   ${SSO_CLIENT_SECRET}\nOIDCRedirectURI                    https://compute.${LOCATION_DOMAIN}/oidc_login/redirect_uri\nOIDCOAuthRemoteUserClaim           username\nOIDCCryptoPassphrase               sp-cookie\nOIDCOAuthClientID                  ${SSO_CLIENT_ID}\nOIDCOAuthClientSecret              ${SSO_CLIENT_SECRET}\nOIDCOAuthIntrospectionEndpoint     ${SSO_URL}/auth/realms/${SSO_REALM}/protocol/openid-connect/token/introspect\nOIDCOAuthIntrospectionEndpointAuth client_secret_basic\nOIDCOAuthIntrospectionEndpointParams token_type_hint=access_token\nOIDCSSLValidateServer        Off\nOIDCOAuthSSLValidateServer   Off\n\n<Location /oidc_login>\n  AuthType                   openid-connect\n  Require                    valid-user\n</Location>\n\n<Location /ui/service/oidc_login>\n  AuthType  openid-connect\n  Require   valid-user\n  Header    set Set-Cookie \"miq_oidc_access_token=%{OIDC_access_token}e; Max-Age=10; Path=/ui/service\"\n</Location>\n\n<LocationMatch ^/api(?!\\/(v[\\d\\.]+\\/)?product_info$)>\n  SetEnvIf Authorization '^Basic +YWRtaW46'     let_admin_in\n  SetEnvIf X-Auth-Token  '^.+$'                 let_api_token_in\n  SetEnvIf X-MIQ-Token   '^.+$'                 let_sys_token_in\n  SetEnvIf X-CSRF-Token  '^.+$'                 let_csrf_token_in\n\n  AuthType     oauth20\n  AuthName     \"External Authentication (oidc) for API\"\n\n  Require   valid-user\n  Order          Allow,Deny\n  Allow from env=let_admin_in\n  Allow from env=let_api_token_in\n  Allow from env=let_sys_token_in\n  Allow from env=let_csrf_token_in\n  Satisfy Any\n</LocationMatch>\n\nInclude \"conf.d/external-auth-openid-connect-remote-user-conf\"\n"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "labels": {
+          "app": "${HTTPD_SERVICE_NAME}"
+        },
+        "name": "${HTTPD_SERVICE_NAME}-auth-configs",
+        "namespace": "${NAMESPACE}"
+      },
+      "data": {
+        "auth-configuration.conf": "# External Authentication Configuration File\n#\n# For details on usage please see https://github.com/ManageIQ/manageiq-pods/blob/master/README.md#configuring-external-authentication\n",
+        "auth-kerberos-realms": "undefined",
+        "auth-oidc-client-id": "${SSO_CLIENT_ID}",
+        "auth-oidc-client-secret": "${SSO_CLIENT_SECRET}",
+        "auth-oidc-provider-metadata-url": "${SSO_URL}/auth/realms/${SSO_REALM}/.well-known/openid-configuration",
+        "auth-type": "internal"
+      }
+    },
+    {
+      "kind": "ConfigMap",
+      "apiVersion": "v1",
+      "metadata": {
+        "labels": {
+          "app": "${APP_NAME}"
+        },
+        "name": "${ENV_APP}",
+        "namespace": "${NAMESPACE}"
+      },
+      "data": {
+        "APP_NAME": "compute",
+        "APPLIANCE": "true",
+        "ALLOW_INSECURE_SESSION": "true",
+        "CONTAINER_IMAGE_REGISTRY": "image-registry.openshift-image-registry.svc:5000",
+        "CONTAINER_IMAGE_NAMESPACE": null,
+        "CONTAINER_IMAGE_PRODUCT": "compute",
+        "CONTAINER_IMAGE_TAG": "latest",
+        "WORKER_SERVICE_ACCOUNT": "compute-anyuid"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "labels": {
+          "app": "${APP_NAME}"
+        },
+        "name": "filebeat",
+        "namespace": "${NAMESPACE}"
+      },
+      "data": {
+        "filebeat.yml": "filebeat.inputs:\n- type: log\n  enabled: true\n  paths:\n    - /var/www/miq/vmdb/log/*.log\n- type: filestream\n  enabled: false\n  paths:\n    - /var/log/*.log\nfilebeat.config.modules:\n  path: ${path.config}/modules.d/*.yml\n  reload.enabled: true\n  reload.period: 10s\n\nsetup.template.settings:\n  index.number_of_shards: 1\n  index.codec: best_compression\nsetup.kibana:\n\noutput.elasticsearch:\n  hosts: [\"${ELK_URL}\"]\n  username: \"${ELK_USERNAME}\"\n  password: \"${ELK_PASSWORD}\"\nprocessors:\n  - add_host_metadata:\n      when.not.contains.tags: forwarded"
+      }
+    },
+    {
+      "apiVersion": "image.openshift.io/v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "openshift.io/display-name": "PostgreSQL"
+        },
+        "labels": {
+          "app": "${DATABASE_SERVICE_NAME}"
+        },
+        "name": "postgresql",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "from": {
+              "kind": "DockerImage",
+              "name": "${DATABASE_REPOSITORY}/postgresql:${POSTGRESQL_VERSION}"
+            },
+            "importPolicy": {},
+            "name": "${POSTGRESQL_VERSION}",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "${POSTGRESQL_VERSION}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "image.openshift.io/v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "openshift.io/display-name": "Kafka"
+        },
+        "labels": {
+          "app": "${KAFKA_SERVICE_NAME}"
+        },
+        "name": "kafka",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "from": {
+              "kind": "DockerImage",
+              "name": "${KAFKA_REPOSITORY}/kafka:${KAFKA_VERSION}"
+            },
+            "importPolicy": {},
+            "name": "${KAFKA_VERSION}",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "${KAFKA_VERSION}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "image.openshift.io/v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "openshift.io/display-name": "Zookeeper"
+        },
+        "labels": {
+          "app": "${ZOOKEEPER_SERVICE_NAME}"
+        },
+        "name": "zookeeper",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "from": {
+              "kind": "DockerImage",
+              "name": "${ZOOKEEPER_REPOSITORY}/zookeeper:${ZOOKEEPER_VERSION}"
+            },
+            "importPolicy": {},
+            "name": "${ZOOKEEPER_VERSION}",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "${ZOOKEEPER_VERSION}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "image.openshift.io/v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "openshift.io/display-name": "Memcached"
+        },
+        "labels": {
+          "app": "${MEMCACHED_SERVICE_NAME}"
+        },
+        "name": "memcached",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "from": {
+              "kind": "DockerImage",
+              "name": "${MEMCACHED_REPOSITORY}/memcached:${MEMCACHED_VERSION}"
+            },
+            "importPolicy": {},
+            "name": "${MEMCACHED_VERSION}",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "${MEMCACHED_VERSION}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "image.openshift.io/v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "openshift.io/display-name": "HTTPD"
+        },
+        "labels": {
+          "app": "${HTTPD_SERVICE_NAME}"
+        },
+        "name": "httpd",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "from": {
+              "kind": "DockerImage",
+              "name": "${HTTPD_REPOSITORY}/httpd:${HTTPD_VERSION}"
+            },
+            "importPolicy": {},
+            "name": "${HTTPD_VERSION}",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          },
+          {
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "${HTTPD_VERSION}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+              "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Route",
+      "metadata": {
+        "labels": {
+          "app": "${HTTPD_SERVICE_NAME}"
+        },
+        "name": "${SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "host": "${SERVICE_NAME}.${LOCATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${HTTPD_SERVICE_NAME}"
+        },
+        "port": {
+          "targetPort": "8080-tcp"
+        },
+        "tls": {
+          "termination": "edge",
+          "insecureEdgeTerminationPolicy": "Redirect"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Route",
+      "metadata": {
+        "labels": {
+          "app": "${HTTPD_SERVICE_NAME}"
+        },
+        "name": "${SERVICE_NAME}-admin",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "host": "${SERVICE_NAME}-admin.vpn.${OCP_CLUSTER_NAME}.ocp.${LOCATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${HTTPD_SERVICE_NAME}"
+        },
+        "port": {
+          "targetPort": "8080-tcp"
+        },
+        "tls": {
+          "termination": "edge",
+          "insecureEdgeTerminationPolicy": "Redirect"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "template.openshift.io/expose-uri": "postgres://{.spec.clusterIP}:{.spec.ports[?(.name==\"postgresql\")].port}"
+        },
+        "labels": {
+          "app": "${DATABASE_SERVICE_NAME}"
+        },
+        "name": "${DATABASE_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "postgresql",
+            "nodePort": 0,
+            "port": 5432,
+            "protocol": "TCP",
+            "targetPort": 5432
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "labels": {
+          "app": "${KAFKA_SERVICE_NAME}"
+        },
+        "name": "${KAFKA_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "kafka",
+            "nodePort": 0,
+            "port": 9092,
+            "protocol": "TCP",
+            "targetPort": 9092
+          }
+        ],
+        "selector": {
+          "name": "${KAFKA_SERVICE_NAME}"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "labels": {
+          "app": "${ZOOKEEPER_SERVICE_NAME}"
+        },
+        "name": "${ZOOKEEPER_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "zookeeper",
+            "nodePort": 0,
+            "port": 2181,
+            "protocol": "TCP",
+            "targetPort": 2181
+          }
+        ],
+        "selector": {
+          "name": "${ZOOKEEPER_SERVICE_NAME}"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "labels": {
+          "app": "${MEMCACHED_SERVICE_NAME}"
+        },
+        "name": "${MEMCACHED_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "memcached",
+            "nodePort": 0,
+            "port": 11211,
+            "protocol": "TCP",
+            "targetPort": 11211
+          }
+        ],
+        "selector": {
+          "name": "${MEMCACHED_SERVICE_NAME}"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "labels": {
+          "app": "${HTTPD_SERVICE_NAME}"
+        },
+        "name": "${HTTPD_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "8080-tcp",
+            "nodePort": 0,
+            "port": 8080,
+            "protocol": "TCP",
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${HTTPD_SERVICE_NAME}"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "labels": {
+          "app": "${APP_NAME}"
+        },
+        "name": "ui",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "ui",
+            "nodePort": 0,
+            "port": 3000,
+            "protocol": "TCP",
+            "targetPort": 3000
+          }
+        ],
+        "selector": {
+          "service": "ui"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "labels": {
+          "app": "${APP_NAME}"
+        },
+        "name": "web-service",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web-service",
+            "nodePort": 0,
+            "port": 3000,
+            "protocol": "TCP",
+            "targetPort": 3000
+          }
+        ],
+        "selector": {
+          "service": "web-service"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "labels": {
+          "app": "${APP_NAME}"
+        },
+        "name": "remote-console",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "remote-console",
+            "nodePort": 0,
+            "port": 3000,
+            "protocol": "TCP",
+            "targetPort": 3000
+          }
+        ],
+        "selector": {
+          "service": "remote-console"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app.openshift.io/runtime": "postgresql",
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app": "${DATABASE_SERVICE_NAME}"
+        },
+        "name": "${DATABASE_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "username",
+                        "name": "${DATABASE_SERVICE_NAME}-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "password",
+                        "name": "${DATABASE_SERVICE_NAME}-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "dbname",
+                        "name": "${DATABASE_SERVICE_NAME}-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_MAX_CONNECTIONS",
+                    "value": "${POSTGRESQL_MAX_CONNECTIONS}"
+                  },
+                  {
+                    "name": "POSTGRESQL_SHARED_BUFFERS",
+                    "value": "${POSTGRESQL_SHARED_BUFFERS}"
+                  }
+                ],
+                "image": " ",
+                "imagePullPolicy": "IfNotPresent",
+                "livenessProbe": {
+                  "exec": {
+                    "command": [
+                      "/usr/libexec/check-container",
+                      "--live"
+                    ]
+                  },
+                  "initialDelaySeconds": 120,
+                  "timeoutSeconds": 10
+                },
+                "name": "postgresql",
+                "ports": [
+                  {
+                    "containerPort": 5432,
+                    "protocol": "TCP"
+                  }
+                ],
+                "readinessProbe": {
+                  "exec": {
+                    "command": [
+                      "/usr/libexec/check-container"
+                    ]
+                  },
+                  "initialDelaySeconds": 5,
+                  "timeoutSeconds": 1
+                },
+                "resources": {
+                  "requests": {
+                    "cpu": "${DATABASE_CPU_REQUEST}",
+                    "memory": "${DATABASE_MEMORY_REQUEST}"
+                  },
+                  "limits": {
+                    "cpu": "${DATABASE_CPU_LIMIT}",
+                    "memory": "${DATABASE_MEMORY_LIMIT}"
+                  }
+                },
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/var/lib/pgsql/data",
+                    "name": "${DATABASE_SERVICE_NAME}-data"
+                  },
+                  {
+                    "mountPath": "/opt/app-root/src/postgresql-cfg/",
+                    "name": "${DATABASE_SERVICE_NAME}-conf"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "volumes": [
+              {
+                "name": "${DATABASE_SERVICE_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${DATABASE_SERVICE_NAME}"
+                }
+              },
+              {
+                "name": "${DATABASE_SERVICE_NAME}-conf",
+                "configMap": {
+                  "name": "${DATABASE_SERVICE_NAME}-configs"
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "postgresql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "postgresql:${POSTGRESQL_VERSION}",
+                "namespace": "${NAMESPACE}"
+              },
+              "lastTriggeredImage": ""
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app": "${KAFKA_SERVICE_NAME}"
+        },
+        "name": "${KAFKA_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${KAFKA_SERVICE_NAME}"
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${KAFKA_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "KAFKA_BROKER_USER",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "username",
+                        "name": "${KAFKA_SERVICE_NAME}-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "KAFKA_BROKER_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "password",
+                        "name": "${KAFKA_SERVICE_NAME}-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "KAFKA_ZOOKEEPER_CONNECT",
+                    "value": "${ZOOKEEPER_SERVICE_NAME}:${ZOOKEEPER_PORT}"
+                  },
+                  {
+                    "name": "ALLOW_PLAINTEXT_LISTENER",
+                    "value": "yes"
+                  }
+                ],
+                "image": " ",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "kafka",
+                "ports": [
+                  {
+                    "containerPort": 9092,
+                    "protocol": "TCP"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "1",
+                    "memory": "2Gi"
+                  },
+                  "requests": {
+                    "cpu": "500m",
+                    "memory": "1Gi"
+                  }
+                },
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/bitnami/kafka",
+                    "name": "${KAFKA_SERVICE_NAME}-data"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "hostname": "${KAFKA_SERVICE_NAME}",
+            "volumes": [
+              {
+                "name": "${KAFKA_SERVICE_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${KAFKA_SERVICE_NAME}"
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "kafka"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "kafka:latest",
+                "namespace": "${NAMESPACE}"
+              },
+              "lastTriggeredImage": ""
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app": "${ZOOKEEPER_SERVICE_NAME}"
+        },
+        "name": "${ZOOKEEPER_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${ZOOKEEPER_SERVICE_NAME}"
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${ZOOKEEPER_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "ALLOW_ANONYMOUS_LOGIN",
+                    "value": "yes"
+                  }
+                ],
+                "image": " ",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "zookeeper",
+                "ports": [
+                  {
+                    "containerPort": 2181,
+                    "protocol": "TCP"
+                  }
+                ],
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/bitnami/zookeeper",
+                    "name": "${ZOOKEEPER_SERVICE_NAME}-data"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "volumes": [
+              {
+                "name": "${ZOOKEEPER_SERVICE_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${ZOOKEEPER_SERVICE_NAME}"
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "zookeeper"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "zookeeper:latest",
+                "namespace": "${NAMESPACE}"
+              },
+              "lastTriggeredImage": ""
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app.openshift.io/runtime": "memcached",
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app": "${MEMCACHED_SERVICE_NAME}"
+        },
+        "name": "${MEMCACHED_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${MEMCACHED_SERVICE_NAME}"
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${MEMCACHED_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "MEMCACHED_MAX_MEMORY",
+                    "value": "${MEMCACHED_MAX_MEMORY}"
+                  },
+                  {
+                    "name": "MEMCACHED_MAX_CONNECTIONS",
+                    "value": "${MEMCACHED_MAX_CONNECTIONS}"
+                  },
+                  {
+                    "name": "MEMCACHED_SLAB_PAGE_SIZE",
+                    "value": "${MEMCACHED_SLAB_PAGE_SIZE}"
+                  }
+                ],
+                "image": " ",
+                "imagePullPolicy": "IfNotPresent",
+                "livenessProbe": {
+                  "tcpSocket": {
+                    "port": 11211
+                  }
+                },
+                "name": "memcached",
+                "ports": [
+                  {
+                    "containerPort": 11211,
+                    "protocol": "TCP"
+                  }
+                ],
+                "readinessProbe": {
+                  "tcpSocket": {
+                    "port": 11211
+                  }
+                },
+                "resources": {
+                  "requests": {
+                    "cpu": "${MEMCACHED_CPU_REQUEST}",
+                    "memory": "${MEMCACHED_MEMORY_REQUEST}"
+                  },
+                  "limits": {
+                    "cpu": "${MEMCACHED_CPU_LIMIT}",
+                    "memory": "${MEMCACHED_MEMORY_LIMIT}"
+                  }
+                },
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                },
+                "terminationMessagePath": "/dev/termination-log"
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always"
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "memcached"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "memcached:latest",
+                "namespace": "${NAMESPACE}"
+              },
+              "lastTriggeredImage": ""
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app.openshift.io/runtime": "apache",
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app": "${HTTPD_SERVICE_NAME}"
+        },
+        "name": "${HTTPD_SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${HTTPD_SERVICE_NAME}"
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${HTTPD_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "LOCATION_DOMAIN",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "location_domain"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_URL",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "sso_url"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_REALM",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "sso_realm"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_CLIENT_ID",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_APP}",
+                        "key": "sso_client_id"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_CLIENT_SECRET",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_APP}",
+                        "key": "sso_client_secret"
+                      }
+                    }
+                  },
+                  {
+                    "name": "HTTPD_AUTH_TYPE",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "key": "auth-type",
+                        "name": "${HTTPD_SERVICE_NAME}-auth-configs"
+                      }
+                    }
+                  },
+                  {
+                    "name": "HTTPD_AUTH_OIDC_PROVIDER_METADATA_URL",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "key": "auth-oidc-provider-metadata-url",
+                        "name": "${HTTPD_SERVICE_NAME}-auth-configs",
+                        "optional": true
+                      }
+                    }
+                  },
+                  {
+                    "name": "HTTPD_AUTH_OIDC_CLIENT_ID",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "key": "auth-oidc-client-id",
+                        "name": "${HTTPD_SERVICE_NAME}-auth-configs",
+                        "optional": true
+                      }
+                    }
+                  },
+                  {
+                    "name": "HTTPD_AUTH_OIDC_CLIENT_SECRET",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "key": "auth-oidc-client-secret",
+                        "name": "${HTTPD_SERVICE_NAME}-auth-configs",
+                        "optional": true
+                      }
+                    }
+                  }
+                ],
+                "image": " ",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "httpd",
+                "ports": [
+                  {
+                    "containerPort": 8080,
+                    "protocol": "TCP"
+                  }
+                ],
+                "readinessProbe": {
+                  "tcpSocket": {
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 10,
+                  "timeoutSeconds": 3
+                },
+                "resources": {
+                  "requests": {
+                    "cpu": "${HTTPD_CPU_REQUEST}",
+                    "memory": "${HTTPD_MEMORY_REQUEST}"
+                  },
+                  "limits": {
+                    "cpu": "${HTTPD_CPU_LIMIT}",
+                    "memory": "${HTTPD_MEMORY_LIMIT}"
+                  }
+                },
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/etc/httpd/conf.d",
+                    "name": "${HTTPD_SERVICE_NAME}-conf"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "serviceAccount": "${SERVICE_NAME}-httpd",
+            "serviceAccountName": "${SERVICE_NAME}-httpd",
+            "volumes": [
+              {
+                "name": "${HTTPD_SERVICE_NAME}-conf",
+                "configMap": {
+                  "name": "${HTTPD_SERVICE_NAME}-configs"
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "httpd"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "httpd:latest",
+                "namespace": "${NAMESPACE}"
+              },
+              "lastTriggeredImage": ""
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app.openshift.io/runtime": "rails",
+          "app.kubernetes.io/part-of": "${SERVICE_NAME}",
+          "app": "${APP_NAME}"
+        },
+        "name": "orchestrator",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "app": "${APP_NAME}"
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "${APP_NAME}"
+            }
+          },
+          "spec": {
+            "affinity": {
+              "podAffinity": {
+                "requiredDuringSchedulingIgnoredDuringExecution": [
+                  {
+                    "labelSelector": {
+                      "matchExpressions": [
+                        {
+                          "key": "app",
+                          "operator": "In",
+                          "values": [
+                            "${APP_NAME}"
+                          ]
+                        }
+                      ]
+                    },
+                    "topologyKey": "kubernetes.io/hostname"
+                  }
+                ]
+              }
+            },
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "WORKERS_ENV",
+                    "value": "development"
+                  },
+                  {
+                    "name": "LOC_NAME",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "location_name"
+                      }
+                    }
+                  },
+                  {
+                    "name": "LOC_DESCRIPTION",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "location_timezone"
+                      }
+                    }
+                  },
+                  {
+                    "name": "CPV_NAME",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_APP}",
+                        "key": "cpv_name"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DISPLAY_NETWORK_HOSTNAME",
+                    "value": "${DISPLAY_HOSTNAME}.${LOCATION_DOMAIN}"
+                  },
+                  {
+                    "name": "DISPLAY_NETWORK_IP",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_APP}",
+                        "key": "display_ip"
+                      }
+                    }
+                  },
+                  {
+                    "name": "APPLICATION_ADMIN_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "admin-password",
+                        "name": "app-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "ENCRYPTION_KEY",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "encryption-key",
+                        "name": "app-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "GUID",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "compute-guid",
+                        "name": "app-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_REGION",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_APP}",
+                        "key": "region_id"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_NAME",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "dbname",
+                        "name": "postgresql-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_USER",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "username",
+                        "name": "postgresql-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "password",
+                        "name": "postgresql-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_HOSTNAME",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "hostname",
+                        "name": "postgresql-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_PORT",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "dbport",
+                        "name": "postgresql-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_URL",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "dburl",
+                        "name": "postgresql-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MESSAGING_TYPE",
+                    "value": "${KAFKA_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "MESSAGING_USERNAME",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "username",
+                        "name": "kafka-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MESSAGING_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "password",
+                        "name": "kafka-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MESSAGING_HOSTNAME",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "hostname",
+                        "name": "kafka-secrets"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MESSAGING_PORT",
+                    "value": "${MESSAGING_PORT}"
+                  },
+                  {
+                    "name": "CONTAINER_IMAGE_NAMESPACE",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.namespace"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POD_NAME",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.name"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POD_UID",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.uid"
+                      }
+                    }
+                  }
+                ],
+                "envFrom": [
+                  {
+                    "configMapRef": {
+                      "name": "${ENV_APP}"
+                    }
+                  }
+                ],
+                "image": " ",
+                "imagePullPolicy": "IfNotPresent",
+                "livenessProbe": {
+                  "exec": {
+                    "command": [
+                      "pidof",
+                      "MIQ Server"
+                    ]
+                  },
+                  "initialDelaySeconds": 1800,
+                  "timeoutSeconds": 3
+                },
+                "name": "orchestrator",
+                "resources": {
+                  "requests": {
+                    "cpu": "${ORCHESTRATOR_CPU_REQUEST}",
+                    "memory": "${ORCHESTRATOR_MEMORY_REQUEST}"
+                  },
+                  "limits": {
+                    "cpu": "${ORCHESTRATOR_CPU_LIMIT}",
+                    "memory": "${ORCHESTRATOR_MEMORY_LIMIT}"
+                  }
+                },
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/etc/filebeat",
+                    "name": "filebeat",
+                    "readOnly": true
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "serviceAccountName": "${SERVICE_NAME}-orchestrator",
+            "terminationGracePeriodSeconds": 90,
+            "volumes": [
+              {
+                "configMap": {
+                  "name": "filebeat"
+                },
+                "name": "filebeat"
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "orchestrator"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${APP_NAME}-orchestrator:latest",
+                "namespace": "${NAMESPACE}"
+              },
+              "lastTriggeredImage": ""
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Namespace",
+      "name": "NAMESPACE",
+      "required": true,
+      "value": "null"
+    },
+    {
+      "description": "Service Group",
+      "displayName": "Service Group",
+      "name": "SERVICE_GROUP",
+      "required": true,
+      "value": "middleware"
+    },
+    {
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "displayName": "Service Name",
+      "name": "SERVICE_NAME",
+      "required": true,
+      "value": "compute"
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Version",
+      "name": "VERSION",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Tag",
+      "name": "TAG_ORCHESTRATOR",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Tag",
+      "name": "TAG_BASEWORKER",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Tag",
+      "name": "TAG_WEBSERVERWORKER",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Tag",
+      "name": "TAG_UIWORKER",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "displayName": "Service Repository",
+      "name": "SERVICE_REPOSITORY",
+      "required": true,
+      "value": "crw.icdc.io/demo-compute"
+    },
+    {
+      "description": "LOCATION_DOMAIN",
+      "displayName": "LOCATION_DOMAIN",
+      "name": "LOCATION_DOMAIN",
+      "required": true,
+      "value": ""
+    },
+    {
+      "name": "ENV_LOC_NAME",
+      "required": true,
+      "value": "env-loc"
+    },
+    {
+      "name": "ENV_LOC_APP",
+      "required": true,
+      "value": "env-loc-compute"
+    },
+    {
+      "name": "ENV_APP",
+      "required": true,
+      "value": "compute-env"
+    },
+    {
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "displayName": "Name",
+      "name": "APP_NAME",
+      "required": true,
+      "value": "compute"
+    },
+    {
+      "description": "Minimum amount of cpu the container can use.",
+      "displayName": "CPU Request",
+      "name": "ORCHESTRATOR_CPU_REQUEST",
+      "required": true,
+      "value": "1"
+    },
+    {
+      "description": "Maximum amount of cpu the container can use.",
+      "displayName": "CPU Limit",
+      "name": "ORCHESTRATOR_CPU_LIMIT",
+      "required": true,
+      "value": "2"
+    },
+    {
+      "description": "Minimum amount of memory the container can use.",
+      "displayName": "Memory Request",
+      "name": "ORCHESTRATOR_MEMORY_REQUEST",
+      "required": true,
+      "value": "6144Mi"
+    },
+    {
+      "description": "Maximum amount of memory the container can use.",
+      "displayName": "Memory Limit",
+      "name": "ORCHESTRATOR_MEMORY_LIMIT",
+      "required": true,
+      "value": "16384Mi"
+    },
+    {
+      "description": "Username for Application user that will be used for accessing the database.",
+      "displayName": "Application Connection Username",
+      "name": "APPLICATION_ADMIN_USERNAME",
+      "required": true,
+      "value": "admin"
+    },
+    {
+      "description": "Password for the Application connection user.",
+      "displayName": "Application Connection Password",
+      "from": "[a-zA-Z0-9]{16}",
+      "generate": "expression",
+      "name": "APPLICATION_ADMIN_PASSWORD",
+      "required": true
+    },
+    {
+      "description": "Key for the Application.",
+      "displayName": "Key Connection Password",
+      "from": "[a-zA-Z0-9]{43}",
+      "generate": "expression",
+      "name": "ENCRYPTION_KEY",
+      "required": true
+    },
+    {
+      "description": "GUID for the Application.",
+      "displayName": "GUID for the Application",
+      "from": "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
+      "generate": "expression",
+      "name": "GUID",
+      "required": true
+    },
+    {
+      "description": "Minimum amount of cpu the container can use.",
+      "displayName": "CPU Request",
+      "name": "DATABASE_CPU_REQUEST",
+      "required": true,
+      "value": "500m"
+    },
+    {
+      "description": "Maximum amount of cpu the container can use.",
+      "displayName": "CPU Limit",
+      "name": "DATABASE_CPU_LIMIT",
+      "required": true,
+      "value": "1"
+    },
+    {
+      "description": "Minimum amount of memory the container can use.",
+      "displayName": "Memory Request",
+      "name": "DATABASE_MEMORY_REQUEST",
+      "required": true,
+      "value": "4Gi"
+    },
+    {
+      "description": "Maximum amount of memory the container can use.",
+      "displayName": "Memory Limit",
+      "name": "DATABASE_MEMORY_LIMIT",
+      "required": true,
+      "value": "8Gi"
+    },
+    {
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "displayName": "Database Repository",
+      "name": "DATABASE_REPOSITORY",
+      "required": true,
+      "value": "opr.icdc.io/manageiq"
+    },
+    {
+      "description": "The name of the OpenShift Service exposed for the database.",
+      "displayName": "Database Service Name",
+      "name": "DATABASE_SERVICE_NAME",
+      "required": true,
+      "value": "postgresql"
+    },
+    {
+      "description": "Username for PostgreSQL user that will be used for accessing the database.",
+      "displayName": "PostgreSQL Connection Username",
+      "name": "DATABASE_USER",
+      "required": true,
+      "value": "root"
+    },
+    {
+      "description": "Password for the PostgreSQL connection user.",
+      "displayName": "PostgreSQL Connection Password",
+      "from": "[a-zA-Z0-9]{16}",
+      "generate": "expression",
+      "name": "DATABASE_PASSWORD",
+      "required": true
+    },
+    {
+      "description": "Name of the PostgreSQL database accessed.",
+      "displayName": "PostgreSQL Database Name",
+      "name": "DATABASE_NAME",
+      "required": true,
+      "value": "vmdb_production"
+    },
+    {
+      "description": "Name of the PostgreSQL database accessed.",
+      "displayName": "PostgreSQL Database Name",
+      "name": "DATABASE_HOSTNAME",
+      "required": true,
+      "value": "postgresql"
+    },
+    {
+      "description": "Port of the PostgreSQL database accessed.",
+      "displayName": "PostgreSQL Database Port",
+      "name": "DATABASE_PORT",
+      "required": true,
+      "value": "5432"
+    },
+    {
+      "description": "",
+      "displayName": "PostgreSQL Max Connections",
+      "name": "POSTGRESQL_MAX_CONNECTIONS",
+      "required": true,
+      "value": "1000"
+    },
+    {
+      "description": "",
+      "displayName": "PostgreSQL Shared Buffers",
+      "name": "POSTGRESQL_SHARED_BUFFERS",
+      "required": true,
+      "value": "1GB"
+    },
+    {
+      "description": "Version of PostgreSQL image to be used (10-el7, 10-el8, or latest).",
+      "displayName": "Version of PostgreSQL Image",
+      "name": "POSTGRESQL_VERSION",
+      "required": true,
+      "value": "10"
+    },
+    {
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
+      "displayName": "Volume Capacity",
+      "name": "DATABASE_VOLUME_CAPACITY",
+      "required": true,
+      "value": "50Gi"
+    },
+    {
+      "description": "The name of the OpenShift Service exposed for the database.",
+      "displayName": "Kafka Service Name",
+      "name": "KAFKA_SERVICE_NAME",
+      "required": true,
+      "value": "kafka"
+    },
+    {
+      "description": "Username for Kafka user that will be used for accessing the database.",
+      "displayName": "Kafka Connection Username",
+      "name": "MESSAGING_USERNAME",
+      "required": true,
+      "value": "root"
+    },
+    {
+      "description": "Password for the Kafka connection user.",
+      "displayName": "Kafka Connection Password",
+      "from": "[a-zA-Z0-9]{16}",
+      "generate": "expression",
+      "name": "MESSAGING_PASSWORD",
+      "required": true
+    },
+    {
+      "description": "Name of the Kafka database accessed.",
+      "displayName": "Kafka Database Name",
+      "name": "MESSAGING_HOSTNAME",
+      "required": true,
+      "value": "kafka"
+    },
+    {
+      "description": "Port of the Kafka accessed.",
+      "displayName": "Kafka Port",
+      "name": "MESSAGING_PORT",
+      "required": true,
+      "value": "9092"
+    },
+    {
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
+      "displayName": "Volume Capacity",
+      "name": "KAFKA_VOLUME_CAPACITY",
+      "required": true,
+      "value": "10Gi"
+    },
+    {
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "displayName": "Kafka Repository",
+      "name": "KAFKA_REPOSITORY",
+      "required": true,
+      "value": "opr.icdc.io/bitnami"
+    },
+    {
+      "description": "Version of Kafka image to be used.",
+      "displayName": "Version of Kafka Image",
+      "name": "KAFKA_VERSION",
+      "required": true,
+      "value": "3.2"
+    },
+    {
+      "description": "The name of the OpenShift Service exposed for the database.",
+      "displayName": "Zookeeper Service Name",
+      "name": "ZOOKEEPER_SERVICE_NAME",
+      "required": true,
+      "value": "zookeeper"
+    },
+    {
+      "description": "Port of the Zookeeper accessed.",
+      "displayName": "Zookeeper Port",
+      "name": "ZOOKEEPER_PORT",
+      "required": true,
+      "value": "2181"
+    },
+    {
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
+      "displayName": "Volume Capacity",
+      "name": "ZOOKEEPER_VOLUME_CAPACITY",
+      "required": true,
+      "value": "1Gi"
+    },
+    {
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "displayName": "Zookeeper Repository",
+      "name": "ZOOKEEPER_REPOSITORY",
+      "required": true,
+      "value": "opr.icdc.io/bitnami"
+    },
+    {
+      "description": "Version of Zookeeper image to be used.",
+      "displayName": "Version of Zookeeper Image",
+      "name": "ZOOKEEPER_VERSION",
+      "required": true,
+      "value": "3.8"
+    },
+    {
+      "description": "The name of the OpenShift Service exposed for the database.",
+      "displayName": "Memcached Service Name",
+      "name": "MEMCACHED_SERVICE_NAME",
+      "required": true,
+      "value": "memcached"
+    },
+    {
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "displayName": "Memcached Repository",
+      "name": "MEMCACHED_REPOSITORY",
+      "required": true,
+      "value": "opr.icdc.io/manageiq"
+    },
+    {
+      "description": "Version of Memcached image to be used.",
+      "displayName": "Version of Memcached Image",
+      "name": "MEMCACHED_VERSION",
+      "required": true,
+      "value": "1.5"
+    },
+    {
+      "description": "Minimum amount of cpu the container can use.",
+      "displayName": "CPU Request",
+      "name": "MEMCACHED_CPU_REQUEST",
+      "required": true,
+      "value": "200m"
+    },
+    {
+      "description": "Maximum amount of cpu the container can use.",
+      "displayName": "CPU Limit",
+      "name": "MEMCACHED_CPU_LIMIT",
+      "required": true,
+      "value": "500m"
+    },
+    {
+      "description": "Minimum amount of memory the container can use.",
+      "displayName": "Memory Request",
+      "name": "MEMCACHED_MEMORY_REQUEST",
+      "required": true,
+      "value": "64Mi"
+    },
+    {
+      "description": "Maximum amount of memory the container can use.",
+      "displayName": "Memory Limit",
+      "name": "MEMCACHED_MEMORY_LIMIT",
+      "required": true,
+      "value": "256Mi"
+    },
+    {
+      "description": "",
+      "displayName": "Memcached Max Memory",
+      "name": "MEMCACHED_MAX_MEMORY",
+      "required": true,
+      "value": "64"
+    },
+    {
+      "description": "",
+      "displayName": "Memcached Max Connections",
+      "name": "MEMCACHED_MAX_CONNECTIONS",
+      "required": true,
+      "value": "1024"
+    },
+    {
+      "description": "",
+      "displayName": "Memcached Slab Page Size",
+      "name": "MEMCACHED_SLAB_PAGE_SIZE",
+      "required": true,
+      "value": "1m"
+    },
+    {
+      "description": "The name of the OpenShift Service exposed for the database.",
+      "displayName": "HTTPD Service Name",
+      "name": "HTTPD_SERVICE_NAME",
+      "required": true,
+      "value": "httpd"
+    },
+    {
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "displayName": "HTTPD Repository",
+      "name": "HTTPD_REPOSITORY",
+      "required": true,
+      "value": "opr.icdc.io/manageiq"
+    },
+    {
+      "description": "Version of HTTPD image to be used.",
+      "displayName": "Version of HTTPD Image",
+      "name": "HTTPD_VERSION",
+      "required": true,
+      "value": "2.4"
+    },
+    {
+      "description": "Minimum amount of cpu the container can use.",
+      "displayName": "CPU Request",
+      "name": "HTTPD_CPU_REQUEST",
+      "required": true,
+      "value": "500m"
+    },
+    {
+      "description": "Maximum amount of cpu the container can use.",
+      "displayName": "CPU Limit",
+      "name": "HTTPD_CPU_LIMIT",
+      "required": true,
+      "value": "1"
+    },
+    {
+      "description": "Minimum amount of memory the container can use.",
+      "displayName": "Memory Request",
+      "name": "HTTPD_MEMORY_REQUEST",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "description": "Maximum amount of memory the container can use.",
+      "displayName": "Memory Limit",
+      "name": "HTTPD_MEMORY_LIMIT",
+      "required": true,
+      "value": "8192Mi"
+    },
+    {
+      "description": "OpenShift Cluster Name",
+      "displayName": "OpenShift Cluster Name",
+      "name": "OCP_CLUSTER_NAME",
+      "required": true,
+      "value": "sys"
+    },
+    {
+      "description": "Display Hostname",
+      "displayName": "Display Hostname",
+      "name": "DISPLAY_HOSTNAME",
+      "required": true,
+      "value": "display-1"
+    },
+    {
+      "description": "ELK URL",
+      "displayName": "ELK URL",
+      "name": "ELK_URL",
+      "value": "elk.example.io:9200"
+    },
+    {
+      "description": "ELK Username",
+      "displayName": "ELK Username",
+      "name": "ELK_USERNAME",
+      "value": "elastic"
+    },
+    {
+      "description": "ELK Password",
+      "displayName": "ELK Password",
+      "name": "ELK_PASSWORD",
+      "value": "changeme"
+    }
+  ]
+}
