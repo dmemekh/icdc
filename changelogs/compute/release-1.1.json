@@ -1,0 +1,188 @@
+[
+  {
+    "version": "1.1.2",
+    "tag": "latest",
+    "date": "2022-08-12",
+    "required": {
+       "api-gateway": "1.0.1"
+    },
+    "applications": [
+      {
+        "name": "orchestrator",
+        "tag": "1.1.2",
+        "description":
+        {
+          "warnings": "",
+          "features": "feature1; feature2",
+          "security_fixes": "security1; security2",
+          "bug_fixes": "bug1; bug2",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "baseworker",
+        "tag": "1.1.2",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "webserverworker",
+        "tag": "1.1.2",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "",
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "uiworker",
+        "tag": "1.1.2",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "",
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      }
+    ]
+  },
+  {
+    "version": "1.1.1",
+    "tag": "latest",
+    "date": "2022-08-12",
+    "required": {
+       "api-gateway": "1.0.1"
+    },
+    "applications": [
+      {
+        "name": "orchestrator",
+        "tag": "1.1.1",
+        "description":
+        {
+          "warnings": "",
+          "features": "feature1; feature2",
+          "security_fixes": "security1; security2",
+          "bug_fixes": "bug1; bug2",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "baseworker",
+        "tag": "1.1.1",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "webserverworker",
+        "tag": "1.1.1",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "",
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "uiworker",
+        "tag": "1.1.1",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "",
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      }
+    ]
+  },
+  {
+    "version": "1.1.0",
+    "tag": "",
+    "date": "2022-08-12",
+    "required": {
+       "api-gateway": "1.0.1"
+    },
+    "applications": [
+      {
+        "name": "orchestrator",
+        "tag": "1.1.0",
+        "description":
+        {
+          "warnings": "",
+          "features": "feature1; feature2",
+          "security_fixes": "security1; security2",
+          "bug_fixes": "bug1; bug2",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "baseworker",
+        "tag": "1.1.0",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "webserverworker",
+        "tag": "1.1.0",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "",
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      },
+      {
+        "name": "uiworker",
+        "tag": "1.1.0",
+        "description":
+        {
+          "warnings": "",
+          "features": "",
+          "security_fixes": "",
+          "bug_fixes": "",
+          "depricated": "",
+          "known_issues": ""
+        }
+      }
+    ]
+  }
+]
