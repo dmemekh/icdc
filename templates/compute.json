@@ -136,7 +136,7 @@
             "annotations": null,
             "from": {
                 "kind": "ImageStreamTag",
-                "name": "${TAG_BASEWORKER}"
+                "name": "${TAG_BASE_WORKER}"
             },
             "importPolicy": {},
             "name": "latest",
@@ -148,10 +148,10 @@
             "annotations": null,
             "from": {
                 "kind": "DockerImage",
-                "name": "${SERVICE_REPOSITORY}/base-worker:${TAG_BASEWORKER}"
+                "name": "${SERVICE_REPOSITORY}/base-worker:${TAG_BASE_WORKER}"
             },
             "importPolicy": {},
-            "name": "${TAG_BASEWORKER}",
+            "name": "${TAG_BASE_WORKER}",
             "referencePolicy": {
                 "type": "Local"
             }
@@ -181,7 +181,7 @@
             "annotations": null,
             "from": {
                 "kind": "ImageStreamTag",
-                "name": "${TAG_WEBSERVERWORKER}"
+                "name": "${TAG_WEBSERVER_WORKER}"
             },
             "importPolicy": {},
             "name": "latest",
@@ -193,10 +193,10 @@
             "annotations": null,
             "from": {
                 "kind": "DockerImage",
-                "name": "${SERVICE_REPOSITORY}/webserver-worker:${TAG_WEBSERVERWORKER}"
+                "name": "${SERVICE_REPOSITORY}/webserver-worker:${TAG_WEBSERVER_WORKER}"
             },
             "importPolicy": {},
-            "name": "${TAG_WEBSERVERWORKER}",
+            "name": "${TAG_WEBSERVER_WORKER}",
             "referencePolicy": {
                 "type": "Local"
             }
@@ -226,7 +226,7 @@
             "annotations": null,
             "from": {
                 "kind": "ImageStreamTag",
-                "name": "${TAG_UIWORKER}"
+                "name": "${TAG_UI_WORKER}"
             },
             "importPolicy": {},
             "name": "latest",
@@ -238,10 +238,10 @@
             "annotations": null,
             "from": {
                 "kind": "DockerImage",
-                "name": "${SERVICE_REPOSITORY}/ui-worker:${TAG_UIWORKER}"
+                "name": "${SERVICE_REPOSITORY}/ui-worker:${TAG_UI_WORKER}"
             },
             "importPolicy": {},
-            "name": "${TAG_UIWORKER}",
+            "name": "${TAG_UI_WORKER}",
             "referencePolicy": {
                 "type": "Local"
             }
@@ -2114,21 +2114,21 @@
     {
       "description": "The version assigned to all of the frontend objects defined in this template.",
       "displayName": "Tag",
-      "name": "TAG_BASEWORKER",
+      "name": "TAG_BASE_WORKER",
       "required": true,
       "value": ""
     },
     {
       "description": "The version assigned to all of the frontend objects defined in this template.",
       "displayName": "Tag",
-      "name": "TAG_WEBSERVERWORKER",
+      "name": "TAG_WEBSERVER_WORKER",
       "required": true,
       "value": ""
     },
     {
       "description": "The version assigned to all of the frontend objects defined in this template.",
       "displayName": "Tag",
-      "name": "TAG_UIWORKER",
+      "name": "TAG_UI_WORKER",
       "required": true,
       "value": ""
     },
