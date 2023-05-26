@@ -2114,21 +2114,21 @@
     {
       "description": "The version assigned to all of the frontend objects defined in this template.",
       "displayName": "Tag",
-      "name": "TAG_BASE_WORKER",
+      "name": "TAG_BASEWORKER",
       "required": true,
       "value": ""
     },
     {
       "description": "The version assigned to all of the frontend objects defined in this template.",
       "displayName": "Tag",
-      "name": "TAG_WEBSERVER_WORKER",
+      "name": "TAG_WEBSERVERWORKER",
       "required": true,
       "value": ""
     },
     {
       "description": "The version assigned to all of the frontend objects defined in this template.",
       "displayName": "Tag",
-      "name": "TAG_UI_WORKER",
+      "name": "TAG_UIWORKER",
       "required": true,
       "value": ""
     },
