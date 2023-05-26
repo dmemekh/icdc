@@ -681,7 +681,7 @@
       "displayName": "Namespace",
       "name": "NAMESPACE",
       "required": true,
-      "value": "cloud-admin"
+      "value": null
     },
     {
       "description": "Service Group",
