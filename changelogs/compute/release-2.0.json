@@ -145,7 +145,7 @@
         }
       },
       {
-        "name": "baseworker",
+        "name": "base-worker",
         "tag": "1.2.0",
         "description":
         {
@@ -158,7 +158,7 @@
         }
       },
       {
-        "name": "webserverworker",
+        "name": "webserver-worker",
         "tag": "1.2.0",
         "description":
         {
@@ -171,7 +171,7 @@
         }
       },
       {
-        "name": "uiworker",
+        "name": "ui-worker",
         "tag": "1.2.0",
         "description":
         {
