@@ -21,7 +21,7 @@
         }
       },
       {
-        "name": "baseworker",
+        "name": "base-worker",
         "tag": "1.2.2",
         "description":
         {
@@ -34,7 +34,7 @@
         }
       },
       {
-        "name": "webserverworker",
+        "name": "webserver-worker",
         "tag": "1.2.2",
         "description":
         {
@@ -47,7 +47,7 @@
         }
       },
       {
-        "name": "uiworker",
+        "name": "ui-worker",
         "tag": "1.2.2",
         "description":
         {
@@ -83,7 +83,7 @@
         }
       },
       {
-        "name": "baseworker",
+        "name": "base-worker",
         "tag": "1.2.1",
         "description":
         {
@@ -96,7 +96,7 @@
         }
       },
       {
-        "name": "webserverworker",
+        "name": "webserver-worker",
         "tag": "1.2.1",
         "description":
         {
@@ -109,7 +109,7 @@
         }
       },
       {
-        "name": "uiworker",
+        "name": "ui-worker",
         "tag": "1.2.1",
         "description":
         {
