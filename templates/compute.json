@@ -1799,7 +1799,7 @@
                 "env": [
                   {
                     "name": "WORKERS_ENV",
-                    "value": "development"
+                    "value": "production"
                   },
                   {
                     "name": "LOC_NAME",
