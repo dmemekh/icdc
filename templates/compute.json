@@ -27,6 +27,17 @@
         "annotations": {
           "description": "Keeps track of changes in the application image"
         },
+        "name": "orchestrator",
+        "namespace": "${NAMESPACE}"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
         "name": "${SERVICE_NAME}",
         "namespace": "${NAMESPACE}"
       },
