@@ -195,6 +195,51 @@
     },
     {
       "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "labels": {
+          "app": "${API_PROXY_NAME}"
+        },
+        "name": "${SERVICE_NAME}-${API_PROXY_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${TAG_API_PROXY}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          },
+          {
+            "annotations": null,
+            "from": {
+                "kind": "DockerImage",
+                "name": "${SERVICE_REPOSITORY}/${API_PROXY_NAME}:${TAG_API_PROXY}"
+            },
+            "importPolicy": {},
+            "name": "${TAG_API_PROXY}",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
       "kind": "Service",
       "metadata": {
         "annotations": {
@@ -268,6 +313,32 @@
         ],
         "selector": {
           "name": "${APP_SETUP_NAME}"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "description": "Exposes and load balances the application pods"
+        },
+        "labels": {
+          "app": "${API_PROXY_NAME}"
+        },
+        "name": "${API_PROXY_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "${API_PROXY_PORT}-tcp",
+            "port": "${{API_PROXY_PORT}}",
+            "targetPort": "${{API_PROXY_PORT}}"
+          }
+        ],
+        "selector": {
+          "name": "${API_PROXY_NAME}"
         }
       }
     },
@@ -691,6 +762,139 @@
           }
         ]
       }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "labels": {
+          "app": "${API_PROXY_NAME}"
+        },
+        "name": "${API_PROXY_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "data": {
+        "default.conf": "server {\n  listen ${APP_PORT};\n  # internal OpenShift DNS, cache only for 10s\n  resolver dns-default.openshift-dns.svc.cluster.local valid=10s;\n\n  #location / {\n  #    root   /usr/share/nginx/html;\n  #    index  index.html index.htm;\n  #}\n\n  location /api/delivery {\n      #resolver            dns-default.openshift-dns.svc.cluster.local valid=10s;\n      set $target         http://apigw.${NAMESPACE_PREFIX}-admin.svc.cluster.local:8080;\n      proxy_pass          $target;\n      proxy_set_header    Host $host;\n  }\n\n  location /api/setup {\n      #resolver            dns-default.openshift-dns.svc.cluster.local valid=10s;\n      set $target         http://apigw.${NAMESPACE_PREFIX}-admin.svc.cluster.local:8080;\n      proxy_pass          $target;\n      proxy_set_header    Host $host;\n  }\n\n  location /api/billing_engine {\n      #resolver            dns-default.openshift-dns.svc.cluster.local valid=10s;\n      set $target         http://apigw.${NAMESPACE_PREFIX}-billing.svc.cluster.local:8080;\n      proxy_pass          $target;\n      proxy_set_header    Host $host;\n  }\n\n  location /api/compute {\n      #resolver            dns-default.openshift-dns.svc.cluster.local valid=10s;\n      set $target         http://apigw.${NAMESPACE_PREFIX}-networking.svc.cluster.local:8080;\n      proxy_pass          $target;\n      proxy_set_header    Host $host;\n  }\n\n  location /api/dns {\n      #resolver            dns-default.openshift-dns.svc.cluster.local valid=10s;\n      set $target         http://apigw.${NAMESPACE_PREFIX}-networking.svc.cluster.local:8080;\n      proxy_pass          $target;\n      proxy_set_header    Host $host;\n  }\n\n  location /api/traefik_manager {\n      #resolver            dns-default.openshift-dns.svc.cluster.local valid=10s;\n      set $target         http://apigw.${NAMESPACE_PREFIX}-networking.svc.cluster.local:8080;\n      proxy_pass          $target;\n      proxy_set_header    Host $host;\n  }\n\n  location /api/wireguard {\n      #resolver            dns-default.openshift-dns.svc.cluster.local valid=10s;\n      set $target         http://apigw.${NAMESPACE_PREFIX}-networking.svc.cluster.local:8080;\n      proxy_pass          $target;\n      proxy_set_header    Host $host;\n  }\n\n}"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "description": "Defines how to deploy the application server",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app": "${API_PROXY_NAME}",
+          "app.kubernetes.io/part-of": "infra",
+          "app.openshift.io/runtime": "nginx"
+        },
+        "name": "${API_PROXY_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${API_PROXY_NAME}"
+        },
+        "strategy": {
+          "type": "Rolling"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${API_PROXY_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [],
+                "image": " ",
+                "name": "${API_PROXY_NAME}",
+                "ports": [
+                  {
+                    "containerPort": "${{API_PROXY_PORT}}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "200m",
+                    "memory": "64Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "32Mi"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "mountPath": "/etc/nginx/conf.d",
+                    "name": "${API_PROXY_NAME}-vol",
+                    "readOnly": true
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "configMap": {
+                  "defaultMode": 420,
+                  "name": "${API_PROXY_NAME}"
+                },
+                "name": "${API_PROXY_NAME}-vol"
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${API_PROXY_NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${SERVICE_NAME}-${API_PROXY_NAME}:latest"
+              }
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "route.openshift.io/v1",
+      "kind": "Route",
+      "metadata": {
+        "labels": {
+          "app": "${API_PROXY_NAME}"
+        },
+        "name": "${API_PROXY_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "host": "${HOSTNAME_EXT_API}.${LOCATION_DOMAIN}",
+        "port": {
+          "targetPort": "${API_PROXY_PORT}-tcp"
+        },
+        "tls": {
+          "insecureEdgeTerminationPolicy": "Redirect",
+          "termination": "edge"
+        },
+        "to": {
+          "kind": "Service",
+          "name": "${API_PROXY_NAME}",
+          "weight": 100
+        },
+        "wildcardPolicy": "None"
+      }
     }
   ],
   "parameters": [
@@ -742,7 +946,14 @@
       "name": "TAG_SETUP",
       "required": true,
       "value": ""
-    },    
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Tag",
+      "name": "TAG_API_PROXY",
+      "required": true,
+      "value": ""
+    },
     {
       "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
       "displayName": "Service Repository",
@@ -754,6 +965,13 @@
       "name": "ENV_LOC_NAME",
       "required": true,
       "value": "env-loc"
+    },
+    {
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "displayName": "Application Hostname",
+      "name": "HOSTNAME_EXT_API",
+      "required": true,
+      "value": "api"
     },
     {
       "description": "The name assigned to all of the frontend objects defined in this template.",
@@ -775,6 +993,20 @@
       "name": "APP_SETUP_NAME",
       "required": true,
       "value": "setup"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Name",
+      "name": "API_PROXY_NAME",
+      "required": true,
+      "value": "api-proxy"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Port",
+      "name": "API_PROXY_PORT",
+      "required": true,
+      "value": "8080"
     },
     {
       "description": "The name assigned to all of the frontend objects defined in this template.",
