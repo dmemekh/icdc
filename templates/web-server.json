@@ -217,7 +217,7 @@
             "name": "${SERVICE_NAME}"
          },
          "spec": {
-            "host": "${SERVICE_NAME}.${APPLICATION_DOMAIN}",
+            "host": "${HOSTNAME_VPN_WEB_SERVER}.${APPLICATION_DOMAIN}",
             "to": {
                "kind": "Service",
                "name": "${SERVICE_NAME}"
@@ -825,6 +825,13 @@
          "name": "SERVICE_REPOSITORY",
          "required": true,
          "value": "crw.icdc.io/web-server"
+      },
+      {
+         "description": "HOSTNAME_VPN_WEB_SERVER",
+         "displayName": "HOSTNAME_VPN_WEB_SERVER",
+         "name": "HOSTNAME_VPN_WEB_SERVER",
+         "required": true,
+         "value": "web-server"
       },
       {
          "description": "Maximum amount of memory the container can use.",
