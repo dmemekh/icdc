@@ -796,7 +796,7 @@
         "namespace": "${NAMESPACE}"
       },
       "spec": {
-        "host": "${SERVICE_NAME}.${LOCATION_DOMAIN}",
+        "host": "${HOSTNAME_EXT_COMPUTE}.${LOCATION_DOMAIN}",
         "to": {
           "kind": "Service",
           "name": "${HTTPD_SERVICE_NAME}"
@@ -821,7 +821,7 @@
         "namespace": "${NAMESPACE}"
       },
       "spec": {
-        "host": "${SERVICE_NAME}-admin.vpn.${OCP_CLUSTER_NAME}.ocp.${LOCATION_DOMAIN}",
+        "host": "${HOSTNAME_VPN_COMPUTE_ADMIN}.${LOCATION_DOMAIN}",
         "to": {
           "kind": "Service",
           "name": "${HTTPD_SERVICE_NAME}"
@@ -2162,6 +2162,20 @@
       "value": "compute-env"
     },
     {
+      "description": "HOSTNAME_EXT_COMPUTE",
+      "displayName": "HOSTNAME_EXT_COMPUTE",
+      "name": "HOSTNAME_EXT_COMPUTE",
+      "required": true,
+      "value": "compute"
+    },
+    {
+      "description": "HOSTNAME_VPN_COMPUTE_ADMIN",
+      "displayName": "HOSTNAME_VPN_COMPUTE_ADMIN",
+      "name": "HOSTNAME_VPN_COMPUTE_ADMIN",
+      "required": true,
+      "value": "compute-admin"
+    },
+    {
       "description": "The OpenShift Namespace where the ImageStream resides.",
       "displayName": "Name",
       "name": "APP_NAME",
@@ -2543,13 +2557,6 @@
       "name": "HTTPD_MEMORY_LIMIT",
       "required": true,
       "value": "8192Mi"
-    },
-    {
-      "description": "OpenShift Cluster Name",
-      "displayName": "OpenShift Cluster Name",
-      "name": "OCP_CLUSTER_NAME",
-      "required": true,
-      "value": "sys"
     },
     {
       "description": "Display Hostname",
