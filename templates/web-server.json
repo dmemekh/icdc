@@ -928,7 +928,7 @@
          "value": "compute"
       },
       {
-         "name": "HOSTNAME_VPN_COMPUTE",
+         "name": "HOSTNAME_VPN_COMPUTE_ADMIN",
          "required": true,
          "value": "compute-admin"
       }      
