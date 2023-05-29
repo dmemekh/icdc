@@ -1115,7 +1115,7 @@
         "namespace": "${NAMESPACE}"
       },
       "spec": {
-        "host": "${APP_TRAEFIK_NAME}.${LOCATION_DOMAIN}",
+        "host": "${HOSTNAME_SYS_TRAEFIK}.${LOCATION_DOMAIN}",
         "port": {
           "targetPort": "${APP_TRAEFIK_PORT}-tcp"
         },
@@ -1138,7 +1138,7 @@
         "namespace": "${NAMESPACE}"
       },
       "spec": {
-        "host": "${APP_WIREGUARD_NAME}.${LOCATION_DOMAIN}",
+        "host": "${HOSTNAME_SYS_WIREGUARD}.${LOCATION_DOMAIN}",
         "port": {
           "targetPort": "${APP_WIREGUARD_PORT}-tcp"
         },
@@ -1906,6 +1906,20 @@
       "name": "TRAEFIK_CERTS_VOLUME_CAPACITY",
       "required": true,
       "value": "5Gi"
+    },
+    {
+      "description": "HOSTNAME_SYS_TRAEFIK",
+      "displayName": "HOSTNAME_SYS_TRAEFIK",
+      "name": "HOSTNAME_SYS_TRAEFIK",
+      "required": true,
+      "value": "traefik"
+    },
+    {
+      "description": "HOSTNAME_SYS_WIREGUARD",
+      "displayName": "HOSTNAME_SYS_WIREGUARD",
+      "name": "HOSTNAME_SYS_WIREGUARD",
+      "required": true,
+      "value": "wireguard"
     },
     {
       "description": "The name assigned to all of the frontend objects defined in this template.",
