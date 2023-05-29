@@ -962,6 +962,13 @@
       "value": "crw.icdc.io/demo-admin"
     },
     {
+      "description": "LOCATION_DOMAIN",
+      "displayName": "LOCATION_DOMAIN",
+      "name": "LOCATION_DOMAIN",
+      "required": true,
+      "value": ""
+    },
+    {
       "name": "ENV_LOC_NAME",
       "required": true,
       "value": "env-loc"
