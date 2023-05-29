@@ -523,7 +523,7 @@
                     "valueFrom": {
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
-                        "key": "ns_server"
+                        "key": "dns_nsserver"
                       }
                     }
                   },
