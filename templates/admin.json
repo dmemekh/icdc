@@ -401,6 +401,15 @@
                     }
                   },
                   {
+                    "name": "OCP_DOMAIN",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "ocp_domain"
+                      }
+                    }
+                  },
+                  {
                     "name": "SSO_URL",
                     "valueFrom": {
                       "configMapKeyRef": {
@@ -424,6 +433,15 @@
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
                         "key": "sso_client_id"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DNS_ACCOUNT",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "dns_account"
                       }
                     }
                   },
