@@ -911,6 +911,26 @@
          "name": "POSTGRESQL_VERSION",
          "required": true,
          "value": "10-el8"
-      }
+      },
+      {
+         "name": "HOSTNAME_SYS_TRAEFIK",
+         "required": true,
+         "value": "traefik"
+      },
+      {
+         "name": "HOSTNAME_SYS_WIREGUARD",
+         "required": true,
+         "value": "wireguard"
+      },
+      {
+         "name": "HOSTNAME_EXT_COMPUTE",
+         "required": true,
+         "value": "compute"
+      },
+      {
+         "name": "HOSTNAME_VPN_COMPUTE",
+         "required": true,
+         "value": "compute-admin"
+      }      
    ]
 }
