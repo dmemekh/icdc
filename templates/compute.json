@@ -609,6 +609,17 @@
             "referencePolicy": {
               "type": "Local"
             }
+          },
+          {
+            "from": {
+              "kind": "DockerImage",
+              "name": "${DATABASE_REPOSITORY}/postgresql:latest"
+            },
+            "importPolicy": {},
+            "name": "backup",
+            "referencePolicy": {
+              "type": "Local"
+            }
           }
         ]
       }
@@ -2121,7 +2132,8 @@
                 "containers": [
                   {
                     "name": "postgresql",
-                    "image": "image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/postgresql:latest",
+                    "image": "image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/postgresql:backup",
+                    "imagePullPolicy": "IfNotPresent",
                     "command": [
                       "/bin/sh",
                       "-c"
@@ -2135,7 +2147,7 @@
                         "valueFrom": {
                           "secretKeyRef": {
                             "name": "postgresql-secrets",
-                            "key": "database-hostname"
+                            "key": "hostname"
                           }
                         }
                       },
@@ -2144,7 +2156,7 @@
                         "valueFrom": {
                           "secretKeyRef": {
                             "name": "postgresql-secrets",
-                            "key": "database-port"
+                            "key": "dbport"
                           }
                         }
                       },
@@ -2153,7 +2165,7 @@
                         "valueFrom": {
                           "secretKeyRef": {
                             "name": "postgresql-secrets",
-                            "key": "database-name"
+                            "key": "dbname"
                           }
                         }
                       },
@@ -2162,7 +2174,7 @@
                         "valueFrom": {
                           "secretKeyRef": {
                             "name": "postgresql-secrets",
-                            "key": "database-user"
+                            "key": "username"
                           }
                         }
                       },
@@ -2171,7 +2183,7 @@
                         "valueFrom": {
                           "secretKeyRef": {
                             "name": "postgresql-secrets",
-                            "key": "database-password"
+                            "key": "password"
                           }
                         }
                       },
@@ -2193,6 +2205,14 @@
                         "memory": "256Mi"
                       }
                     },
+                    "securityContext": {
+                      "allowPrivilegeEscalation": false,
+                      "capabilities": {
+                        "drop": [
+                          "ALL"
+                        ]
+                      }
+                    },
                     "volumeMounts": [
                       {
                         "name": "backup",
@@ -2201,7 +2221,6 @@
                     ]
                   }
                 ],
-                "imagePullPolicy": "IfNotPresent",
                 "volumes": [
                   {
                     "name": "backup",
@@ -2210,7 +2229,13 @@
                     }
                   }
                 ],
-                "restartPolicy": "OnFailure"
+                "restartPolicy": "OnFailure",
+                "securityContext": {
+                  "runAsNonRoot": true,
+                  "seccompProfile": {
+                    "type": "RuntimeDefault"
+                  }
+                }
               }
             }
           }
@@ -2244,7 +2269,8 @@
                 "containers": [
                   {
                     "name": "postgresql",
-                    "image": "image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/postgresql:latest",
+                    "image": "image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/postgresql:backup",
+                    "imagePullPolicy": "IfNotPresent",
                     "command": [
                       "/bin/sh",
                       "-c"
@@ -2271,6 +2297,14 @@
                         "memory": "256Mi"
                       }
                     },
+                    "securityContext": {
+                      "allowPrivilegeEscalation": false,
+                      "capabilities": {
+                        "drop": [
+                          "ALL"
+                        ]
+                      }
+                    },
                     "volumeMounts": [
                       {
                         "name": "backup",
@@ -2279,7 +2313,6 @@
                     ]
                   }
                 ],
-                "imagePullPolicy": "IfNotPresent",
                 "volumes": [
                   {
                     "name": "backup",
@@ -2288,7 +2321,13 @@
                     }
                   }
                 ],
-                "restartPolicy": "OnFailure"
+                "restartPolicy": "OnFailure",
+                "securityContext": {
+                  "runAsNonRoot": true,
+                  "seccompProfile": {
+                    "type": "RuntimeDefault"
+                  }
+                }
               }
             }
           }
