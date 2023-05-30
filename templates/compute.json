@@ -2073,6 +2073,227 @@
           }
         ]
       }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "name": "${BACKUP_PVC_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${BACKUP_STORAGE_CAPACITY}"
+          }
+        },
+        "storageClassName": "${BACKUP_STORAGE_CLASS}",
+        "volumeMode": "Filesystem"
+      }
+    },
+    {
+      "apiVersion": "batch/v1",
+      "kind": "CronJob",
+      "metadata": {
+        "labels": {
+          "app.kubernetes.io/part-of": "backup"
+        },
+        "name": "backup-db",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "successfulJobsHistoryLimit": 7,
+        "failedJobsHistoryLimit": 3,
+        "schedule": "${SCHEDULE_BACKUP}",
+        "jobTemplate": {
+          "spec": {
+            "backoffLimit": 6,
+            "template": {
+              "metadata": {
+                "labels": {
+                  "backup": "compute"
+                }
+              },
+              "spec": {
+                "containers": [
+                  {
+                    "name": "postgresql",
+                    "image": "image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/postgresql:latest",
+                    "command": [
+                      "/bin/sh",
+                      "-c"
+                    ],
+                    "args": [
+                      "/opt/manageiq/container-scripts/backup_db && find /backups -user $(id -u) -type d | xargs chmod g+rx"
+                    ],
+                    "env": [
+                      {
+                        "name": "DATABASE_HOSTNAME",
+                        "valueFrom": {
+                          "secretKeyRef": {
+                            "name": "postgresql-secrets",
+                            "key": "database-hostname"
+                          }
+                        }
+                      },
+                      {
+                        "name": "DATABASE_PORT",
+                        "valueFrom": {
+                          "secretKeyRef": {
+                            "name": "postgresql-secrets",
+                            "key": "database-port"
+                          }
+                        }
+                      },
+                      {
+                        "name": "DATABASE_NAME",
+                        "valueFrom": {
+                          "secretKeyRef": {
+                            "name": "postgresql-secrets",
+                            "key": "database-name"
+                          }
+                        }
+                      },
+                      {
+                        "name": "DATABASE_USER",
+                        "valueFrom": {
+                          "secretKeyRef": {
+                            "name": "postgresql-secrets",
+                            "key": "database-user"
+                          }
+                        }
+                      },
+                      {
+                        "name": "DATABASE_PASSWORD",
+                        "valueFrom": {
+                          "secretKeyRef": {
+                            "name": "postgresql-secrets",
+                            "key": "database-password"
+                          }
+                        }
+                      },
+                      {
+                        "name": "TZ",
+                        "valueFrom": {
+                          "configMapKeyRef": {
+                            "name": "${ENV_LOC_NAME}",
+                            "key": "location_timezone"
+                          }
+                        }
+                      }
+                    ],
+                    "resources": {
+                      "limits": {
+                        "memory": "512Mi"
+                      },
+                      "requests": {
+                        "memory": "256Mi"
+                      }
+                    },
+                    "volumeMounts": [
+                      {
+                        "name": "backup",
+                        "mountPath": "/backups"
+                      }
+                    ]
+                  }
+                ],
+                "imagePullPolicy": "IfNotPresent",
+                "volumes": [
+                  {
+                    "name": "backup",
+                    "persistentVolumeClaim": {
+                      "claimName": "${BACKUP_PVC_NAME}"
+                    }
+                  }
+                ],
+                "restartPolicy": "OnFailure"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "batch/v1",
+      "kind": "CronJob",
+      "metadata": {
+        "labels": {
+          "app.kubernetes.io/part-of": "backup"
+        },
+        "name": "backup-gc",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "successfulJobsHistoryLimit": 4,
+        "failedJobsHistoryLimit": 3,
+        "schedule": "${SCHEDULE_GC}",
+        "jobTemplate": {
+          "spec": {
+            "backoffLimit": 6,
+            "template": {
+              "metadata": {
+                "labels": {
+                  "gc": "compute"
+                }
+              },
+              "spec": {
+                "containers": [
+                  {
+                    "name": "postgresql",
+                    "image": "image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/postgresql:latest",
+                    "command": [
+                      "/bin/sh",
+                      "-c"
+                    ],
+                    "args": [
+                      "echo \"Empty directories:\"; find /backups/ -empty -type d -exec echo {} \\; | sort -h && find /backups/ -empty -type d -prune -exec rm -rf {} \\;; echo \"Outdated backups:\"; find /backups/ -name \"miq_backup*\" -type d -exec echo {} \\; | sort -h | head -n -30 && find /backups/ -name \"miq_backup*\" -type d -exec echo {} \\; | sort -h | head -n -30 | xargs rm -rf"
+                    ],
+                    "env": [
+                      {
+                        "name": "TZ",
+                        "valueFrom": {
+                          "configMapKeyRef": {
+                            "name": "${ENV_LOC_NAME}",
+                            "key": "location_timezone"
+                          }
+                        }
+                      }
+                    ],
+                    "resources": {
+                      "limits": {
+                        "memory": "512Mi"
+                      },
+                      "requests": {
+                        "memory": "256Mi"
+                      }
+                    },
+                    "volumeMounts": [
+                      {
+                        "name": "backup",
+                        "mountPath": "/backups"
+                      }
+                    ]
+                  }
+                ],
+                "imagePullPolicy": "IfNotPresent",
+                "volumes": [
+                  {
+                    "name": "backup",
+                    "persistentVolumeClaim": {
+                      "claimName": "${BACKUP_PVC_NAME}"
+                    }
+                  }
+                ],
+                "restartPolicy": "OnFailure"
+              }
+            }
+          }
+        }
+      }
     }
   ],
   "parameters": [
@@ -2557,6 +2778,35 @@
       "name": "HTTPD_MEMORY_LIMIT",
       "required": true,
       "value": "8192Mi"
+    },
+    {
+      "name": "BACKUP_PVC_NAME",
+      "required": true,
+      "value": "postgresql-backup"
+    },
+    {
+      "name": "BACKUP_STORAGE_CLASS",
+      "required": true,
+      "value": "cloud-block-disk"
+    },
+    {
+      "name": "BACKUP_STORAGE_CAPACITY",
+      "required": true,
+      "value": "10Gi"
+    },
+    {
+      "description": "Schedule GMT+3",
+      "displayName": null,
+      "name": "SCHEDULE_BACKUP",
+      "recuired": true,
+      "value": "00 05 * * *"
+    },
+    {
+      "description": "Schedule GMT+3",
+      "displayName": null,
+      "name": "SCHEDULE_GC",
+      "recuired": true,
+      "value": "00 07 * * sun"
     },
     {
       "description": "Display Hostname",
