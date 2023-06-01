@@ -4,7 +4,8 @@
     "tag": "latest",
     "date": "2022-08-12",
     "required": {
-       "api-gateway": "1.0.1"
+      "admin": "1.1.2",
+      "billing": "1.1.2"
     },
     "applications": [
       {
@@ -66,7 +67,8 @@
     "tag": "latest",
     "date": "2022-08-12",
     "required": {
-       "api-gateway": "1.0.1"
+      "admin": "1.1.1",
+      "billing": "1.1.1"
     },
     "applications": [
       {
