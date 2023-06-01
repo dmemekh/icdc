@@ -1070,6 +1070,7 @@
       "kind": "DeploymentConfig",
       "metadata": {
         "annotations": {
+          "reloader.stakater.com/auto": "true",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
@@ -1235,6 +1236,7 @@
       "kind": "DeploymentConfig",
       "metadata": {
         "annotations": {
+          "reloader.stakater.com/auto": "true",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
@@ -1362,6 +1364,7 @@
       "kind": "DeploymentConfig",
       "metadata": {
         "annotations": {
+          "reloader.stakater.com/auto": "true",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
@@ -1456,6 +1459,7 @@
       "kind": "DeploymentConfig",
       "metadata": {
         "annotations": {
+          "reloader.stakater.com/auto": "true",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
@@ -1565,6 +1569,7 @@
       "kind": "DeploymentConfig",
       "metadata": {
         "annotations": {
+          "reloader.stakater.com/auto": "true",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
@@ -1759,6 +1764,7 @@
       "kind": "DeploymentConfig",
       "metadata": {
         "annotations": {
+          "reloader.stakater.com/auto": "true",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
         "labels": {
