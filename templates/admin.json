@@ -347,6 +347,7 @@
       "kind": "DeploymentConfig",
       "metadata": {
         "annotations": {
+          "reloader.stakater.com/auto": "true",
           "description": "Defines how to deploy the application server",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
@@ -423,6 +424,7 @@
       "kind": "DeploymentConfig",
       "metadata": {
         "annotations": {
+          "reloader.stakater.com/auto": "true",
           "description": "Defines how to deploy the application server",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
@@ -614,6 +616,7 @@
       "kind": "DeploymentConfig",
       "metadata": {
         "annotations": {
+          "reloader.stakater.com/auto": "true",
           "description": "Defines how to deploy the application server",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
@@ -768,6 +771,7 @@
       "kind": "DeploymentConfig",
       "metadata": {
         "annotations": {
+          "reloader.stakater.com/auto": "true",
           "description": "Defines how to deploy the application server",
           "template.alpha.openshift.io/wait-for-ready": "true"
         },
