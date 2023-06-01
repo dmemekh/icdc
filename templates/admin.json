@@ -526,48 +526,13 @@
                         "key": "dns_server"
                       }
                     }
-                  },
+                  }
+                ],
+                "envFrom": [
                   {
-                    "name": "OPENSHIFT_SERVER",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "${APP_DELIVERY_NAME}",
-                        "key": "OPENSHIFT_SERVER"
-                      }
+                    "configMapRef": {
+                      "name": "${APP_DELIVERY_NAME}"
                     }
-                  },
-                  {
-                    "name": "OPENSHIFT_TOKEN",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "${APP_DELIVERY_NAME}",
-                        "key": "OPENSHIFT_TOKEN"
-                      }
-                    }
-                  },
-                  {
-                    "name": "GITHUB_ACCOUNT",
-                    "value": "${GITHUB_ACCOUNT}"
-                  },
-                  {
-                    "name": "GITHUB_REPO",
-                    "value": "${GITHUB_REPO}"
-                  },
-                  {
-                    "name": "GITHUB_REF",
-                    "value": "${GITHUB_REF}"
-                  },
-                  {
-                    "name": "GITHUB_USER_NAME",
-                    "value": "${GITHUB_USER_NAME}"
-                  },
-                  {
-                    "name": "GITHUB_USER_TOKEN",
-                    "value": "${GITHUB_USER_TOKEN}"
-                  },
-                  {
-                    "name": "NAMESPACE_PREFIX",
-                    "value": "${NAMESPACE_PREFIX}"
                   }
                 ],
                 "image": " ",
