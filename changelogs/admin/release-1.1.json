@@ -4,9 +4,7 @@
     "tag": "latest",
     "release": "1.1",
     "date": "2021-09-09",
-    "required": {
-       "api-gateway": "1.0.1"
-    },
+    "required": {},
     "applications": [
       {
         "name": "apigw",
@@ -67,9 +65,7 @@
     "tag": "latest",
     "release": "1.1",
     "date": "2021-09-09",
-    "required": {
-       "api-gateway": "1.0.1"
-    },
+    "required": {},
     "applications": [
       {
         "name": "apigw",
