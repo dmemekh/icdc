@@ -1,0 +1,477 @@
+{
+  "apiVersion": "template.openshift.io/v1",
+  "kind": "Template",
+  "labels": {
+    "service": "${SERVICE_NAME}"
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/httpd-ex/blob/master/README.md.",
+  "metadata": {
+    "annotations": {
+      "description": "An example Apache HTTP Server (httpd) application that serves static content. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/httpd-ex/blob/master/README.md.",
+      "iconClass": "icon-apache",
+      "openshift.io/display-name": "Apache HTTP Server",
+      "openshift.io/documentation-url": "https://github.com/openshift/httpd-ex",
+      "openshift.io/long-description": "This template defines resources needed to develop a static application served by Apache HTTP Server (httpd), including a build configuration and application deployment configuration.",
+      "openshift.io/provider-display-name": "Red Hat, Inc.",
+      "openshift.io/support-url": "https://access.redhat.com",
+      "tags": "quickstart,httpd",
+      "template.openshift.io/bindable": "false"
+    },
+    "name": "storage-template"
+  },
+  "objects": [
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "name": "${SERVICE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${VERSION}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Source"
+            }
+          },
+          {
+            "annotations": null,
+            "importPolicy": {},
+            "name": "${VERSION}",
+            "referencePolicy": {
+                "type": "Source"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "labels": {
+          "app": "${APIGW_NAME}"
+        },
+        "name": "${SERVICE_NAME}-${APIGW_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${TAG_APIGW}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          },
+          {
+            "annotations": null,
+            "from": {
+                "kind": "DockerImage",
+                "name": "${SERVICE_REPOSITORY}/${APIGW_NAME}:${TAG_APIGW}"
+            },
+            "importPolicy": {},
+            "name": "${TAG_APIGW}",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        },
+        "labels": {
+          "app": "${APP_STORAGE_NAME}"
+        },
+        "name": "${SERVICE_NAME}-${APP_STORAGE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+                "kind": "ImageStreamTag",
+                "name": "${TAG_STORAGE}"
+            },
+            "importPolicy": {},
+            "name": "latest",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          },
+          {
+            "annotations": null,
+            "from": {
+                "kind": "DockerImage",
+                "name": "${SERVICE_REPOSITORY}/${APP_STORAGE_NAME}:${TAG_STORAGE}"
+            },
+            "importPolicy": {},
+            "name": "${TAG_STORAGE}",
+            "referencePolicy": {
+                "type": "Local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "description": "Exposes and load balances the application pods"
+        },
+        "labels": {
+          "app": "${APIGW_NAME}"
+        },
+        "name": "${APIGW_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "${APIGW_PORT}-tcp",
+            "port": "${{APIGW_PORT}}",
+            "targetPort": "${{APIGW_PORT}}"
+          }
+        ],
+        "selector": {
+          "name": "${APIGW_NAME}"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "description": "Exposes and load balances the application pods"
+        },
+        "labels": {
+          "app": "${APP_STORAGE_NAME}"
+        },
+        "name": "${APP_STORAGE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "${APP_STORAGE_PORT}-tcp",
+            "port": "${{APP_STORAGE_PORT}}",
+            "targetPort": "${{APP_STORAGE_PORT}}"
+          }
+        ],
+        "selector": {
+          "name": "${APP_STORAGE_NAME}"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "reloader.stakater.com/auto": "true",
+          "description": "Defines how to deploy the application server",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app": "${APIGW_NAME}",
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app.openshift.io/runtime": "load-balancer"
+        },
+        "name": "${APIGW_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${APIGW_NAME}"
+        },
+        "strategy": {
+          "type": "Rolling"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${APIGW_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [],
+                "image": " ",
+                "name": "${APIGW_NAME}",
+                "ports": [
+                  {
+                    "containerPort": "${{APIGW_PORT}}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "200m",
+                    "memory": "64Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "32Mi"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${APIGW_NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${SERVICE_NAME}-${APIGW_NAME}:latest"
+              }
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "reloader.stakater.com/auto": "true",
+          "description": "Defines how to deploy the application server",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "labels": {
+          "app": "${APP_STORAGE_NAME}",
+          "app.kubernetes.io/part-of": "${SERVICE_GROUP}",
+          "app.openshift.io/runtime": "python"
+        },
+        "name": "${APP_STORAGE_NAME}",
+        "namespace": "${NAMESPACE}"
+      },
+      "spec": {
+        "replicas": 1,
+        "revisionHistoryLimit": 2,
+        "selector": {
+          "name": "${APP_STORAGE_NAME}"
+        },
+        "strategy": {
+          "type": "Rolling"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${APP_STORAGE_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "LOCATION_ADMIN_GROUP",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "location_admin_group"
+                      }
+                    }
+                  },
+                  {
+                    "name": "STORAGE_CONF",
+                    "value": "${STORAGE_CONF}"
+                  }
+                ],
+                "envFrom": null,
+                "image": " ",
+                "name": "${APP_STORAGE_NAME}",
+                "ports": [
+                  {
+                    "containerPort": "${{APP_STORAGE_PORT}}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "200m",
+                    "memory": "256Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "128Mi"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "${APP_STORAGE_NAME}-vol",
+                    "mountPath": "/etc/ceph"
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "name": "${APP_STORAGE_NAME}-vol",
+                "secret": {
+                  "secretName": "${APP_STORAGE_NAME}"
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${APP_STORAGE_NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${SERVICE_NAME}-${APP_STORAGE_NAME}:latest"
+              }
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "displayName": "Namespace",
+      "name": "NAMESPACE",
+      "required": true,
+      "value": null
+    },
+    {
+      "description": "Service Group",
+      "displayName": "Service Group",
+      "name": "SERVICE_GROUP",
+      "required": true,
+      "value": "storage"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Service Name",
+      "name": "SERVICE_NAME",
+      "required": true,
+      "value": "storage"
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Version",
+      "name": "VERSION",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Tag",
+      "name": "TAG_APIGW",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The version assigned to all of the frontend objects defined in this template.",
+      "displayName": "Tag",
+      "name": "TAG_STORAGE",
+      "required": true,
+      "value": ""
+    },
+    {
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "displayName": "Service Repository",
+      "name": "SERVICE_REPOSITORY",
+      "required": true,
+      "value": "crw.icdc.io/demo-storage"
+    },
+    {
+      "name": "ENV_LOC_NAME",
+      "required": true,
+      "value": "env-loc"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Name",
+      "name": "APIGW_NAME",
+      "required": true,
+      "value": "apigw"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Name",
+      "name": "APP_STORAGE_NAME",
+      "required": true,
+      "value": "storage"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Port",
+      "name": "APIGW_PORT",
+      "required": true,
+      "value": "8080"
+    },
+    {
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "displayName": "Application Port",
+      "name": "APP_STORAGE_PORT",
+      "required": true,
+      "value": "8888"
+    },
+    {
+      "description": "Location of the storage.conf.",
+      "displayName": "storage.conf location",
+      "name": "STORAGE_CONF",
+      "value": "/etc/ceph/storage.conf"
+    }
+  ]
+}
