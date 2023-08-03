@@ -62,8 +62,7 @@
       "kind": "ImageStream",
       "metadata": {
         "annotations": {
-          "description": "Keeps track of changes in the application image",
-          "openshift.io/image.insecureRepository": "true"
+          "description": "Keeps track of changes in the application image"
         },
         "labels": {
           "app": "${APIGW_NAME}"
@@ -94,7 +93,9 @@
                 "kind": "DockerImage",
                 "name": "${SERVICE_REPOSITORY}/${APIGW_NAME}:${TAG_APIGW}"
             },
-            "importPolicy": {},
+            "importPolicy": {
+                "insecure": true
+            },
             "name": "${TAG_APIGW}",
             "referencePolicy": {
                 "type": "Local"
@@ -108,8 +109,7 @@
       "kind": "ImageStream",
       "metadata": {
         "annotations": {
-          "description": "Keeps track of changes in the application image",
-          "openshift.io/image.insecureRepository": "true"
+          "description": "Keeps track of changes in the application image"
         },
         "labels": {
           "app": "${APP_DELIVERY_NAME}"
@@ -140,7 +140,9 @@
                 "kind": "DockerImage",
                 "name": "${SERVICE_REPOSITORY}/${APP_DELIVERY_NAME}:${TAG_DELIVERY}"
             },
-            "importPolicy": {},
+            "importPolicy": {
+                "insecure": true
+            },
             "name": "${TAG_DELIVERY}",
             "referencePolicy": {
                 "type": "Local"
@@ -154,8 +156,7 @@
       "kind": "ImageStream",
       "metadata": {
         "annotations": {
-          "description": "Keeps track of changes in the application image",
-          "openshift.io/image.insecureRepository": "true"
+          "description": "Keeps track of changes in the application image"
         },
         "labels": {
           "app": "${APP_SETUP_NAME}"
@@ -186,7 +187,9 @@
                 "kind": "DockerImage",
                 "name": "${SERVICE_REPOSITORY}/${APP_SETUP_NAME}:${TAG_SETUP}"
             },
-            "importPolicy": {},
+            "importPolicy": {
+                "insecure": true
+            },
             "name": "${TAG_SETUP}",
             "referencePolicy": {
                 "type": "Local"
@@ -200,8 +203,7 @@
       "kind": "ImageStream",
       "metadata": {
         "annotations": {
-          "description": "Keeps track of changes in the application image",
-          "openshift.io/image.insecureRepository": "true"
+          "description": "Keeps track of changes in the application image"
         },
         "labels": {
           "app": "${API_PROXY_NAME}"
@@ -232,7 +234,9 @@
                 "kind": "DockerImage",
                 "name": "${SERVICE_REPOSITORY}/${API_PROXY_NAME}:${TAG_API_PROXY}"
             },
-            "importPolicy": {},
+            "importPolicy": {
+                "insecure": true
+            },
             "name": "${TAG_API_PROXY}",
             "referencePolicy": {
                 "type": "Local"
