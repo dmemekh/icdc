@@ -537,7 +537,7 @@
                 ],
                 "envFrom": [
                   {
-                    "configMapRef": {
+                    "secretRef": {
                       "name": "${APP_DELIVERY_NAME}"
                     }
                   }
