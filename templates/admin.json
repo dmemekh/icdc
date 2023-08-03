@@ -906,7 +906,7 @@
       "displayName": "Service Repository",
       "name": "SERVICE_REPOSITORY",
       "required": true,
-      "value": "crw.icdc.io/demo-admin"
+      "value": "registry.zeu.icdc.io/cloud-admin"
     },
     {
       "description": "LOCATION_DOMAIN",
