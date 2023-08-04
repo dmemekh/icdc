@@ -994,7 +994,7 @@
     {
       "description": "",
       "displayName": "Rails Production Secret Key",
-      "from": "[a-z0-9]{64}",
+      "from": "[a-z0-9]{32}",
       "generate": "expression",
       "name": "SECRET_KEY_BASE",
       "required": true
