@@ -533,6 +533,10 @@
                         "key": "dns_server"
                       }
                     }
+                  },
+                  {
+                    "name": "SECRET_KEY_BASE",
+                    "value": "${SECRET_KEY_BASE}"
                   }
                 ],
                 "envFrom": [
@@ -986,6 +990,14 @@
       "name": "APP_SETUP_PORT",
       "required": true,
       "value": "8080"
+    },
+    {
+      "description": "",
+      "displayName": "Rails Production Secret Key",
+      "from": "[a-z0-9]{64}",
+      "generate": "expression",
+      "name": "SECRET_KEY_BASE",
+      "required": true
     },
     {
       "name": "GITHUB_ACCOUNT",
