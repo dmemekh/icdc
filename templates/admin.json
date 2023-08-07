@@ -481,15 +481,6 @@
                     }
                   },
                   {
-                    "name": "OCP_DOMAIN",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "ocp_domain"
-                      }
-                    }
-                  },
-                  {
                     "name": "SSO_URL",
                     "valueFrom": {
                       "configMapKeyRef": {
@@ -513,15 +504,6 @@
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
                         "key": "sso_client_id"
-                      }
-                    }
-                  },
-                  {
-                    "name": "DNS_ACCOUNT",
-                    "valueFrom": {
-                      "configMapKeyRef": {
-                        "name": "${ENV_LOC_NAME}",
-                        "key": "dns_account"
                       }
                     }
                   },
@@ -656,6 +638,37 @@
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
                         "key": "sso_realm"
+                      }
+                    }
+                  },
+                  {
+                    "name": "LOCATION_DOMAIN",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "location_domain"
+                      }
+                    }
+                  },
+                  {
+                    "name": "COMPUTE_URL",
+                    "value": "https://compute.$(LOCATION_DOMAIN)"
+                  },
+                  {
+                    "name": "COMPUTE_USERNAME",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "${ENV_SEC_COMPUTE}",
+                        "key": "username"
+                      }
+                    }
+                  },
+                  {
+                    "name": "COMPUTE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "${ENV_SEC_COMPUTE}",
+                        "key": "password"
                       }
                     }
                   },
@@ -927,6 +940,11 @@
       "name": "ENV_LOC_NAME",
       "required": true,
       "value": "env-loc"
+    },
+    {                   
+      "name": "ENV_SEC_COMPUTE",
+      "required": true,
+      "value": "compute-auth"
     },
     {
       "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
