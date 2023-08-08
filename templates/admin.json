@@ -1018,26 +1018,6 @@
       "required": true
     },
     {
-      "name": "GITHUB_ACCOUNT",
-      "required": false
-    },
-    {
-      "name": "GITHUB_REPO",
-      "required": false
-    },
-    {
-      "name": "GITHUB_REF",
-      "required": false
-    },
-    {
-      "name": "GITHUB_USER_NAME",
-      "required": false
-    },
-    {
-      "name": "GITHUB_USER_TOKEN",
-      "required": false
-    },
-    {
       "name": "NAMESPACE_PREFIX",
       "required": true,
       "value": "cloud"
