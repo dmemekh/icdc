@@ -587,7 +587,7 @@
         "namespace": "${NAMESPACE}"
       },
       "spec": {
-        "replicas": 1,
+        "replicas": 0,
         "revisionHistoryLimit": 2,
         "selector": {
           "name": "${APP_SETUP_NAME}"
