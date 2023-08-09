@@ -472,6 +472,15 @@
                     }
                   },
                   {
+                    "name": "LOCATION_ADMIN_NAME",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "location_admin_name"
+                      }
+                    }
+                  },
+                  {
                     "name": "LOCATION_ADMIN_GROUP",
                     "valueFrom": {
                       "configMapKeyRef": {
@@ -587,7 +596,7 @@
         "namespace": "${NAMESPACE}"
       },
       "spec": {
-        "replicas": 0,
+        "replicas": 1,
         "revisionHistoryLimit": 2,
         "selector": {
           "name": "${APP_SETUP_NAME}"
