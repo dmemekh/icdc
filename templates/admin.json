@@ -850,6 +850,9 @@
       "apiVersion": "route.openshift.io/v1",
       "kind": "Route",
       "metadata": {
+        "annotations": {
+            "cert-utils-operator.redhat-cop.io/certs-from-secret": "tls-le-location"
+        },
         "labels": {
           "app": "${API_PROXY_NAME}"
         },
