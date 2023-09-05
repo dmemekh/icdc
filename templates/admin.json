@@ -624,6 +624,15 @@
                     }
                   },
                   {
+                    "name": "LOCATION_CODE",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "location_code"
+                      }
+                    }
+                  },
+                  {
                     "name": "LOCATION_ADMIN_GROUP",
                     "valueFrom": {
                       "configMapKeyRef": {
@@ -678,6 +687,15 @@
                       "secretKeyRef": {
                         "name": "${ENV_SEC_COMPUTE}",
                         "key": "password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "COMPUTE_REGION_NUMBER",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "location_code"
                       }
                     }
                   },
