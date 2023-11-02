@@ -91,7 +91,7 @@
             "annotations": null,
             "from": {
                 "kind": "DockerImage",
-                "name": "${SERVICE_REPOSITORY}/${APIGW_NAME}:${TAG_APIGW}"
+                "name": "${REGISTRY_SERVER}/${NAMESPACE}/${APIGW_NAME}:${TAG_APIGW}"
             },
             "importPolicy": {
                 "insecure": true
@@ -138,7 +138,7 @@
             "annotations": null,
             "from": {
                 "kind": "DockerImage",
-                "name": "${SERVICE_REPOSITORY}/${APP_DELIVERY_NAME}:${TAG_DELIVERY}"
+                "name": "${REGISTRY_SERVER}/${NAMESPACE}/${APP_DELIVERY_NAME}:${TAG_DELIVERY}"
             },
             "importPolicy": {
                 "insecure": true
@@ -185,7 +185,7 @@
             "annotations": null,
             "from": {
                 "kind": "DockerImage",
-                "name": "${SERVICE_REPOSITORY}/${APP_SETUP_NAME}:${TAG_SETUP}"
+                "name": "${REGISTRY_SERVER}/${NAMESPACE}/${APP_SETUP_NAME}:${TAG_SETUP}"
             },
             "importPolicy": {
                 "insecure": true
@@ -232,7 +232,7 @@
             "annotations": null,
             "from": {
                 "kind": "DockerImage",
-                "name": "${SERVICE_REPOSITORY}/${API_PROXY_NAME}:${TAG_API_PROXY}"
+                "name": "${REGISTRY_SERVER}/${NAMESPACE}/${API_PROXY_NAME}:${TAG_API_PROXY}"
             },
             "importPolicy": {
                 "insecure": true
@@ -642,6 +642,15 @@
                     }
                   },
                   {
+                    "name": "LOCATION_TIMEZONE",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "location_timezone"
+                      }
+                    }
+                  },
+                  {
                     "name": "SSO_URL",
                     "valueFrom": {
                       "configMapKeyRef": {
@@ -656,6 +665,15 @@
                       "configMapKeyRef": {
                         "name": "${ENV_LOC_NAME}",
                         "key": "sso_realm"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SSO_CLIENT_ID",
+                    "valueFrom": {
+                      "configMapKeyRef": {
+                        "name": "${ENV_LOC_NAME}",
+                        "key": "sso_client_id"
                       }
                     }
                   },
@@ -954,10 +972,10 @@
     },
     {
       "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
-      "displayName": "Service Repository",
-      "name": "SERVICE_REPOSITORY",
+      "displayName": "Registry Server",
+      "name": "REGISTRY_SERVER",
       "required": true,
-      "value": "registry.zeu.icdc.io/cloud-admin"
+      "value": "registry.zeu.icdc.io"
     },
     {
       "description": "LOCATION_DOMAIN",
